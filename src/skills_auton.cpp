@@ -41,7 +41,7 @@ void skills_auton() {
     pros::delay(100);
     chassis.turnToHeading(280, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(29.3, firstMatchloaderY + 0.2, 2000);
+    chassis.moveToPoint(29.3, firstMatchloaderY + 0.8, 2000);
     chassis.waitUntilDone();
 
     // Score all 7 blocks in the long goal
@@ -69,7 +69,7 @@ void skills_auton() {
     chassis.turnToHeading(270, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.waitUntilDone();
     pros::delay(200);
-    chassis.moveToPose(28.4, firstMatchloaderY - 4.4, 270, 1800, {.maxSpeed = 70});
+    chassis.moveToPose(28.4, firstMatchloaderY - 4.2, 270, 1800, {.maxSpeed = 70});
     chassis.waitUntilDone();
 
     // Score all 4 blocks in the long goal
@@ -109,7 +109,7 @@ void skills_auton() {
     Top_Roller.move(12000);
     chassis.moveToPose(52, secondMatchloaderY, 90, 1500,{.maxSpeed = 70});
     for (int i = 0; i < 7; i++) {
-        chassis.moveToPoint(55, secondMatchloaderY, 450, {.minSpeed = 100});
+        chassis.moveToPoint(56, secondMatchloaderY, 450, {.minSpeed = 100});
         chassis.moveToPoint(51.7, secondMatchloaderY, 450);
     }
     chassis.moveToPoint(55, secondMatchloaderY, 450, {.minSpeed = 100});
@@ -122,7 +122,7 @@ void skills_auton() {
     chassis.waitUntilDone();
     Matchloader.retract();
     pros::delay(100);
-    chassis.moveToPose(23, secondMatchloaderY + 0.4, 90, 1000);
+    chassis.moveToPose(22, secondMatchloaderY + 0.3, 90, 1000);
     chassis.waitUntilDone();
     pros::delay(200);
 
@@ -144,18 +144,18 @@ void skills_auton() {
 
     // Intake 4 more blocks
     Inside_Roller.move(0);
-    chassis.moveToPoint(8, -20, 3000, {.maxSpeed = 70});
+    chassis.moveToPoint(10, -24, 3000, {.maxSpeed = 70});
     chassis.waitUntilDone();
     pros::delay(200);
 
     // Go back to the front of the long goal
-    chassis.moveToPoint(43, secondMatchloaderY + 0.6, 1000, {.forwards = false});
+    chassis.moveToPoint(44, secondMatchloaderY + 0.45, 1000, {.forwards = false});
     chassis.waitUntilDone();
     pros::delay(100);
     chassis.turnToHeading(270, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     chassis.waitUntilDone();
     pros::delay(200);
-    chassis.moveToPose(22.2, secondMatchloaderY + 0.6, 270, 1000);
+    chassis.moveToPose(22, secondMatchloaderY - 0.35, 270, 1000);
     chassis.waitUntilDone();
     pros::delay(200);
 
@@ -176,12 +176,13 @@ void skills_auton() {
 
     // Park and clear park zone
     ODOM_Lift.extend();
-    chassis.moveToPoint(44.8, secondMatchloaderY, 1200, {.forwards = false, .minSpeed = 70});
+    Bottom_Roller.move(12000);
+    chassis.moveToPoint(49, secondMatchloaderY, 1200, {.forwards = false, .minSpeed = 70});
     chassis.waitUntilDone();
     pros::delay(100);
     chassis.turnToHeading(217, 1000);
     chassis.waitUntilDone();
     pros::delay(100);
-    chassis.moveToPoint(66.367, 13, 15000, {.minSpeed = 90});
-    right_mg.move_velocity(550);
+    chassis.moveToPoint(68.5, 8.8, 15000, {.minSpeed = 85});
+    right_mg.move_velocity(450);
 };
