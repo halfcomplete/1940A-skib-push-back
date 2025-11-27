@@ -13,9 +13,9 @@ void skills_auton() {
     // chassis.moveToPoint(-62.87, -8.335, 3000);
 
     chassis.setPose(45.65, 16.9, 0);
-    Bottom_Roller.move(-12000);
+    // Bottom_Roller.move(-12000);
     Top_Roller.move(12000);
-    Switcheroo.retract();
+    Trapdoor.retract();
     float firstMatchloaderY = 47.4;
     // Move to matchloader
     chassis.moveToPose(42.5, firstMatchloaderY, 0, 1000);
@@ -45,16 +45,16 @@ void skills_auton() {
     chassis.waitUntilDone();
 
     // Score all 7 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-11000);
+    Trapdoor.extend();
+    // Bottom_Roller.move(-11000);
     Top_Roller.move(11000);
-    Inside_Roller.move(-11000);
+    // Inside_Roller.move(-11000);
     pros::delay(4700);
 
     // Reverse slightly
     chassis.moveToPoint(51.5, firstMatchloaderY, 1500, {.forwards = false});
     chassis.waitUntilDone();
-    Switcheroo.toggle();
+    Trapdoor.toggle();
     chassis.turnToHeading(225, 70, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     Top_Roller.move(12000);
 
@@ -73,20 +73,20 @@ void skills_auton() {
     chassis.waitUntilDone();
 
     // Score all 4 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    // Bottom_Roller.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
     pros::delay(2900);
-    Switcheroo.toggle();
+    Trapdoor.toggle();
 
     // Move back
     chassis.moveToPoint(38, firstMatchloaderY,  1000, {.forwards = false});
     chassis.waitUntilDone();
     chassis.turnToHeading(0, 1000);
     Top_Roller.move(0);
-    Inside_Roller.move(0);
-    Bottom_Roller.move(0);
+    // Inside_Roller.move(0);
+    // Bottom_Roller.move(0);
 
     // // SETUP FROM CORNER ================================================
     // Bottom_Roller.move(-12000);
@@ -105,7 +105,7 @@ void skills_auton() {
 
     // Collect blocks from matchloader
     Matchloader.extend();
-    Bottom_Roller.move(-12000);
+    // Bottom_Roller.move(-12000);
     Top_Roller.move(12000);
     chassis.moveToPose(52, secondMatchloaderY, 90, 1500,{.maxSpeed = 70});
     for (int i = 0; i < 7; i++) {
@@ -127,13 +127,13 @@ void skills_auton() {
     pros::delay(200);
 
     // Score all 6 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    // Bottom_Roller.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
     pros::delay(4400);
 
-    Switcheroo.toggle();
+    Trapdoor.toggle();
 
     // Reverse slightly
     chassis.moveToPoint(47, secondMatchloaderY, 2000, {.forwards = false});
@@ -143,7 +143,7 @@ void skills_auton() {
     Top_Roller.move(12000);
 
     // Intake 4 more blocks
-    Inside_Roller.move(0);
+    // Inside_Roller.move(0);
     chassis.moveToPoint(10, -24, 3000, {.maxSpeed = 70});
     chassis.waitUntilDone();
     pros::delay(200);
@@ -160,12 +160,12 @@ void skills_auton() {
     pros::delay(200);
 
     // Score all 4 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    // Bottom_Roller.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
     pros::delay(3000);
-    Switcheroo.toggle();
+    Trapdoor.toggle();
 
     // // SETUP FOR PARK ======================================================================
     // chassis.setPose(lemlib::Pose(26, -46.3, 270));
@@ -175,14 +175,14 @@ void skills_auton() {
     // Switcheroo.extend();
 
     // Park and clear park zone
-    ODOM_Lift.extend();
-    Bottom_Roller.move(12000);
+    Wing.extend();
+    // Bottom_Roller.move(12000);
     chassis.moveToPoint(49, secondMatchloaderY, 1200, {.forwards = false, .minSpeed = 70});
     chassis.waitUntilDone();
     pros::delay(100);
     chassis.turnToHeading(217, 1000);
     chassis.waitUntilDone();
     pros::delay(100);
-    chassis.moveToPoint(70, 10, 15000, {.minSpeed = 85});
+    chassis.moveToPoint(70, 8.8, 15000, {.minSpeed = 85});
     right_mg.move_velocity(450);
 }

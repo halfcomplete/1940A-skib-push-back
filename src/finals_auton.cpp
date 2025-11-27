@@ -7,9 +7,9 @@
 void finals_right_auton()
 {
     chassis.setPose(45.65, 16.9, 0);
-    Bottom_Roller.move(-12000);
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Switcheroo.retract();
+    Trapdoor.retract();
 
     // Move to matchloader
     chassis.moveToPose(42.5, 46.9, 0, 1000);
@@ -34,16 +34,16 @@ void finals_right_auton()
     chassis.waitUntilDone();
 
     // Score all 4 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    Conveyer.move(-12000);
     pros::delay(2800);
-    Inside_Roller.move_velocity(0);
+    // Inside_Roller.move_velocity(0);
     pros::delay(100);
 
     // Reverse slightly
     chassis.moveToPoint(51.5, 47.3, 1500, {.forwards = false});
     chassis.waitUntilDone();
-    Switcheroo.toggle();
+    Trapdoor.toggle();
     chassis.turnToHeading(225, 70, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     Top_Roller.move(12000);
 
@@ -62,21 +62,21 @@ void finals_right_auton()
     chassis.waitUntilDone();
 
     // Score all 4 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
 }
 
 void finals_left_auton()
 {
     chassis.setPose(46.768, -21, 270);
-    Bottom_Roller.move(-12000);
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Switcheroo.retract();
+    Trapdoor.retract();
 
     // Intake 4 more blocks
-    Inside_Roller.move(0);
+    // Inside_Roller.move(0);
     chassis.moveToPoint(20.729, -26.561, 3000, {.maxSpeed = 40});
     chassis.waitUntilDone();
     pros::delay(400);
@@ -101,15 +101,15 @@ void finals_left_auton()
     chassis.waitUntilDone();
     Matchloader.retract();
     pros::delay(100);
-    chassis.moveToPose(26.67, -47.8, 90, 1000);
+    chassis.moveToPose(26.67, -47.567, 90, 1000);
     chassis.waitUntilDone();
     pros::delay(300);
 
     // Score all 7 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
     pros::delay(4000);
 
     // // Reverse slightly

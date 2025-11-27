@@ -23,7 +23,7 @@
  */
 void initialize() {
 	chassis.calibrate();
-	ODOM_Lift.retract();
+	Wing.retract();
 	// imu.reset(true);
 	SkIbIdI_oPtIcAl.set_led_pwm(100);
 
@@ -80,7 +80,7 @@ void autonomous() {
 	// 2 = right match
 	// 3 = left finals match
 	// 4 = right finals match
-	auton(0);
+	auton(3);
 	// // Auton selector
 	// int autonToRun;
 	// // Loop until a valid button is pressed to select an auton
@@ -122,7 +122,7 @@ void autonomous() {
  */
 void opcontrol() {
 	int isHighGoal = 127;
-	ODOM_Lift.extend();
+	Wing.extend();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
@@ -132,26 +132,24 @@ void opcontrol() {
 		chassis.arcade(forwards, turn);
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			Bottom_Roller.move_voltage(12000);
+			Conveyer.move_voltage(-12000);
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			Bottom_Roller.move_voltage(-12000);
+			Conveyer.move_voltage(12000);
 		} else {
-			Bottom_Roller.move(0);
+			Conveyer.move(0);
 		}	
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-			Inside_Roller.move(12000);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-			Inside_Roller.move(-12000);
-		} else {
-			Inside_Roller.move(0);
-		}
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			Top_Roller.move_voltage(12000);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			Top_Roller.move_voltage(-12000);
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+			Top_Roller.move_voltage(12000);
 		} else {
 			Top_Roller.move(0);
 		}	
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+			Wing.extend();
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			Wing.retract();
+		}
 	
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			Matchloader.extend();
@@ -161,9 +159,9 @@ void opcontrol() {
 		 
 		// Matchloader and Switcheroo have activation buttons opposite to the actual buttons that activate them.
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
-			Switcheroo.extend();
+			Trapdoor.extend();
 		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-			Switcheroo.retract();
+			Trapdoor.retract();
 		}
 
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){

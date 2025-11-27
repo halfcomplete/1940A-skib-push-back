@@ -6,9 +6,9 @@ void colourSort() {
     pros::Task sortTask([&]()->void {
         while (true) {
             if (SkIbIdI_oPtIcAl.get_hue() > 90 && SkIbIdI_oPtIcAl.get_proximity() > 128) {
-                Switcheroo.retract();
+                Trapdoor.retract();
                 pros::delay(50);
-                Switcheroo.extend();
+                Trapdoor.extend();
             }
 
             pros::delay(10);

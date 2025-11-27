@@ -26,13 +26,12 @@ extern lemlib::ControllerSettings angular_controller;
 
 extern lemlib::Chassis chassis;
 
-extern pros::Motor Bottom_Roller;
+extern pros::Motor Conveyer;
 extern pros::Motor Top_Roller;
-extern pros::Motor Inside_Roller;
 
 extern pros::adi::Pneumatics Double_Park;
-extern pros::adi::Pneumatics Switcheroo;
+extern pros::adi::Pneumatics Trapdoor;
 extern pros::adi::Pneumatics Matchloader;
-extern pros::adi::Pneumatics ODOM_Lift;
+extern pros::adi::Pneumatics Wing;
 
 extern pros::Optical SkIbIdI_oPtIcAl;

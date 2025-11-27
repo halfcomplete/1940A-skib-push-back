@@ -5,8 +5,8 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
-pros::MotorGroup left_mg({-3, -4, -5});    
-pros::MotorGroup right_mg({9, 7, 6});
+pros::MotorGroup left_mg({-10, 9, -8});    
+pros::MotorGroup right_mg({7, -21, 6});
 
 lemlib::Drivetrain drivetrain(&left_mg, &right_mg,
                               13.25, // track width in inches
@@ -64,14 +64,13 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 );
 
 
-pros::Motor Bottom_Roller(1, pros::v5::MotorGears::blue);
-pros::Motor Top_Roller(12, pros::v5::MotorGears::green);
-pros::Motor Inside_Roller(19, pros::v5::MotorGears::green);
+pros::Motor Conveyer(4, pros::v5::MotorGears::blue);
+pros::Motor Top_Roller(5, pros::v5::MotorGears::blue);
 
 
-pros::adi::Pneumatics Double_Park({22, 'g'}, true);            // Starts retracted, extends when the ADI port is high
-pros::adi::Pneumatics Switcheroo({22, 'f'}, false);
-pros::adi::Pneumatics Matchloader({22, 'h'}, false);
-pros::adi::Pneumatics ODOM_Lift({22,'e'},false);
+pros::adi::Pneumatics Double_Park({22, 'f'}, false);            // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics Trapdoor({22, 'g'}, false);
+pros::adi::Pneumatics Matchloader({22, 'e'}, false);
+pros::adi::Pneumatics Wing({22,'h'},false);
 
 pros::Optical SkIbIdI_oPtIcAl(2);

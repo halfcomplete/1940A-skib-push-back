@@ -41,9 +41,9 @@ void Left_7B_2G()
 {
     // Initialise
     chassis.setPose(-50.425, 15, 0);
-    Bottom_Roller.move(-12000);
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Switcheroo.retract();
+    Trapdoor.retract();
 
     // Move to matchloader
     chassis.moveToPose(-47, 45, 0, 1000);
@@ -68,10 +68,10 @@ void Left_7B_2G()
     chassis.waitUntilDone();
 
     // Score all 3 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
     pros::delay(2700);
 
     // Move back slightly
@@ -86,7 +86,7 @@ void Left_7B_2G()
 
     // Pause
     pros::delay(900);
-    Bottom_Roller.brake();
+    Conveyer.brake();
 
     // Ram
     chassis.moveToPoint(-20, 10,2000, {.minSpeed = 100});
@@ -97,9 +97,9 @@ void Right_7B_2G()
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(50.425, 15, 0);
-    Bottom_Roller.move(-12000);
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Switcheroo.retract();
+    Trapdoor.retract();
 
     // Move to matchloader
     chassis.moveToPose(47, 48, 0, 1000);
@@ -124,10 +124,10 @@ void Right_7B_2G()
     chassis.waitUntilDone();
 
     // Score all 4 blocks in the long goal
-    Switcheroo.extend();
-    Bottom_Roller.move(-12000);
+    Trapdoor.extend();
+    Conveyer.move(-12000);
     Top_Roller.move(12000);
-    Inside_Roller.move(-12000);
+    // Inside_Roller.move(-12000);
     pros::delay(2700);
     // Inside_Roller.brake();
     // Switcheroo.toggle();
@@ -141,21 +141,21 @@ void Right_7B_2G()
     chassis.moveToPoint(25, 16.7, 2000, {.maxSpeed = 50});
     
     chassis.waitUntilDone();
-    Inside_Roller.move_velocity(-75);
+    // Inside_Roller.move_velocity(-75);
     Top_Roller.move_velocity(-32);
     Matchloader.toggle();
 }
 
 void StartIntake()
 {
-    Inside_Roller.brake();
+    // Inside_Roller.brake();
     Top_Roller.move(12000);
-    Bottom_Roller.move(-12000);
+    Conveyer.move(-12000);
 }
 
 void StopIntake()
 {
-    Inside_Roller.brake();
+    // Inside_Roller.brake();
     Top_Roller.brake();
-    Bottom_Roller.brake();
+    Conveyer.brake();
 }
