@@ -6,3 +6,6 @@ void Left_7B_2G();
 void Right_7B_2G();
 void StartIntake();
 void StopIntake();
+void TestPidTurn();
+void TestPidMove();
+void raygoon_righ_tauton();

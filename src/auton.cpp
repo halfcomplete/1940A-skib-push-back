@@ -35,6 +35,22 @@ void auton(int autonToRun) {
     {
         finals_right_auton();
     }
+
+    if (autonToRun == 5)
+    {
+        TestPidTurn();
+    }
+
+    if (autonToRun == 6)
+    {
+        TestPidMove();
+    }
+
+    if (autonToRun == 7)
+    {
+        raygoon_righ_tauton();
+    }
+    
 };
 
 void Left_7B_2G()
@@ -159,3 +175,24 @@ void StopIntake()
     Top_Roller.brake();
     Conveyer.brake();
 }
+
+void TestPidTurn()
+{
+    chassis.setPose(0, 0, 0);
+    pros::delay(100);
+    chassis.turnToHeading(90, 10000);
+}
+
+void TestPidMove()
+{
+    chassis.setPose(0, 0, 0);
+    pros::delay(100);
+    chassis.moveToPose(0, 24, 0, 10000);
+}
+
+void raygoon_righ_tauton() {
+    chassis.setPose(-49.705, -17.961, 180);
+    chassis.moveToPoint(-49.705,  -54.422, 1500);
+    chassis.moveToPose(-62.445,-54.255, 270, 2000);
+    chassis.moveToPose(-27.905,-54.689,270,2000,{.forwards=false});
+}   
