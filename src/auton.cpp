@@ -23,32 +23,32 @@ void auton(int autonToRun) {
     }
     if (autonToRun == 2)
     {
-        Right_7B_2G();
+        raygoon_righ_tauton();
     }
 
     if (autonToRun == 3)
     {
-        finals_left_auton();
+        Right_Solo_AWP();
     }
 
     if (autonToRun == 4)
     {
-        finals_right_auton();
+        finals_left_auton();
     }
 
     if (autonToRun == 5)
     {
-        TestPidTurn();
+        finals_left_auton();
     }
 
     if (autonToRun == 6)
     {
-        TestPidMove();
+        TestPidTurn();
     }
 
     if (autonToRun == 7)
     {
-        raygoon_righ_tauton();
+        TestPidMove();
     }
     
 };
@@ -166,6 +166,7 @@ void StartIntake()
 {
     // Inside_Roller.brake();
     Conveyer.move(12000);
+    Top_Roller.brake();
 }
 
 void StopIntake()
@@ -173,6 +174,12 @@ void StopIntake()
     // Inside_Roller.brake();
     Top_Roller.brake();
     Conveyer.brake();
+}
+
+void StartScoring()
+{
+    Conveyer.move(12000);
+    Top_Roller.move(-12000);
 }
 
 void TestPidTurn()
@@ -190,13 +197,80 @@ void TestPidMove()
 }
 
 void raygoon_righ_tauton() {
-    chassis.setPose(-49.705, -17.961, 180);
+    chassis.setPose(-49.705, -14.9, 180);
     StartIntake();
     Matchloader.extend();
-    chassis.moveToPoint(-49.705,  -53, 1500);
+    chassis.moveToPoint(-49.705,  -47.123, 1500);
     pros::delay(500);
-    chassis.moveToPose(-65.445,-53, 270, 2500);
+    chassis.moveToPose(-65.445,-47.123, 270, 2500);
     pros::delay(100);
-    chassis.moveToPose(-27.905,-53,270,2000,{.forwards=false});
-    Top_Roller.move(-12000);
-}   
+    chassis.moveToPose(-27.905,-47.123,270,2000,{.forwards=false});
+    StartScoring();
+}
+
+void Right_Solo_AWP() {
+    chassis.setPose(-48.289, -15.13, 180);
+    StartIntake();
+    Matchloader.extend();
+    chassis.moveToPoint(-49.705,  -46.84, 1500);
+    chassis.waitUntilDone();
+
+    // Move to matchloader
+    chassis.moveToPose(-61, -46.84, 270, 1900);
+    chassis.waitUntilDone();
+    Matchloader.retract();
+
+    // Move to right long goal
+    chassis.moveToPose(-27, -46.84, 270, 1500, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.setPose(-29.5, -46.84, 270);
+    StartScoring();
+    pros::delay(1000);
+    StartIntake();
+    
+
+    // Move to 3 blocks on the right
+    chassis.moveToPose(-36, -46.84, 270, 1500);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(17, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
+    chassis.waitUntilDone();
+
+    chassis.moveToPoint(-28, -23, 1500);
+    chassis.waitUntilDone();
+
+    // Move to 3 blocks on the left
+    
+    chassis.turnToHeading(0, 1000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-32, 23, 1500, {.maxSpeed = 60});
+    chassis.waitUntilDone();
+    pros::delay(500);
+
+    // Move to high goal
+    chassis.turnToHeading(330, 1000);
+    chassis.waitUntilDone();
+
+    float yOff = -2.7;
+    
+    chassis.moveToPose(-17, 11 + yOff, 315, 1500, {.forwards = false});
+    chassis.waitUntilDone();
+    
+    StartScoring();
+    pros::delay(1700);
+    Trapdoor.retract();
+    StartIntake();
+
+    // Move to matchloader on the left
+    chassis.moveToPoint(-58,  46.84 + yOff, 1500);
+    chassis.waitUntilDone();
+    Matchloader.extend();
+    chassis.turnToHeading(270, 1000);
+    chassis.moveToPose(-69, 46.84 + yOff, 270, 1000);
+    chassis.waitUntilDone();
+    pros::delay(1600);
+
+    // Score in left long goal
+    chassis.moveToPose(-27, 46.84 + yOff, 270, 2000, {.forwards=false});
+    chassis.waitUntilDone();
+    StartScoring();
+}

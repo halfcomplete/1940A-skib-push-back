@@ -78,10 +78,11 @@ void autonomous() {
 	// 0 = skills
 	// 1 = left match
 	// 2 = right match
-	// 3 = left finals match
-	// 4 = right finals match
-	// 5 = test pid turn
-	// 6 = test pid move
+	// 3 = right match solo awp
+	// 4 = left finals match
+	// 5 = right finals match
+	// 6 = test pid turn
+	// 7 = test pid move
 	auton(6);
 	// // Auton selector
 	// int autonToRun;

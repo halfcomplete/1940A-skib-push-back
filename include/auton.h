@@ -9,3 +9,4 @@ void StopIntake();
 void TestPidTurn();
 void TestPidMove();
 void raygoon_righ_tauton();
+void Right_Solo_AWP();
