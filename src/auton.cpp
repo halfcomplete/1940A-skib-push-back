@@ -165,8 +165,7 @@ void Right_7B_2G()
 void StartIntake()
 {
     // Inside_Roller.brake();
-    Top_Roller.move(12000);
-    Conveyer.move(-12000);
+    Conveyer.move(12000);
 }
 
 void StopIntake()
@@ -187,12 +186,17 @@ void TestPidMove()
 {
     chassis.setPose(0, 0, 0);
     pros::delay(100);
-    chassis.moveToPose(0, 24, 0, 10000);
+    chassis.moveToPose(0, 48, 0, 10000);
 }
 
 void raygoon_righ_tauton() {
     chassis.setPose(-49.705, -17.961, 180);
-    chassis.moveToPoint(-49.705,  -54.422, 1500);
-    chassis.moveToPose(-62.445,-54.255, 270, 2000);
-    chassis.moveToPose(-27.905,-54.689,270,2000,{.forwards=false});
+    StartIntake();
+    Matchloader.extend();
+    chassis.moveToPoint(-49.705,  -53, 1500);
+    pros::delay(500);
+    chassis.moveToPose(-65.445,-53, 270, 2500);
+    pros::delay(100);
+    chassis.moveToPose(-27.905,-53,270,2000,{.forwards=false});
+    Top_Roller.move(-12000);
 }   

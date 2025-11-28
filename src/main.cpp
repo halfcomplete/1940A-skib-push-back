@@ -82,7 +82,7 @@ void autonomous() {
 	// 4 = right finals match
 	// 5 = test pid turn
 	// 6 = test pid move
-	auton(7);
+	auton(6);
 	// // Auton selector
 	// int autonToRun;
 	// // Loop until a valid button is pressed to select an auton
