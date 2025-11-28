@@ -46,7 +46,7 @@ lemlib::ControllerSettings lateral_controller(10.95, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(4.554, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(4.549, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               32, // derivative gain (kD)
                                               9, // anti windup
