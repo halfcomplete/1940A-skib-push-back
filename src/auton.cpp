@@ -216,44 +216,36 @@ void Right_Solo_AWP() {
     chassis.waitUntilDone();
 
     // Move to matchloader
-    chassis.moveToPose(-61, -46.84, 270, 1900);
-    chassis.waitUntilDone();
-    Matchloader.retract();
+    chassis.turnToHeading(270, 700);
+    chassis.moveToPoint(-61, -46.84, 1000,{.minSpeed=80});
+    pros::delay(1000);
 
     // Move to right long goal
-    chassis.moveToPose(-27, -46.84, 270, 1500, {.forwards=false});
+    chassis.moveToPose(-25, -49, 270, 1500, {.forwards=false});
     chassis.waitUntilDone();
-    chassis.setPose(-29.5, -46.84, 270);
     StartScoring();
+    Matchloader.retract();
+    chassis.setPose(-29.5, -48.84, 270);
     pros::delay(1000);
     StartIntake();
-    
+
 
     // Move to 3 blocks on the right
-    chassis.moveToPose(-36, -46.84, 270, 1500);
-    chassis.waitUntilDone();
-    chassis.turnToHeading(17, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
-    chassis.waitUntilDone();
+    chassis.moveToPoint(-36, -48.84, 1500,{.minSpeed=90, .earlyExitRange=1});
+    chassis.turnToHeading(17, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed=70, .earlyExitRange=10});
+    chassis.moveToPoint(-26, -33, 1000,{.minSpeed=90, .earlyExitRange=1}); 
+    chassis.moveToPoint(-19, -23, 1500);
 
-    chassis.moveToPoint(-28, -23, 1500);
-    chassis.waitUntilDone();
 
     // Move to 3 blocks on the left
     
     chassis.turnToHeading(0, 1000);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-32, 23, 1500, {.maxSpeed = 60});
-    chassis.waitUntilDone();
-    pros::delay(500);
+    chassis.moveToPoint(-19, 13, 1500, {.minSpeed=100, .earlyExitRange=1});
+    chassis.moveToPoint(-19, 19, 1500, {.maxSpeed = 80});
 
     // Move to high goal
-    chassis.turnToHeading(330, 1000);
-    chassis.waitUntilDone();
-
-    float yOff = -2.7;
-    
-    chassis.moveToPose(-17, 11 + yOff, 315, 1500, {.forwards = false});
-    chassis.waitUntilDone();
+    chassis.turnToHeading(315, 1000);
+    chassis.moveToPose(-14, 10, 315, 1500, {.forwards = false, .minSpeed=70});
     
     StartScoring();
     pros::delay(1700);
@@ -261,16 +253,17 @@ void Right_Solo_AWP() {
     StartIntake();
 
     // Move to matchloader on the left
-    chassis.moveToPoint(-58,  46.84 + yOff, 1500);
+    chassis.moveToPoint(-47,  47, 1500);
     chassis.waitUntilDone();
     Matchloader.extend();
     chassis.turnToHeading(270, 1000);
-    chassis.moveToPose(-69, 46.84 + yOff, 270, 1000);
+    // chassis.moveToPose(-69, 60.84, 270, 1000);
     chassis.waitUntilDone();
     pros::delay(1600);
 
     // Score in left long goal
-    chassis.moveToPose(-27, 46.84 + yOff, 270, 2000, {.forwards=false});
+    chassis.moveToPose(-27, 55.84, 270, 2000, {.forwards=false});
     chassis.waitUntilDone();
     StartScoring();
 }
+
