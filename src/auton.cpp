@@ -30,7 +30,6 @@ void auton(int autonToRun) {
     {
         Right_Solo_AWP();
     }
-
     if (autonToRun == 4)
     {
         finals_left_auton();
@@ -212,13 +211,13 @@ void Right_Solo_AWP() {
     chassis.setPose(-48.289, -15.13, 180);
     StartIntake();
     Matchloader.extend();
-    chassis.moveToPoint(-49.705,  -46.84, 1500);
+    chassis.moveToPoint(-50.705,  -47.84, 1500);
     chassis.waitUntilDone();
 
     // Move to matchloader
     chassis.turnToHeading(270, 700);
-    chassis.moveToPoint(-61, -46.84, 1000,{.minSpeed=80});
-    pros::delay(1000);
+    chassis.moveToPoint(-62, -47.34, 1000,{.maxSpeed=60});
+    pros::delay(1100);
 
     // Move to right long goal
     chassis.moveToPose(-25, -49, 270, 1500, {.forwards=false});
@@ -240,12 +239,12 @@ void Right_Solo_AWP() {
     // Move to 3 blocks on the left
     
     chassis.turnToHeading(0, 1000);
-    chassis.moveToPoint(-19, 13, 1500, {.minSpeed=100, .earlyExitRange=1});
-    chassis.moveToPoint(-19, 19, 1500, {.maxSpeed = 80});
+    chassis.moveToPoint(-20, 13, 1500, {.minSpeed=100, .earlyExitRange=1});
+    chassis.moveToPoint(-20, 19, 1500, {.maxSpeed = 80});
 
     // Move to high goal
-    chassis.turnToHeading(315, 1000);
-    chassis.moveToPose(-14, 10, 315, 1500, {.forwards = false, .minSpeed=70});
+    chassis.turnToHeading(330, 1000);
+    chassis.moveToPose(-13, 8, 330, 1500, {.forwards = false, .minSpeed=70});
     
     StartScoring();
     pros::delay(1700);
@@ -253,17 +252,18 @@ void Right_Solo_AWP() {
     StartIntake();
 
     // Move to matchloader on the left
-    chassis.moveToPoint(-47,  47, 1500);
+    chassis.moveToPoint(-47,  42, 1500,{.minSpeed=90});
     chassis.waitUntilDone();
     Matchloader.extend();
     chassis.turnToHeading(270, 1000);
-    // chassis.moveToPose(-69, 60.84, 270, 1000);
+    chassis.moveToPose(-69,  41.84, 270, 1000);
     chassis.waitUntilDone();
     pros::delay(1600);
 
     // Score in left long goal
-    chassis.moveToPose(-27, 55.84, 270, 2000, {.forwards=false});
+    chassis.moveToPose(-27, 51.84, 270, 2000, {.forwards=false});
     chassis.waitUntilDone();
     StartScoring();
+
 }
 
