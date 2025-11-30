@@ -83,6 +83,7 @@ void autonomous() {
 	// 5 = right finals match
 	// 6 = test pid turn
 	// 7 = test pid move
+    // 8 = test motor move
 	auton(3);
 	// // Auton selector
 	// int autonToRun;

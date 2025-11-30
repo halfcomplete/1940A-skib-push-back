@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Right Solo AWP",
+    "project_name": "Solo AWP",
     "target": "v5",
     "templates": {
       "LemLib": {
