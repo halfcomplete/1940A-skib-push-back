@@ -60,57 +60,47 @@ void auton(int autonToRun) {
 
 void Left_7B_2G()
 {
-    // Initialise
-    chassis.setPose(-50.425, 15, 0);
-    Conveyer.move(-12000);
-    Top_Roller.move(12000);
-    Trapdoor.retract();
+    right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(-46.818, 13.547, 90);
+
+    // Move to three blocks on the right
+    StartIntake();
+    chassis.moveToPoint(-26.066, 19.266, 3000, {.minSpeed=45, .earlyExitRange=9});
+    chassis.moveToPoint(-16.066, 25.266, 3000, {.maxSpeed=20});
+    chassis.waitUntilDone();
+
+    // Score in low goal
+    chassis.turnToHeading(45, 1000, {.maxSpeed=60});
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-10.37, 11, 1500, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    chassis.turnToHeading(46.7, 1000, {.maxSpeed=60});
+    chassis.waitUntilDone();
+    StartOuttake();
+    pros::delay(1400);
 
     // Move to matchloader
-    chassis.moveToPose(-47, 45, 0, 1000);
-    chassis.turnToHeading(270, 1000);
+    chassis.moveToPoint(-46.818, 46, 1500, {.forwards=false});
+    StartIntake();
     chassis.waitUntilDone();
-
-    // Collect blocks from matchloader
+    chassis.turnToHeading(270, 1000);
     Matchloader.extend();
-    chassis.moveToPose(-62, 45, 270, 1500);
-    for (int i = 0; i < 3; i++) {
-        chassis.moveToPoint(-68, 45, 400);
-        chassis.moveToPoint(-62, 45, 400);
-    }
- 
-    // Move to long goal
-    chassis.moveToPoint(-55, 45, 1000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-63, 46.9, 1400);
+    pros::delay(750);
+    chassis.moveToPoint(-67, 46.9, 500);
+    pros::delay(750);
+    chassis.moveToPoint(-63, 46.9, 1400);
+    pros::delay(750);
+    chassis.moveToPoint(-67, 46.9, 500);
+    pros::delay(750);
+
+    // Score in long goal
+    chassis.moveToPoint(-30.614, 48, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
-    pros::delay(200);
-    chassis.turnToHeading(90, 1000, {.minSpeed = 70});
-    chassis.moveToPose(-32, 45, 90, 1000, {.maxSpeed = 80});
-    chassis.waitUntilDone();
-
-    // Score all 3 blocks in the long goal
-    Trapdoor.extend();
-    Conveyer.move(-12000);
-    Top_Roller.move(12000);
-    // Inside_Roller.move(-12000);
-    pros::delay(2700);
-
-    // Move back slightly
-    chassis.moveToPoint(-57, 45, 3000, {.forwards=false});
-    chassis.turnToHeading(135, 500);
-
-    // Intake 3 blocks and score in the high goal
-    Top_Roller.move_velocity(-8000);
-    
-    chassis.moveToPoint(-24.8, 10, 2000, {.maxSpeed = 70});
-    chassis.waitUntilDone();
-
-    // Pause
-    pros::delay(900);
-    Conveyer.brake();
-
-    // Ram
-    chassis.moveToPoint(-20, 10,2000, {.minSpeed = 100});
+    StartScoring();
 }
 
 void Right_7B_2G()
@@ -136,26 +126,26 @@ void Right_7B_2G()
     pros::delay(1400);
 
     // Move to matchloader
-    chassis.moveToPoint(-46.818, -45, 1500, {.forwards=false});
+    chassis.moveToPoint(-46.818, -46, 1500, {.forwards=false});
     StartIntake();
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1000);
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-63, -45, 1400);
-    pros::delay(600);
-    chassis.moveToPoint(-66, -45, 500);
-    pros::delay(600);
-    chassis.moveToPoint(-63, -45, 1400);
-    pros::delay(600);
+    chassis.moveToPoint(-63, -46.9, 1400);
+    pros::delay(750);
+    chassis.moveToPoint(-67, -46.9, 500);
+    pros::delay(750);
+    chassis.moveToPoint(-63, -46.9, 1400);
+    pros::delay(750);
+    chassis.moveToPoint(-67, -46.9, 500);
+    pros::delay(750);
 
     // Score in long goal
     chassis.moveToPoint(-30.614, -48, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring();
-    pros::delay(1100);
-    StopScoring();
 }
 
 void TestPidTurn()
