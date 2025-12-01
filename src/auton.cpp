@@ -64,43 +64,42 @@ void Left_7B_2G()
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-46.818, 13.547, 90);
 
-    // Move to three blocks on the right
+    // Move to three blocks on the left
     StartIntake();
-    chassis.moveToPoint(-26.066, 19.266, 3000, {.minSpeed=45, .earlyExitRange=9});
-    chassis.moveToPoint(-16.066, 25.266, 3000, {.maxSpeed=20});
+    chassis.moveToPoint(-26.066, 20, 3000, {.minSpeed=50, .earlyExitRange=15});
+    chassis.moveToPoint(-16.066, 26, 6000, {.maxSpeed=18});
     chassis.waitUntilDone();
 
-    // Score in low goal
-    chassis.turnToHeading(45, 1000, {.maxSpeed=60});
+    // Score in high goal
+    chassis.turnToHeading(311, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-10.37, 11, 1500, {.maxSpeed=50});
+    chassis.moveToPoint(-13.5, 14, 1500, {.forwards=false, .maxSpeed=50});
     chassis.waitUntilDone();
-    chassis.turnToHeading(46.7, 1000, {.maxSpeed=60});
+    chassis.turnToHeading(315, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
-    StartOuttake();
-    pros::delay(1400);
+    StartScoring(true);
+    pros::delay(1600);
 
     // Move to matchloader
-    chassis.moveToPoint(-46.818, 46, 1500, {.forwards=false});
+    chassis.moveToPoint(-39, 49, 1500);
     StartIntake();
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1000);
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-63, 46.9, 1400);
-    pros::delay(750);
-    chassis.moveToPoint(-67, 46.9, 500);
-    pros::delay(750);
-    chassis.moveToPoint(-63, 46.9, 1400);
-    pros::delay(750);
-    chassis.moveToPoint(-67, 46.9, 500);
-    pros::delay(750);
-
+    chassis.moveToPoint(-67, 49, 1400, {.maxSpeed=70});
+    pros::delay(900);
+    chassis.moveToPoint(-65, 49, 500);
+    pros::delay(200);
+    chassis.moveToPoint(-68, 49, 1400, {.minSpeed=80});
+    pros::delay(900);
     // Score in long goal
-    chassis.moveToPoint(-30.614, 48, 1000, {.forwards=false});
+    chassis.moveToPoint(-30.614, 51, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring();
+    pros::delay(1030);
+    StopScoring();
 }
 
 void Right_7B_2G()

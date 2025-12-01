@@ -2,5 +2,5 @@ void colourSort();
 void StartIntake();
 void StartOuttake();
 void StopIntake();
-void StartScoring();
+void StartScoring(bool highGoal = true);
 void StopScoring();

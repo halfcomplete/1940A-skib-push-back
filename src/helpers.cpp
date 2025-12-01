@@ -36,10 +36,13 @@ void StopIntake()
     Conveyer.brake();
 }
 
-void StartScoring()
+void StartScoring(bool highGoal)
 {
     Conveyer.move(600);
-    Top_Roller.move(-600);
+    if (highGoal)
+        Top_Roller.move(-81);
+    else
+        Top_Roller.move(-600);
 }
 
 void StopScoring()
