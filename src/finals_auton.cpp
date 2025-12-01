@@ -31,7 +31,7 @@ void finals_right_auton()
 
 
     // Move to 3 blocks on the right
-    chassis.moveToPoint(-13, -7, 5000, {.maxSpeed=50});
+    chassis.moveToPoint(-13, -7, 5000, {.maxSpeed=30});
     chassis.waitUntilDone();
 
     // Move back to long goal
@@ -39,7 +39,7 @@ void finals_right_auton()
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-25, -45.5, 1000, {.forwards=false});
+    chassis.moveToPoint(-25, -44.5, 1000, {.forwards=false});
     chassis.waitUntilDone();
     StartScoring();
 }
