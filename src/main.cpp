@@ -110,6 +110,10 @@ void autonomous() {
 }
 
 
+public static class ControllerHighGoalType {
+    bool controllerHighGoal;
+};
+
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -126,6 +130,7 @@ void autonomous() {
  */
 void opcontrol() {
 	int isHighGoal = 127;
+    bool controllerHighGoal = false;
 	Wing.extend();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -143,9 +148,17 @@ void opcontrol() {
 			Conveyer.move(0);
 		}	
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			Top_Roller.move_voltage(-12000);
+            if (controllerHighGoal) {
+                Top_Roller.move_voltage(-81);
+            } else {
+                Top_Roller.move_voltage(-12000);
+            }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			Top_Roller.move_voltage(12000);
+            if (controllerHighGoal) {
+                Top_Roller.move_voltage(81);
+            } else {
+                Top_Roller.move_voltage(12000);
+            }
 		} else {
 			Top_Roller.move(0);
 		}	
@@ -154,6 +167,17 @@ void opcontrol() {
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 			Wing.retract();
 		}
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            controllerHighGoal = true;
+        } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+            controllerHighGoal = false;
+        }
+
+        if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+            Wing.extend();
+        } else if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            Wing.retract();
+        }
 	
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			Matchloader.extend();
