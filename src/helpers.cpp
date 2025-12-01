@@ -15,3 +15,30 @@ void colourSort() {
         }
     });
 }
+
+
+void StartIntake()
+{
+    // Inside_Roller.brake();
+    Conveyer.move(600);
+    Top_Roller.brake();
+}
+
+void StartOuttake()
+{
+    Conveyer.move(-600);
+    Top_Roller.move(600);
+}
+
+void StopIntake()
+{
+    // Inside_Roller.brake();
+    Top_Roller.brake();
+    Conveyer.brake();
+}
+
+void StartScoring()
+{
+    Conveyer.move(600);
+    Top_Roller.move(-600);
+}

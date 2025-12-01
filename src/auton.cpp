@@ -6,6 +6,7 @@
 #include "robot.hpp"
 #include "skills_auton.h"
 #include "finals_auton.h"
+#include "helpers.hpp"
 
 ASSET(path1_txt);
 ASSET(path3_txt);
@@ -37,7 +38,7 @@ void auton(int autonToRun) {
 
     if (autonToRun == 5)
     {
-        finals_left_auton();
+        finals_right_auton();
     }
 
     if (autonToRun == 6)
@@ -116,80 +117,34 @@ void Right_7B_2G()
 {
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(50.425, 15, 0);
-    Conveyer.move(-12000);
-    Top_Roller.move(12000);
-    Trapdoor.retract();
+    chassis.setPose(-46.818, -13.547, 90);
+
+    // Move to three blocks on the right
+    StartIntake();
+    chassis.moveToPoint(-22.066, -22.066, {.maxSpeed=70});
+    chassis.waitUntilDone();
+
+    // Score in low goal
+    chassis.turnToHeading(45, 1000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-11.3, -11.3, 1000, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    StartOuttake();
+    pros::delay(1400);
 
     // Move to matchloader
-    chassis.moveToPose(47, 48, 0, 1000);
-    chassis.turnToHeading(90, 1000);
+    chassis.moveToPoint(-46.818, -46.846, 1500, {.reverse=true});
     chassis.waitUntilDone();
+    chassis.turnToHeading(270, 1000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-69, -46.846, 1400);
+    pros::delay(1400);
 
-    // Collect blocks from matchloader
-    Matchloader.extend();
-    chassis.moveToPose(60, 46, 90, 1500);
-    for (int i = 0; i < 3; i++) {
-        chassis.moveToPoint(61.5, 46, 450, {.minSpeed = 100});
-        chassis.moveToPoint(59.5, 46, 450, {.minSpeed = 100});
-    }
- 
-    // Move to long goal
+    // Score in long goal
+    chassis.moveToPoint(-30.614, -45, 1000, {.reverse=true});
     chassis.waitUntilDone();
-    chassis.moveToPoint(56, 47.6, 1000);
     Matchloader.retract();
-    pros::delay(100);
-    chassis.turnToHeading(90, 1000, {.minSpeed = 70});
-    chassis.moveToPoint(34, 47.3, 1900, {.maxSpeed = 70});
-    chassis.waitUntilDone();
-
-    // Score all 4 blocks in the long goal
-    Trapdoor.extend();
-    Conveyer.move(-12000);
-    Top_Roller.move(12000);
-    // Inside_Roller.move(-12000);
-    pros::delay(2700);
-    // Inside_Roller.brake();
-    // Switcheroo.toggle();
-    pros::delay(200);
-
-    // Move back slightly
-    chassis.moveToPoint(50, 46, 1000, {.forwards=false});
-
-    // Score 3 blocks in the low goal
-    chassis.turnToHeading(225, 500);
-    chassis.moveToPoint(25, 16.7, 2000, {.maxSpeed = 50});
-    
-    chassis.waitUntilDone();
-    // Inside_Roller.move_velocity(-75);
-    Top_Roller.move_velocity(-32);
-    Matchloader.toggle();
-}
-
-void StartIntake()
-{
-    // Inside_Roller.brake();
-    Conveyer.move(600);
-    Top_Roller.brake();
-}
-
-void StartOuttake()
-{
-    Conveyer.move(-600);
-    Top_Roller.move(600);
-}
-
-void StopIntake()
-{
-    // Inside_Roller.brake();
-    Top_Roller.brake();
-    Conveyer.brake();
-}
-
-void StartScoring()
-{
-    Conveyer.move(600);
-    Top_Roller.move(-600);
+    StartScoring();
 }
 
 void TestPidTurn()
@@ -207,15 +162,32 @@ void TestPidMove()
 }
 
 void raygoon_righ_tauton() {
-    chassis.setPose(-49.705, -14.9, 180);
+    chassis.setPose(-48.599, -15.328, 180);
     StartIntake();
     Matchloader.extend();
-    chassis.moveToPoint(-49.705,  -49, 1500);
-    pros::delay(500);
-    chassis.moveToPose(-65.445,-49, 270, 2500);
-    pros::delay(100);
-    chassis.moveToPose(-27.905,-49, 270,2000,{.forwards=false});
+    chassis.moveToPoint(-48.599, -49, 1500);
+    chassis.waitUntilDone();
+
+    // Move to matchloader
+    chassis.turnToHeading(270, 700);
+    chassis.moveToPoint(-69, -47, 1400);
+    chassis.waitUntilDone();
+    pros::delay(800);
+
+    // Move to right long goal
+    chassis.moveToPose(-30.614, -50, 270, 1000, {.forwards=false, .earlyExitRange=1});
+    chassis.waitUntilDone();
+    Matchloader.retract();
     StartScoring();
+    pros::delay(1000);
+    chassis.moveToPoint(-44, -49, 1000);
+    chassis.waitUntilDone();
+    StartIntake();
+
+
+    // Move to 3 blocks on the right
+    chassis.moveToPoint(-24, -27, 1500);
+    chassis.waitUntilDone();
 }
 
 void MotorMoveTest() {
