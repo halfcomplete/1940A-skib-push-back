@@ -84,8 +84,9 @@ void autonomous() {
 	// 6 = test pid turn
 	// 7 = test pid move
     // 8 = test motor move
-	auton(0);
-	// // Auton selector
+	auton(2);
+    
+    // Auton selector
 	// int autonToRun;
 	// // Loop until a valid button is pressed to select an auton
 	// while (true) {
@@ -108,12 +109,6 @@ void autonomous() {
 	// }
 	// auton(autonToRun);
 }
-
-
-public static class ControllerHighGoalType {
-    bool controllerHighGoal;
-};
-
 
 /**
  * Runs the operator control code. This function will be started in its own task

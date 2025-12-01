@@ -110,19 +110,20 @@ void Right_7B_2G()
 
     // Move to three blocks on the right
     StartIntake();
-    chassis.moveToPoint(-26.066, -19.266, 3000, {.minSpeed=45, .earlyExitRange=9});
-    chassis.moveToPoint(-16.066, -25.266, 3000, {.maxSpeed=20});
+    chassis.moveToPoint(-26.066, -19.266, 3000, {.minSpeed=45, .earlyExitRange=15});
+    chassis.moveToPoint(-16.066, -25.266, 3000, {.maxSpeed=24});
     chassis.waitUntilDone();
 
     // Score in low goal
     chassis.turnToHeading(45, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-10.37, -11, 1500, {.maxSpeed=50});
+    chassis.moveToPoint(-11, -11, 1500, {.maxSpeed=50});
     chassis.waitUntilDone();
     chassis.turnToHeading(46.7, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
+    pros::delay(200);
     StartOuttake();
-    pros::delay(1400);
+    pros::delay(2800);
 
     // Move to matchloader
     chassis.moveToPoint(-46.818, -46, 1500, {.forwards=false});
@@ -131,17 +132,15 @@ void Right_7B_2G()
     chassis.turnToHeading(270, 1000);
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-63, -46.9, 1400);
-    pros::delay(750);
-    chassis.moveToPoint(-67, -46.9, 500);
-    pros::delay(750);
-    chassis.moveToPoint(-63, -46.9, 1400);
-    pros::delay(750);
-    chassis.moveToPoint(-67, -46.9, 500);
-    pros::delay(750);
+    chassis.moveToPoint(-67, -46.7, 500);
+    pros::delay(600);
+    chassis.moveToPoint(-63, -46.7, 1400);
+    pros::delay(400);
+    chassis.moveToPoint(-67, -46.7, 500);
+    pros::delay(600);
 
     // Score in long goal
-    chassis.moveToPoint(-30.614, -48, 1000, {.forwards=false});
+    chassis.moveToPoint(-30.614, -47.7, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring();
