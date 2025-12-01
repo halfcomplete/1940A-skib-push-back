@@ -33,7 +33,6 @@ void StartOuttake()
 void StopIntake()
 {
     // Inside_Roller.brake();
-    Top_Roller.brake();
     Conveyer.brake();
 }
 
@@ -41,4 +40,9 @@ void StartScoring()
 {
     Conveyer.move(600);
     Top_Roller.move(-600);
+}
+
+void StopScoring()
+{
+    Top_Roller.brake();
 }

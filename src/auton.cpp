@@ -24,7 +24,7 @@ void auton(int autonToRun) {
     }
     if (autonToRun == 2)
     {
-        raygoon_righ_tauton();
+        Right_7B_2G();
     }
 
     if (autonToRun == 3)
@@ -121,30 +121,41 @@ void Right_7B_2G()
 
     // Move to three blocks on the right
     StartIntake();
-    chassis.moveToPoint(-22.066, -22.066, {.maxSpeed=70});
+    chassis.moveToPoint(-26.066, -19.266, 3000, {.minSpeed=45, .earlyExitRange=9});
+    chassis.moveToPoint(-16.066, -25.266, 3000, {.maxSpeed=20});
     chassis.waitUntilDone();
 
     // Score in low goal
-    chassis.turnToHeading(45, 1000);
+    chassis.turnToHeading(45, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-11.3, -11.3, 1000, {.maxSpeed=50});
+    chassis.moveToPoint(-10.37, -11, 1500, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    chassis.turnToHeading(46.7, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
     StartOuttake();
     pros::delay(1400);
 
     // Move to matchloader
-    chassis.moveToPoint(-46.818, -46.846, 1500, {.reverse=true});
+    chassis.moveToPoint(-46.818, -45, 1500, {.forwards=false});
+    StartIntake();
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1000);
+    Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-69, -46.846, 1400);
-    pros::delay(1400);
+    chassis.moveToPoint(-63, -45, 1400);
+    pros::delay(600);
+    chassis.moveToPoint(-66, -45, 500);
+    pros::delay(600);
+    chassis.moveToPoint(-63, -45, 1400);
+    pros::delay(600);
 
     // Score in long goal
-    chassis.moveToPoint(-30.614, -45, 1000, {.reverse=true});
+    chassis.moveToPoint(-30.614, -48, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring();
+    pros::delay(1100);
+    StopScoring();
 }
 
 void TestPidTurn()
