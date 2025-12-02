@@ -170,8 +170,6 @@ void opcontrol() {
 
         if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             Wing.extend();
-        } else if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            Wing.retract();
         }
 	
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
