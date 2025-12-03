@@ -84,7 +84,7 @@ void autonomous() {
 	// 6 = test pid turn
 	// 7 = test pid move
     // 8 = test motor move
-	auton(3);
+	auton(0);
     
     // Auton selector
 	// int autonToRun;
@@ -144,13 +144,13 @@ void opcontrol() {
 		}	
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (controllerHighGoal) {
-                Top_Roller.move_voltage(-81);
+                Top_Roller.move_voltage(-7644);
             } else {
                 Top_Roller.move_voltage(-12000);
             }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             if (controllerHighGoal) {
-                Top_Roller.move_voltage(81);
+                Top_Roller.move_voltage(7644);
             } else {
                 Top_Roller.move_voltage(12000);
             }
@@ -172,9 +172,9 @@ void opcontrol() {
             Wing.extend();
         }
 	
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			Matchloader.extend();
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
 			Matchloader.retract();
 		}
 		 

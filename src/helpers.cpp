@@ -20,13 +20,16 @@ void colourSort() {
 void StartIntake()
 {
     // Inside_Roller.brake();
-    Conveyer.move(600);
+    Conveyer.move(12000);
     Top_Roller.brake();
 }
 
-void StartOuttake()
+void StartOuttake(bool lowGoal)
 {
-    Conveyer.move(-600);
+    if (lowGoal)
+        Conveyer.move(-600);
+    else
+        Conveyer.move(-100);
     Top_Roller.move(600);
 }
 
@@ -36,13 +39,18 @@ void StopIntake()
     Conveyer.brake();
 }
 
-void StartScoring(bool highGoal)
+void StartScoring(bool auton, bool highGoal)
 {
     Conveyer.move(600);
     if (highGoal)
         Top_Roller.move(-81);
-    else
+    else if (auton)
+    {
+        Top_Roller.move(-81);
+    }
+    else {
         Top_Roller.move(-600);
+    }
 }
 
 void StopScoring()
