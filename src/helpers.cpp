@@ -46,7 +46,7 @@ void StartScoring(bool auton, bool highGoal)
         Top_Roller.move(-81);
     else if (auton)
     {
-        Top_Roller.move(-81);
+        Top_Roller.move(-74);
     }
     else {
         Top_Roller.move(-600);
