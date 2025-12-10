@@ -136,9 +136,15 @@ void opcontrol() {
 		chassis.arcade(forwards, turn);
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			Conveyer.move_voltage(-12000);
+			if (controllerHighGoal)
+				Conveyer.move_voltage(-6000);
+			else
+				Conveyer.move_voltage(-12000);
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			Conveyer.move_voltage(12000);
+			if (controllerHighGoal)
+				Conveyer.move_voltage(12000);
+			else
+				Conveyer.move_voltage(12000);
 		} else {
 			Conveyer.move(0);
 		}	
@@ -181,6 +187,7 @@ void opcontrol() {
 		// Matchloader and Switcheroo have activation buttons opposite to the actual buttons that activate them.
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
 			Trapdoor.extend();
+
 		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
 			Trapdoor.retract();
 		}
