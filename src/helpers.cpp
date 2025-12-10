@@ -43,7 +43,11 @@ void StartScoring(bool auton, bool highGoal)
 {
     Conveyer.move(600);
     if (highGoal)
-        Top_Roller.move(-81);
+    {
+        Trapdoor.extend();
+        Top_Roller.move(-76);
+        Conveyer.move(100);
+    }
     else if (auton)
     {
         Top_Roller.move(-74);
@@ -56,4 +60,5 @@ void StartScoring(bool auton, bool highGoal)
 void StopScoring()
 {
     Top_Roller.brake();
+    Trapdoor.retract();
 }

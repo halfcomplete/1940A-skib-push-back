@@ -27,20 +27,19 @@ void initialize() {
 	// imu.reset(true);
 	SkIbIdI_oPtIcAl.set_led_pwm(100);
 
-    // pros::lcd::initialize();
-    // pros::Task screenTask([&]()->void {
-    //     while (true) {
-    //         pros::lcd::print(0, "X, %f", chassis.getPose().x);
-    //         pros::lcd::print(1, "Y,%f", chassis.getPose().y);
-    //         pros::lcd::print(2, "Theta, %f", chassis.getPose().theta);
-
-	// 		printf("x: %f\n", chassis.getPose().x);
-	// 		printf("y: %f\n", chassis.getPose().y);
-	// 		printf("theta: %f\n", chassis.getPose().theta);
-
-    //         pros::delay(100);
-    //     }
-    // });
+    // thread to for brain screen and position logging
+    pros::Task screenTask([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // delay to save resources
+            pros::delay(50);
+        }
+    });
 
 	printf("init done");
 }
@@ -83,8 +82,9 @@ void autonomous() {
 	// 5 = right finals match
 	// 6 = test pid turn
 	// 7 = test pid move
+
     // 8 = test motor move
-	auton(5);
+	auton(1);
     
     // Auton selector
 	// int autonToRun;
@@ -126,7 +126,7 @@ void autonomous() {
 void opcontrol() {
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
-	Wing.extend();
+	Wing.retract();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
@@ -172,9 +172,9 @@ void opcontrol() {
             Wing.extend();
         }
 	
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			Matchloader.extend();
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			Matchloader.retract();
 		}
 		 
