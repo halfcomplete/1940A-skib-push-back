@@ -92,15 +92,8 @@ void skills_auton() {
     chassis.waitUntilDone();
     chassis.moveToPoint(61, thirdMatchloaderY, 4000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(65, thirdMatchloaderY, 1200, {.maxSpeed=70});
+    chassis.moveToPoint(71, thirdMatchloaderY, 3000, {.maxSpeed=70});
     chassis.waitUntilDone();
-    for (int i = 0; i < 3; i++)
-    {
-        chassis.moveToPoint(70, thirdMatchloaderY, 900, {.minSpeed=80});
-        chassis.waitUntilDone();
-        chassis.moveToPoint(61.2, thirdMatchloaderY, 600, {.forwards=false});
-        chassis.waitUntilDone();
-    }
 
     // Move back slightly
     chassis.moveToPoint(55, 48.5, 1000, {.forwards=false});
@@ -126,7 +119,7 @@ void skills_auton() {
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1500);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-12, fourthMatchloaderY, 1400, {.forwards=false});
+    chassis.moveToPoint(-12, fourthMatchloaderY - 1.1, 1400, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.extend();
     StartScoring(true);
@@ -150,8 +143,10 @@ void skills_auton() {
     StopScoring();
 
     // Move to park zone and clear it
-    chassis.moveToPoint(-52, fourthMatchloaderY, 1500);
+    chassis.moveToPoint(-30, fourthMatchloaderY, 1500);
     StartIntake();
-    chassis.turnToHeading(200, 1000);
-    chassis.moveToPose(-67, 4, 195, 10000, {.minSpeed=127});
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(-30, 0, 1000);
+    chassis.turnToHeading(270, 1000);
+    chassis.moveToPose(-75, 0, 195, 10000, {.minSpeed=127});
 }
