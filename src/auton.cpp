@@ -78,10 +78,12 @@ void Left_7B_2G()
     chassis.waitUntilDone();
     chassis.turnToHeading(315, 1000, {.maxSpeed=60});
     chassis.waitUntilDone();
+    StartOuttake();
+    pros::delay(100);
     StartScoring(true, true);
     pros::delay(150);
-    chassis.moveToPoint(-9, 7.9, 1000);
-    pros::delay(1600);
+    chassis.moveToPoint(-10, 9, 1000);
+    pros::delay(1850);
 
     // Move to matchloader
     chassis.moveToPoint(-39, 49.5, 1500);
@@ -91,21 +93,22 @@ void Left_7B_2G()
     Trapdoor.toggle();
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-73, 49.5, 2000, {.maxSpeed=60});
+    chassis.moveToPoint(-73, 49, 1700, {.maxSpeed=55});
 
     // Score in long goal
     Wing.extend();
-    chassis.moveToPoint(-28.614, 47.5, 1000, {.forwards=false});
+    chassis.moveToPoint(-26, 50, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring();
-    pros::delay(700);
+    pros::delay(1000);
     chassis.moveToPoint(-43, 50, 1000);
     chassis.turnToHeading(225, 1000);
-    chassis.moveToPose(-28, 55.4, 270, 1000, {.forwards=false});
+    chassis.moveToPose(-24.7, 57.4, 270, 1000, {.forwards=false});
     chassis.waitUntilDone();
+    chassis.moveToPoint(-14, 57.4, 1000, {.forwards=false, .minSpeed=127});
+    pros::delay(80);
     Wing.retract();
-    chassis.moveToPoint(-16, 55.4, 1000, {.forwards=false, .minSpeed=127});
 }
 
 void Right_7B_2G()

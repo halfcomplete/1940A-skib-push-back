@@ -45,7 +45,7 @@ void StartScoring(bool auton, bool highGoal)
     if (highGoal)
     {
         Trapdoor.extend();
-        Top_Roller.move(-60);
+        Top_Roller.move(-64);
         Conveyer.move(100);
     }
     else if (auton)
