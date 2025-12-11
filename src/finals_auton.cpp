@@ -7,78 +7,70 @@
 
 void finals_right_auton()
 {
-    chassis.setPose(-48.599, -13, 180);
+    right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(-46.818, -13.547, 90);
+
+    // Move to three blocks on the right
     StartIntake();
-    Matchloader.extend();
-    chassis.moveToPoint(-48.599, -45.5, 1500);
+    chassis.moveToPoint(-26.066, -19.266, 3000, {.minSpeed=65, .earlyExitRange=15});
+    chassis.moveToPoint(-16.066, -25.266, 3000, {.maxSpeed=40});
     chassis.waitUntilDone();
 
     // Move to matchloader
-    chassis.turnToHeading(270, 700);
+    chassis.turnToHeading(215, 700);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-71, -45.5, 1400);
+    Matchloader.extend();
+    chassis.moveToPoint(-45, -46.5, 1000);
+    chassis.turnToHeading(270, 1000);
+    chassis.moveToPoint(-71, -46.5, 1400, {.maxSpeed=65});
     pros::delay(1200);
 
     // Move to right long goal
-    chassis.moveToPose(-30.614, -46.5, 270, 1000, {.forwards=false});
+    chassis.moveToPose(-30.614, -47, 270, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring(true);
-    pros::delay(1500);
-    chassis.moveToPoint(-44, -46.5, 1000);
-    chassis.waitUntilDone();
-    StartIntake();
-
-
-    // Move to 3 blocks on the right
-    chassis.turnToPoint(-32, -19, 1000);
-    chassis.moveToPoint(-32, -19, 6000, {.maxSpeed=40});
-    chassis.waitUntilDone();
-
-    // Move back to long goal
-    chassis.moveToPoint(-49, -49.5, 1000, {.forwards=false});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1000);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-25, -49.5, 1000, {.forwards=false});
-    chassis.waitUntilDone();
-    StartScoring(true);
+    pros::delay(2400);
+    Wing.extend();
+    chassis.moveToPoint(-51, -47, 1500);
+    chassis.turnToHeading(225, 500, {.minSpeed=50, .earlyExitRange=5});
+    chassis.moveToPose(-29.5, -39.3, 270, 1000, {.forwards=false, .minSpeed=50, .earlyExitRange=7});
+    Wing.retract();
+    chassis.moveToPoint(-14, -39.3, 10000, {.forwards=false, .maxSpeed=50});
 }
 
 void finals_left_auton()
 {
-    chassis.setPose(-48.599, 15.328, 0);
+    right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(-46.818, 13.547, 90);
+
+    // Move to three blocks on the right
     StartIntake();
-    Matchloader.extend();
-    chassis.moveToPoint(-48.599, 47, 1500);
+    chassis.moveToPoint(-26.066, 19.266, 3000, {.minSpeed=65, .earlyExitRange=15});
+    chassis.moveToPoint(-16.066,25.266, 3000, {.maxSpeed=40});
     chassis.waitUntilDone();
 
     // Move to matchloader
-    chassis.turnToHeading(270, 700);
+    chassis.turnToHeading(325, 700);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-75, 47, 1500, {.minSpeed=75});
+    Matchloader.extend();
+    chassis.moveToPoint(-45, 49.2, 1000);
+    chassis.turnToHeading(270, 1000);
+    chassis.moveToPoint(-71, 49.2, 1400, {.maxSpeed=65});
+    pros::delay(1200);
 
-    // Move to left long goal
-    chassis.moveToPose(-30.614, 48, 270, 1000, {.forwards=false});
+    // Move to right long goal
+    chassis.moveToPose(-29, 50.2, 270, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
-    StartScoring();
-    pros::delay(1000);
-    chassis.moveToPoint(-50, 48, 1000);
-    chassis.waitUntilDone();
-    StartIntake();
-
-
-    // Move to 3 blocks on the left
-    chassis.moveToPoint(-16, 15, 5000, {.maxSpeed=50});
-    chassis.waitUntilDone();
-
-    // Move back to long goal
-    chassis.moveToPoint(-49, 44.5, 1000, {.forwards=false});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1000);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-20, 44.5, 1000, {.forwards=false});
-    chassis.waitUntilDone();
-    StartScoring();
+    StartScoring(true);
+    pros::delay(2400);
+    Wing.extend();
+    chassis.moveToPoint(-51, 50.2, 1500);
+    chassis.turnToHeading(225, 500, {.minSpeed=50, .earlyExitRange=5});
+    chassis.moveToPose(-29.5, 57.6, 270, 1000, {.forwards=false, .minSpeed=50, .earlyExitRange=7});
+    Wing.retract();
+    chassis.moveToPoint(-10, 57.5, 10000, {.forwards=false, .maxSpeed=50});
 }
