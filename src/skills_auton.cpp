@@ -16,7 +16,7 @@ void skills_auton() {
     // Move to matchloader
     chassis.turnToHeading(270, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-62, -49, 1000, {.maxSpeed=50});
+    chassis.moveToPoint(-62, -49, 1000, {.maxSpeed=60});
     for (int i = 0; i < 2; i++)
     {
         chassis.moveToPoint(-65, -49, 1500, {.minSpeed=45});
@@ -24,8 +24,10 @@ void skills_auton() {
         chassis.moveToPoint(-61, -49, 600, {.forwards=false});
         chassis.waitUntilDone();
     }
+    pros::delay(1000);
 
     // Move back slightly
+     Top_Roller.move_relative(-90, 100);
     chassis.moveToPoint(-52, -48, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
@@ -38,10 +40,10 @@ void skills_auton() {
     chassis.turnToHeading(90, 1000);
     chassis.waitUntilDone();
 
-    float secondMatchloaderY = -52.7;
+    float secondMatchloaderY = -49;
 
     // Move to the front of the long goal
-    chassis.moveToPoint(43, -61.67, 2000);
+    chassis.moveToPoint(43, -61.67, 2500, {.maxSpeed=80});
     chassis.waitUntilDone();
     chassis.turnToHeading(0, 1000);
     chassis.waitUntilDone();
@@ -60,8 +62,10 @@ void skills_auton() {
     Matchloader.extend();
     StartIntake();
     Matchloader.extend();
-    chassis.moveToPoint(74, secondMatchloaderY, 3300, {.maxSpeed=50});
+    chassis.moveToPoint(70, secondMatchloaderY , 3300, {.maxSpeed=50});
+    chassis.moveToPoint(69.5, secondMatchloaderY, 500 );
     chassis.waitUntilDone();
+    Top_Roller.move_relative(-90, 100);
     chassis.waitUntilDone();
 
     // Move to the long goal and score
@@ -69,24 +73,25 @@ void skills_auton() {
     Matchloader.retract();
     chassis.waitUntilDone();
     StartScoring(true);
-    pros::delay(2500);
+    pros::delay(2800);
     StopScoring();
 
-    chassis.moveToPoint(43, secondMatchloaderY + 0.8, 1500);
+    chassis.moveToPoint(43, secondMatchloaderY +1, 1500);
     chassis.turnToHeading(0, 1000);
 
-    float thirdMatchloaderY = 43.4;
+    float thirdMatchloaderY = 48;
 
-    chassis.moveToPoint(41, thirdMatchloaderY, 4000, {.maxSpeed=80});
+    chassis.moveToPoint(41, 48, 4000, {.maxSpeed=80});
 
     // Move to third matchloader
     chassis.turnToHeading(90, 1000);
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(61, thirdMatchloaderY, 4000);
+    chassis.moveToPoint(66, thirdMatchloaderY, 4000, {.maxSpeed=50});
     chassis.waitUntilDone();
-    chassis.moveToPoint(71, thirdMatchloaderY, 3000, {.maxSpeed=50});
+    chassis.moveToPoint(74, thirdMatchloaderY, 3000, {.maxSpeed=40});
     chassis.waitUntilDone();
+    Top_Roller.move_relative(-90, 100);
 
     // Move back slightly
     chassis.moveToPoint(53, 48.5, 1000, {.forwards=false});
@@ -96,19 +101,19 @@ void skills_auton() {
     // Move to the side
     chassis.turnToHeading(0, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(50, 58.2, 1000);
+    chassis.moveToPoint(50, 63, 1000);
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1000);
     chassis.waitUntilDone();
 
-    float fourthMatchloaderY = 48;
+    float fourthMatchloaderY = 50;
 
     // Move to the front of the long goal
-    chassis.moveToPoint(-40, 60, 4000);
+    chassis.moveToPoint(-40, 62, 2500, {.maxSpeed=65});
     chassis.waitUntilDone();
     chassis.turnToHeading(180, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-40, fourthMatchloaderY, 1000);
+    chassis.moveToPoint(-40, 47, 1000);
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1500);
     chassis.waitUntilDone();
@@ -124,8 +129,9 @@ void skills_auton() {
     StartIntake();
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(-75, fourthMatchloaderY - 2, 4000, {.maxSpeed=60});
+    chassis.moveToPoint(-80, fourthMatchloaderY +2, 4000, {.maxSpeed=50});
     chassis.waitUntilDone();
+    Top_Roller.move_relative(-90, 100);
     
     // Move to the long goal and score
     chassis.moveToPoint(-12, fourthMatchloaderY, 1500, {.forwards=false, .maxSpeed=60});
@@ -136,7 +142,8 @@ void skills_auton() {
     StopScoring();
 
     // Move to park zone and clear it
-    chassis.moveToPoint(-36, fourthMatchloaderY, 1500);
+    chassis.moveToPoint(-38, fourthMatchloaderY,1500);
+    chassis.waitUntilDone();
     StartIntake();
     chassis.turnToHeading(180, 1000);
     chassis.moveToPoint(-36, 0, 5000, {.maxSpeed=60});
