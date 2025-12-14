@@ -9,7 +9,7 @@ void skills_auton() {
     chassis.setPose(-48.599, -15.328, 180);
     StartIntake();
     // Matchloader.extend();
-    chassis.moveToPoint(-48.599, -46.9, 1500);
+    chassis.moveToPoint(-48.599, -45.9, 1500);
     Matchloader.extend();
     chassis.waitUntilDone();
 
@@ -24,7 +24,7 @@ void skills_auton() {
         chassis.moveToPoint(-61, -49, 600, {.forwards=false});
         chassis.waitUntilDone();
     }
-    pros::delay(1000);
+    pros::delay(500);
 
     // Move back slightly
      Top_Roller.move_relative(-90, 100);
@@ -35,7 +35,7 @@ void skills_auton() {
     // Move to the side
     chassis.turnToHeading(180, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-54, -61.2, 1000);
+    chassis.moveToPoint(-54, -60.2, 1000);
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 1000);
     chassis.waitUntilDone();
@@ -101,15 +101,15 @@ void skills_auton() {
     // Move to the side
     chassis.turnToHeading(0, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(50, 63, 1000);
+    chassis.moveToPoint(50, 64.5, 1000);
     chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1000);
+    chassis.turnToHeading(280, 1000);
     chassis.waitUntilDone();
 
-    float fourthMatchloaderY = 50;
+    float fourthMatchloaderY = 52;
 
     // Move to the front of the long goal
-    chassis.moveToPoint(-40, 62, 2500, {.maxSpeed=65});
+    chassis.moveToPoint(-40, 66.5, 2500, {.maxSpeed=80});
     chassis.waitUntilDone();
     chassis.turnToHeading(180, 1000);
     chassis.waitUntilDone();
@@ -117,12 +117,12 @@ void skills_auton() {
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1500);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-12, fourthMatchloaderY , 1400, {.forwards=false});
+    chassis.moveToPoint(-12, fourthMatchloaderY+2 , 1400, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.extend();
     StartScoring(true);
     Matchloader.extend();
-    pros::delay(4000);
+    pros::delay(2500);
     StopScoring();
 
     // Move to the other matchloader
@@ -134,7 +134,7 @@ void skills_auton() {
     Top_Roller.move_relative(-90, 100);
     
     // Move to the long goal and score
-    chassis.moveToPoint(-12, fourthMatchloaderY, 1500, {.forwards=false, .maxSpeed=60});
+    chassis.moveToPoint(-12, fourthMatchloaderY+2, 1500, {.forwards=false, .maxSpeed=60});
     Matchloader.retract();
     chassis.waitUntilDone();
     StartScoring(true);
@@ -146,7 +146,7 @@ void skills_auton() {
     chassis.waitUntilDone();
     StartIntake();
     chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-36, 0, 5000, {.maxSpeed=60});
+    chassis.moveToPoint(-36, 5, 5000, {.minSpeed=60});
     chassis.turnToHeading(270, 1000);
-    chassis.moveToPose(-75, 5.7, 270, 10000, {.minSpeed=127});
+    chassis.moveToPoint(-68, 5, 1000);
 }
