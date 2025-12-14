@@ -152,9 +152,9 @@ void Right_7B_2G()
     Matchloader.retract();
     chassis.moveToPoint(-45, -49, 1500);
     chassis.turnToHeading(225, 500, {.minSpeed=50, .earlyExitRange=5});
-    chassis.moveToPose(-31, -42.3, 270, 1000, {.forwards=false, .minSpeed=50, .earlyExitRange=7});
+    chassis.moveToPose(-31, -43.3, 270, 1000, {.forwards=false, .minSpeed=50, .earlyExitRange=7});
     Wing.retract();
-    chassis.moveToPoint(-20, -42.3, 1000, {.forwards=false, .minSpeed=127});
+    chassis.moveToPoint(-20, -43.3, 1000, {.forwards=false, .minSpeed=127});
 
     // chassis.moveToPoint(-34, -50.5, 1000);
     // chassis.moveToPoint(-28.2, -50.5, 1500, {.forwards=false, .minSpeed=90});
