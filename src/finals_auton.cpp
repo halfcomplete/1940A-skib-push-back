@@ -62,13 +62,13 @@ void finals_left_auton()
     pros::delay(1200);
 
     // Move to right long goal
-    chassis.moveToPose(-29, 50.2, 270, 1000, {.forwards=false});
+    chassis.moveToPose(-29, 50, 270, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring(true);
     pros::delay(2400);
     Wing.extend();
-    chassis.moveToPoint(-51, 50.2, 1500);
+    chassis.moveToPoint(-51, 50, 1500);
     chassis.turnToHeading(225, 500, {.minSpeed=50, .earlyExitRange=5});
     chassis.moveToPose(-29.5, 57.6, 270, 1000, {.forwards=false, .minSpeed=50, .earlyExitRange=7});
     Wing.retract();

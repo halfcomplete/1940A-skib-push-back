@@ -84,7 +84,7 @@ void autonomous() {
 	// 7 = test pid move
 
     // 8 = test motor move
-	auton(2);
+	auton(4);
     
     // Auton selector
 	// int autonToRun;
