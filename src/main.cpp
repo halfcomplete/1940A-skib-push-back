@@ -126,6 +126,7 @@ void autonomous() {
 void opcontrol() {
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
+	bool slowDownTopRoller = false;
 	Wing.retract();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -134,6 +135,22 @@ void opcontrol() {
 		double turn = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
 		chassis.arcade(forwards, turn);
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            if (slowDownTopRoller) {
+                Top_Roller.move_voltage(-7644);
+            } else {
+                Top_Roller.move(-12000);
+            }
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            if (slowDownTopRoller) {
+                Top_Roller.move_voltage(7644);
+            } else {
+                Top_Roller.move(12000);
+            }
+		} else {
+			Top_Roller.move(0);
+		}
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 			if (controllerHighGoal)
@@ -169,27 +186,28 @@ void opcontrol() {
 			Wing.retract();
 		}
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            controllerHighGoal = true;
+            slowDownTopRoller=true;
         } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            controllerHighGoal = false;
+            slowDownTopRoller = false;
         }
 
         if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             Wing.extend();
         }
 	
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			Matchloader.extend();
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
 			Matchloader.retract();
 		}
 		 
 		// Matchloader and Switcheroo have activation buttons opposite to the actual buttons that activate them.
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
 			Trapdoor.extend();
-
+			controllerHighGoal = true;
 		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
 			Trapdoor.retract();
+			controllerHighGoal = false;
 		}
 
 		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
