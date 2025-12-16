@@ -16,15 +16,15 @@ void skills_auton() {
     // Move to matchloader
     chassis.turnToHeading(270, 1000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-62, -49, 1000, {.maxSpeed=60});
+    chassis.moveToPoint(-62, -46.9, 1000, {.maxSpeed=60});
     for (int i = 0; i < 2; i++)
     {
-        chassis.moveToPoint(-65, -49, 1500, {.minSpeed=45});
+        chassis.moveToPoint(-65, -47, 1500, {.minSpeed=45});
         chassis.waitUntilDone();
-        chassis.moveToPoint(-61, -49, 600, {.forwards=false});
+        chassis.moveToPoint(-61, -46, 600, {.forwards=false});
         chassis.waitUntilDone();
     }
-    pros::delay(500);
+
 
     // Move back slightly
      Top_Roller.move_relative(-90, 100);
@@ -87,9 +87,9 @@ void skills_auton() {
     chassis.turnToHeading(90, 1000);
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(66, thirdMatchloaderY+2, 4000, {.maxSpeed=50});
+    chassis.moveToPoint(66, thirdMatchloaderY, 2500, {.maxSpeed=50});
     chassis.waitUntilDone();
-    chassis.moveToPoint(74, thirdMatchloaderY+2, 3000, {.maxSpeed=40});
+    chassis.moveToPoint(73, thirdMatchloaderY+1, 2500, {.maxSpeed=50});
     chassis.waitUntilDone();
     Top_Roller.move_relative(-90, 100);
 
@@ -115,9 +115,9 @@ void skills_auton() {
     chassis.waitUntilDone();
     chassis.moveToPoint(-40, 52, 1000);
     chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1500);
+    chassis.turnToHeading(270, 500);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-12, fourthMatchloaderY , 1400, {.forwards=false});
+    chassis.moveToPoint(-12, fourthMatchloaderY+3 , 1400, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.extend();
     StartScoring(true);
@@ -148,7 +148,7 @@ void skills_auton() {
     pros::delay(200);
     chassis.turnToHeading(270, 800);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-90, 6, 2000,{.minSpeed=127, .earlyExitRange=1});
+    chassis.moveToPoint(-90, 8, 2000,{.minSpeed=127, .earlyExitRange=1});
     chassis.turnToHeading(270, 400);
     chassis.turnToHeading(260, 400);
     chassis.turnToHeading(280, 400);
