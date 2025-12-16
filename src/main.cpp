@@ -167,13 +167,13 @@ void opcontrol() {
 		}	
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (controllerHighGoal) {
-                Top_Roller.move_voltage(-7644);
+                Top_Roller.move_voltage(-81);
             } else {
                 Top_Roller.move_voltage(-12000);
             }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             if (controllerHighGoal) {
-                Top_Roller.move_voltage(7644);
+                Top_Roller.move_voltage(81);
             } else {
                 Top_Roller.move_voltage(12000);
             }
@@ -195,9 +195,9 @@ void opcontrol() {
             Wing.extend();
         }
 	
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			Matchloader.extend();
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			Matchloader.retract();
 		}
 		 
