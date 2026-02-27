@@ -1,28 +1,29 @@
 #include "robot.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "pros/adi.hpp"
+#include "pros/distance.hpp"
 #include "pros/optical.hpp"
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
-pros::MotorGroup left_mg({-10, 9, -8});    
-pros::MotorGroup right_mg({7, -21, 6});
+pros::MotorGroup left_mg({-13, -12, -11});    
+pros::MotorGroup right_mg({14, 15, 16});
 
 lemlib::Drivetrain drivetrain(&left_mg, &right_mg,
-                              13.25, // track width in inches
-                              lemlib:: Omniwheel:: NEW_4, // Wheel configuration
-                              400, // RPM
+                              14, // track width in inches
+                              lemlib:: Omniwheel:: NEW_325, // Wheel configuration
+                              450, // RPM
                               2 // Drift was 2  0.5
 );
 
 pros::Imu imu(2); 
 
-pros::Rotation horizontalRotation(20); 
-pros::Rotation verticallRotation(11); 
+// pros::Rotation horizontalRotation(20); 
+// pros::Rotation verticallRotation(1); 
 
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontalRotation, lemlib::Omniwheel::NEW_2, -4);
-lemlib::TrackingWheel vertical_tracking_wheel(&verticallRotation, lemlib::Omniwheel::NEW_2, 0);
+//lemlib::TrackingWheel horizontal_tracking_wheel(&horizontalRotation, lemlib::Omniwheel::NEW_2, -4);
+// lemlib::TrackingWheel vertical_tracking_wheel(&verticallRotation, lemlib::Omniwheel::NEW_2, 0);
 
 
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
@@ -65,13 +66,16 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 );
 
 
-pros::Motor Conveyer(4, pros::v5::MotorGears::blue);
-pros::Motor Top_Roller(5, pros::v5::MotorGears::blue);
+pros::Motor First_Stage_Intake(18, pros::v5::MotorGears::blue);
+pros::Motor Second_Stage_Intake(-17, pros::v5::MotorGears::green);
+pros::Motor Outtake(-19, pros::v5::MotorGears::green);
 
+pros::adi::Pneumatics Outtake_Lift({22, 'f'}, false);            // Starts retracted, extends when the ADI port is high
+pros::adi::Pneumatics Intake_Lift({22, 'g'}, false);
+pros::adi::Pneumatics Matchloader({22, 'h'}, false);
+pros::adi::Pneumatics Wing({22, 'e'}, false);
 
-pros::adi::Pneumatics Double_Park({22, 'f'}, false);            // Starts retracted, extends when the ADI port is high
-pros::adi::Pneumatics Trapdoor({22, 'g'}, false);
-pros::adi::Pneumatics Matchloader({22, 'e'}, false);
-pros::adi::Pneumatics Wing({22,'h'},false);
-
-pros::Optical SkIbIdI_oPtIcAl(2);
+// Distance Sensors
+pros::Distance Front_Sensor(5);
+pros::Distance Right_Sensor(4);
+pros::Distance Left_Sensor(21);

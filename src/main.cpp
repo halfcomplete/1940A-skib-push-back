@@ -1,16 +1,18 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/colors.hpp"
+//#include "pros/colors.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "pros/screen.h"
 #include "robot.hpp"
 #include "auton.h"
 #include "skills_auton.h"
 #include "helpers.hpp"
-#include <iomanip>
+//#include <iomanip>
 #include "auton.h"
-#include "lemlib/asset.hpp"
+#include <atomic>
+//#include "lemlib/asset.hpp"
 
 
 
@@ -25,7 +27,6 @@ void initialize() {
 	chassis.calibrate();
 	Wing.retract();
 	// imu.reset(true);
-	SkIbIdI_oPtIcAl.set_led_pwm(100);
 
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
@@ -127,7 +128,7 @@ void opcontrol() {
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;
-	Wing.retract();
+	Wing.extend();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
@@ -136,85 +137,73 @@ void opcontrol() {
 
 		chassis.arcade(forwards, turn);
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            if (slowDownTopRoller) {
-                Top_Roller.move_voltage(-7644);
-            } else {
-                Top_Roller.move(-12000);
-            }
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            if (slowDownTopRoller) {
-                Top_Roller.move_voltage(7644);
-            } else {
-                Top_Roller.move(12000);
-            }
-		} else {
-			Top_Roller.move(0);
-		}
-
+		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			if (controllerHighGoal)
-				Conveyer.move_voltage(-6000);
-			else
-				Conveyer.move_voltage(-12000);
+            if (slowDownTopRoller) {
+                First_Stage_Intake.move_voltage(-12000);
+				Second_Stage_Intake.move_voltage(-12000);
+            } else {
+                First_Stage_Intake.move_voltage(-12000);
+				Second_Stage_Intake.move_voltage(-12000);
+            }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			if (controllerHighGoal)
-				Conveyer.move_voltage(12000);
-			else
-				Conveyer.move_voltage(12000);
-		} else {
-			Conveyer.move(0);
-		}	
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            if (controllerHighGoal) {
-                Top_Roller.move_voltage(-81);
+            if (slowDownTopRoller) {
+                First_Stage_Intake.move_voltage(12000);
+				Second_Stage_Intake.move_voltage(12000);
+				Outtake.move_voltage(-3000);
             } else {
-                Top_Roller.move_voltage(-12000);
-            }
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            if (controllerHighGoal) {
-                Top_Roller.move_voltage(81);
-            } else {
-                Top_Roller.move_voltage(12000);
+                Second_Stage_Intake.move(12000);
+				First_Stage_Intake.move_voltage(12000);
+				Outtake.move_voltage(-2000);
             }
 		} else {
-			Top_Roller.move(0);
-		}	
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-			Wing.extend();
-		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			Wing.retract();
+			Second_Stage_Intake.move(0);
+			First_Stage_Intake.move(0);
+			Outtake.move(0);
 		}
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            slowDownTopRoller=true;
-        } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            slowDownTopRoller = false;
-        }
 
-        if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-            Wing.extend();
-        }
-	
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+		
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            if (controllerHighGoal) {
+                Outtake.move_voltage(-12000);
+				Outtake_Lift.extend();
+            } else {
+                Outtake.move_voltage(-12000);
+				Outtake_Lift.extend();
+            }
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            if (controllerHighGoal) {
+                Outtake.move_voltage(12000);
+				Outtake_Lift.retract();
+            } else {
+                Outtake.move_voltage(12000);
+				Outtake_Lift.retract();
+            }
+		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+			Outtake.move(0);
+			Outtake_Lift.retract();
+		}
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			Wing.toggle();
+		}
+		
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 			Matchloader.extend();
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)){
 			Matchloader.retract();
 		}
 		 
 		// Matchloader and Switcheroo have activation buttons opposite to the actual buttons that activate them.
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
-			Trapdoor.extend();
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+			Intake_Lift.extend();
 			controllerHighGoal = true;
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-			Trapdoor.retract();
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+			Intake_Lift.retract();
 			controllerHighGoal = false;
 		}
 
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-			Double_Park.extend();
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
-			Double_Park.retract();
-		}
+
 
 		pros::delay(20);                               // Run for 20 ms then update
 	}

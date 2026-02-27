@@ -90,7 +90,7 @@ void Left_7B_2G()
     StartIntake();
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 1000);
-    Trapdoor.toggle();
+    Outtake_Lift.toggle();
     Matchloader.extend();
     chassis.waitUntilDone();
     chassis.moveToPoint(-73, 49.4, 1700, {.maxSpeed=55});
@@ -130,7 +130,7 @@ void Right_7B_2G()
     chassis.turnToHeading(41.3, 1000);
     chassis.waitUntilDone();
     StartOuttake();
-    Top_Roller.brake();
+    Second_Stage_Intake.brake();
     pros::delay(1800);
 
     // Move to matchloader
@@ -202,7 +202,7 @@ void raygoon_righ_tauton() {
 }
 
 void MotorMoveTest() {
-    Conveyer.move(700);
+    First_Stage_Intake.move(700);
 }
 
 // void Right_Solo_AWP() {

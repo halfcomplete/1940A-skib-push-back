@@ -3,62 +3,66 @@
 #include "robot.hpp"
 
 void colourSort() {
-    pros::Task sortTask([&]()->void {
-        while (true) {
-            if (SkIbIdI_oPtIcAl.get_hue() > 90 && SkIbIdI_oPtIcAl.get_proximity() > 128) {
-                Trapdoor.retract();
-                pros::delay(50);
-                Trapdoor.extend();
-            }
+    // pros::Task sortTask([&]()->void {
+    //     while (true) {
+    //         if (SkIbIdI_oPtIcAl.get_hue() > 90 && SkIbIdI_oPtIcAl.get_proximity() > 128) {
+    //             Trapdoor.retract();
+    //             pros::delay(50);
+    //             Trapdoor.extend();
+    //         }
 
-            pros::delay(10);
-        }
-    });
+    //         pros::delay(10);
+    //     }
+    // });
 }
 
 
 void StartIntake()
 {
     // Inside_Roller.brake();
-    Conveyer.move(12000);
-    Top_Roller.brake();
+    First_Stage_Intake.move(12000);
+    Second_Stage_Intake.brake();
 }
 
 void StartOuttake(bool lowGoal)
 {
     if (lowGoal)
-        Conveyer.move(-600);
+        First_Stage_Intake.move(-600);
     else
-        Conveyer.move(-100);
-    Top_Roller.move(600);
+        First_Stage_Intake.move(-100);
+    Second_Stage_Intake.move(600);
 }
 
 void StopIntake()
 {
     // Inside_Roller.brake();
-    Conveyer.brake();
+    First_Stage_Intake.brake();
 }
 
 void StartScoring(bool auton, bool highGoal)
 {
-    Conveyer.move(600);
+    First_Stage_Intake.move(600);
     if (highGoal)
     {
-        Trapdoor.extend();
-        Top_Roller.move(-64);
-        Conveyer.move(100);
+        Second_Stage_Intake.move(-64);
+        First_Stage_Intake.move(100);
     }
     else if (auton)
     {
-        Top_Roller.move(-69);
+        Second_Stage_Intake.move(-69);
     }
     else {
-        Top_Roller.move(-600);
+        Second_Stage_Intake.move(-600);
     }
 }
 
 void StopScoring()
 {
-    Top_Roller.brake();
-    Trapdoor.retract();
+    Second_Stage_Intake.brake();
+    Outtake_Lift.retract();
+}
+
+void GetFrontDistanceMeasurement()
+{
+
 }

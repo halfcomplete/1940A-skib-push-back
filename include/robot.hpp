@@ -11,8 +11,8 @@ extern lemlib::Drivetrain drivetrain;
 
 extern pros::Imu imu;
 
-extern pros:: Rotation horizontalRotation;
-extern pros:: Rotation verticallRotation;
+//extern pros:: Rotation horizontalRotation;
+//extern pros:: Rotation verticallRotation;
 
 extern lemlib::TrackingWheel horizontalTrackingWheel;
 
@@ -26,12 +26,16 @@ extern lemlib::ControllerSettings angular_controller;
 
 extern lemlib::Chassis chassis;
 
-extern pros::Motor Conveyer;
-extern pros::Motor Top_Roller;
+extern pros::Motor First_Stage_Intake;
+extern pros::Motor Second_Stage_Intake;
+extern pros::Motor Outtake;
 
-extern pros::adi::Pneumatics Double_Park;
-extern pros::adi::Pneumatics Trapdoor;
+extern pros::adi::Pneumatics Outtake_Lift;
+extern pros::adi::Pneumatics Intake_Lift;
 extern pros::adi::Pneumatics Matchloader;
 extern pros::adi::Pneumatics Wing;
 
-extern pros::Optical SkIbIdI_oPtIcAl;
+// Distance Sensors
+extern pros::Distance Front_Sensor;
+extern pros::Distance Right_Sensor;
+extern pros::Distance Left_Sensor;
