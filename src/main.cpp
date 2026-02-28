@@ -154,7 +154,7 @@ void opcontrol() {
             } else {
                 Second_Stage_Intake.move(12000);
 				First_Stage_Intake.move_voltage(12000);
-				Outtake.move_voltage(-5000);
+				Outtake.move_voltage(-6000);
             }
 		} else {
 			Second_Stage_Intake.move(0);
