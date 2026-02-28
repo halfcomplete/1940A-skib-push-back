@@ -46,10 +46,11 @@ lemlib::ControllerSettings lateral_controller(14.25, // proportional gain (kP)
                                               0 // maximum acceleration (slew)
 );
 
-// angular PID controller
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
+// angular PID controller, current values are good for 180 degree turns, but for 90 degree turns it undershoots.
+// solution: perhaps different PID constants for different turn angles?
+lemlib::ControllerSettings angular_controller(2.2, // proportional gain (kP) was 2.3 for 90
                                               0, // integral gain (kI)
-                                              10, // derivative gain (kD)
+                                              14, // derivative gain (kD) was 12 for 90
                                               0, // anti windup
                                               0, // small error range, in degrees
                                               0, // small error range timeout, in milliseconds

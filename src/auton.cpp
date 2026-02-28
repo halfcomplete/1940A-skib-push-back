@@ -25,8 +25,8 @@ void auton(AutonType autonToRun) {
         case AutonType::PID_TURN_TEST_90:
             TestPidTurn(90);
             break;
-        case AutonType::PID_TURN_TEST_360:
-            TestPidTurn(360);
+        case AutonType::PID_TURN_TEST_180:
+            TestPidTurn(180);
             break;
         case AutonType::L_7B_2G:
             Left_7B_2G();
