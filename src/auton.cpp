@@ -7,55 +7,46 @@
 #include "skills_auton.h"
 #include "finals_auton.h"
 #include "helpers.hpp"
+#include "auton_type.h"
+#include "pid_tests.h"
 
 ASSET(path1_txt);
 ASSET(path3_txt);
 ASSET(testpath_txt);
 
-void auton(int autonToRun) {
-    if (autonToRun == 0)
-    {
-        skills_auton();
+void auton(AutonType autonToRun) {
+    switch (autonToRun) {
+        case AutonType::PID_MOVE_TEST_24:
+            TestPidMove(24);
+            break;
+        case AutonType::PID_MOVE_TEST_48:
+            TestPidMove(48);
+            break;
+        case AutonType::PID_TURN_TEST_90:
+            TestPidTurn(90);
+            break;
+        case AutonType::PID_TURN_TEST_360:
+            TestPidTurn(360);
+            break;
+        case AutonType::L_7B_2G:
+            Left_7B_2G();
+            break;
+        case AutonType::R_7B_2G:
+            Right_7B_2G();
+            break;
+        case AutonType::L_4B_1G:
+            throw std::runtime_error("L_4B_1G Auton not implemented");
+            break;
+        case AutonType::R_4B_1G:
+            throw std::runtime_error("R_4B_1G Auton not implemented");
+            break;
+        case AutonType::SOLO_AWP:
+            Right_Solo_AWP();
+            break;
+        case AutonType::SKILLS:
+            throw std::runtime_error("Skills Auton not implemented");
+            break;
     }
-
-    if (autonToRun == 1)
-    {
-        Left_7B_2G();
-    }
-    if (autonToRun == 2)
-    {
-        Right_7B_2G();
-    }
-
-    if (autonToRun == 3)
-    {
-        Right_Solo_AWP();
-    }
-    if (autonToRun == 4)
-    {
-        finals_left_auton();
-    }
-
-    if (autonToRun == 5)
-    {
-        finals_right_auton();
-    }
-
-    if (autonToRun == 6)
-    {
-        TestPidTurn();
-    }
-
-    if (autonToRun == 7)
-    {
-        TestPidMove();
-    }
-
-    if (autonToRun == 8)
-    {
-        MotorMoveTest();
-    }
-    
 };
 
 void Left_7B_2G()

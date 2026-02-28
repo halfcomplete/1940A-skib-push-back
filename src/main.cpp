@@ -9,9 +9,11 @@
 #include "auton.h"
 #include "skills_auton.h"
 #include "helpers.hpp"
+#include "auton_type.h"
 //#include <iomanip>
 #include "auton.h"
 #include <atomic>
+
 //#include "lemlib/asset.hpp"
 
 
@@ -75,17 +77,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	// 0 = skills
-	// 1 = left match
-	// 2 = right match
-	// 3 = right match solo awp
-	// 4 = left finals match
-	// 5 = right finals match
-	// 6 = test pid turn
-	// 7 = test pid move
-
-    // 8 = test motor move
-	auton(5);
+	auton(AutonType::PID_MOVE_TEST_24);
     
     // Auton selector
 	// int autonToRun;
