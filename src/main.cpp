@@ -77,7 +77,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	auton(AutonType::PID_MOVE_TEST_24);
+	auton(AutonType::PID_TURN_TEST_90);
     
     // Auton selector
 	// int autonToRun;
