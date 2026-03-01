@@ -48,15 +48,15 @@ lemlib::ControllerSettings lateral_controller(14.25, // proportional gain (kP)
 
 // angular PID controller, current values are good for 180 degree turns, but for 90 degree turns it undershoots.
 // solution: perhaps different PID constants for different turn angles?
-lemlib::ControllerSettings angular_controller(2.2, // proportional gain (kP) was 2.3 for 90
+lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              14, // derivative gain (kD) was 12 for 90
+                                              13.2, // derivative gain (kD)
                                               0, // anti windup
                                               0, // small error range, in degrees
                                               0, // small error range timeout, in milliseconds
                                               0, // large error range, in degrees
                                               0, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
+                                              100 // maximum acceleration (slew)
 );
 
 // create the chassis
@@ -65,7 +65,6 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
                         angular_controller, // angular PID settings
                         sensors // odometry sensors
 );
-
 
 pros::Motor First_Stage_Intake(18, pros::v5::MotorGears::blue);
 pros::Motor Second_Stage_Intake(-17, pros::v5::MotorGears::green);

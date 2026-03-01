@@ -77,30 +77,65 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	auton(AutonType::PID_TURN_TEST_90);
-    
-    // Auton selector
-	// int autonToRun;
-	// // Loop until a valid button is pressed to select an auton
-	// while (true) {
-	// 	// Check if the X button is pressed, if so then run auton skills
-	// 	if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
-	// 	{
-	// 		autonToRun = 0;
-	// 		break;
-	// 	}
+	// Auton selector - wait for controller button press
+	AutonType selectedAuton;
+	bool autonSelected = false;
 
-	// 	// Check if the A button is pressed, if so then run the cornerAuton
-	// 	if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A))
-	// 	{
-	// 		autonToRun = 1;
-	// 		break;
-	// 	}
+	// Display instructions on brain screen
+	pros::lcd::print(4, "Select Auton:");
+	pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
+	pros::lcd::print(6, "Y:SOLO_AWP  UP:L_4B_1G  DOWN:R_4B_1G");
+	pros::lcd::print(7, "L1:PID_MOVE24  L2:PID_MOVE48  R1:TURN90  R2:TURN180");
 
-	// 	// Delay to reduce resource usage
-	// 	pros::delay(25);
-	// }
-	// auton(autonToRun);
+	// Loop until a valid button is pressed to select an auton
+	while (!autonSelected) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			selectedAuton = AutonType::L_7B_2G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			selectedAuton = AutonType::R_7B_2G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			selectedAuton = AutonType::SKILLS;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+			selectedAuton = AutonType::SOLO_AWP;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			selectedAuton = AutonType::L_4B_1G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			selectedAuton = AutonType::R_4B_1G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+			selectedAuton = AutonType::PID_MOVE_TEST_24;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+			selectedAuton = AutonType::PID_MOVE_TEST_48;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+			selectedAuton = AutonType::PID_TURN_TEST_90;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+			selectedAuton = AutonType::PID_TURN_TEST_180;
+			autonSelected = true;
+		}
+
+		// Delay to reduce resource usage
+		pros::delay(25);
+	}
+
+	// Run the selected auton
+	auton(selectedAuton);
 }
 
 /**
@@ -117,6 +152,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	autonomous(); // run auton in opcontrol for testing purposes
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;

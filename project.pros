@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "PID Turn Test 90",
+    "project_name": "Autonomous",
     "target": "v5",
     "templates": {
       "LemLib": {
