@@ -19,14 +19,12 @@ lemlib::Drivetrain drivetrain(&left_mg, &right_mg,
 
 pros::Imu imu(2); 
 
-// pros::Rotation horizontalRotation(20); 
-// pros::Rotation verticallRotation(1); 
+pros::Rotation verticalRotation(1); 
 
-//lemlib::TrackingWheel horizontal_tracking_wheel(&horizontalRotation, lemlib::Omniwheel::NEW_2, -4);
-// lemlib::TrackingWheel vertical_tracking_wheel(&verticallRotation, lemlib::Omniwheel::NEW_2, 0);
+lemlib::TrackingWheel vertical_tracking_wheel(&verticalRotation, lemlib::Omniwheel::NEW_2, 0);
 
 
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             nullptr, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -35,22 +33,22 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
 
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              3, // derivative gain (kD)
-                                              0, // anti windup
-                                              0, // small error range, in inches
-                                              0, // small error range timeout, in milliseconds
+lemlib::ControllerSettings lateral_controller(15, // proportional gain (kP) - increased to reach target without relying on I
+                                              0.1, // integral gain (kI) - lowered to prevent sudden lurch
+                                              3, // derivative gain (kD) - lowered to allow smoother approach
+                                              1.5, // anti windup - lowered to prevent integral spike
+                                              0.1, // small error range, in inches
+                                              250, // small error range timeout, in milliseconds
                                               0, // large error range, in inches
                                               0, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
+                                              8 // maximum acceleration (slew) - smooths out sudden lurches
 );
 
 // angular PID controller, current values are good for 180 degree turns, but for 90 degree turns it undershoots.
 // solution: perhaps different PID constants for different turn angles?
 lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              13.2, // derivative gain (kD)
+                                              13, // derivative gain (kD)
                                               0, // anti windup
                                               0, // small error range, in degrees
                                               0, // small error range timeout, in milliseconds
