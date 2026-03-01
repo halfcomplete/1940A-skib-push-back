@@ -165,7 +165,6 @@ void opcontrol() {
 
 		chassis.arcade(forwards, turn);
 
-		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(-12000);
@@ -187,7 +186,7 @@ void opcontrol() {
 		} else {
 			Second_Stage_Intake.move(0);
 			First_Stage_Intake.move(0);
-			Outtake.move(0);
+			Outtake.move_voltage(-5000);
 		}
 
 		
@@ -208,7 +207,7 @@ void opcontrol() {
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			Outtake.move(0);
+			Outtake.move_voltage(-5000);
 			Outtake_Lift.retract();
 		}
 

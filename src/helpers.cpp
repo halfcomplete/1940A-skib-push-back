@@ -1,6 +1,7 @@
 #include "helpers.hpp"
 #include "pros/rtos.hpp"
 #include "robot.hpp"
+#include "goal_type.hpp"
 
 void colourSort() {
     // pros::Task sortTask([&]()->void {
@@ -19,50 +20,91 @@ void colourSort() {
 
 void StartIntake()
 {
-    // Inside_Roller.brake();
-    First_Stage_Intake.move(12000);
-    Second_Stage_Intake.brake();
+    First_Stage_Intake.move(600);
+    Second_Stage_Intake.move(600);
 }
 
-void StartOuttake(bool lowGoal)
+void StartOuttake(bool scoring)
 {
-    if (lowGoal)
-        First_Stage_Intake.move(-600);
-    else
+    Second_Stage_Intake.move(-600);
+    if (scoring)
         First_Stage_Intake.move(-100);
-    Second_Stage_Intake.move(600);
+    else
+        First_Stage_Intake.move(-600);
 }
 
 void StopIntake()
 {
-    // Inside_Roller.brake();
     First_Stage_Intake.brake();
+    Second_Stage_Intake.brake();
 }
 
-void StartScoring(bool auton, bool highGoal)
+/// @brief Start scoring by starting the intake and scoring mech.
+/// @param auton 
+/// @param goalType The type of goal we are scoring in.
+void StartScoring(GoalType goalType)
 {
-    First_Stage_Intake.move(600);
-    if (highGoal)
+    if (goalType == HIGH_GOAL)
     {
-        Second_Stage_Intake.move(-64);
-        First_Stage_Intake.move(100);
+        StartIntake();
+        Outtake.move(127);
     }
-    else if (auton)
+    else if (goalType == LOW_GOAL)
     {
-        Second_Stage_Intake.move(-69);
+        StartOuttake(true);
+        Outtake.move(127);
     }
-    else {
-        Second_Stage_Intake.move(-600);
+    else 
+    {
+        StartIntake();
+        Outtake.move(-127);
+        Outtake_Lift.extend();
     }
 }
 
 void StopScoring()
 {
-    Second_Stage_Intake.brake();
     Outtake_Lift.retract();
 }
 
-void GetFrontDistanceMeasurement()
+/// @return The distance measurement from the front sensor in mm. Returns 9999 if no object is detected or if the confidence is low.
+int GetFrontDistanceMeasurement()
 {
+    int distance = Front_Sensor.get();
+    if (!IsFrontDistanceConfident())
+        return 9999;
+    return distance;
+}
 
+bool IsFrontDistanceConfident()
+{
+    return Front_Sensor.get_confidence() > 50;
+}
+
+/// @return The distance measurement from the left sensor in mm. Returns 9999 if no object is detected or if the confidence is low.
+int GetLeftDistanceMeasurement()
+{
+    int distance = Left_Sensor.get();
+    if (!IsLeftDistanceConfident())
+        return 9999;
+    return distance;
+}
+
+bool IsLeftDistanceConfident()
+{
+    return Left_Sensor.get_confidence() > 50;
+}
+
+/// @return The distance measurement from the right sensor in mm. Returns 9999 if no object is detected or if the confidence is low.
+int GetRightDistanceMeasurement()
+{
+    int distance = Right_Sensor.get();
+    if (!IsRightDistanceConfident())
+        return 9999;
+    return distance;
+}
+
+bool IsRightDistanceConfident()
+{
+    return Right_Sensor.get_confidence() > 50;
 }
