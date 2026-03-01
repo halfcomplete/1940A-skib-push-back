@@ -57,47 +57,43 @@ void Left_7B_2G()
 
     // Move to three blocks on the left
     StartIntake();
-    chassis.moveToPoint(-26.066, 20, 3000, {.minSpeed=70, .earlyExitRange=15});
-    chassis.moveToPoint(-16.066, 26, 6000, {.maxSpeed=40});
+    chassis.moveToPoint(-30, 24, 4000, {.minSpeed=60, .earlyExitRange=15});
+    chassis.moveToPoint(-16, 28, 3000, {.maxSpeed=30});
     chassis.waitUntilDone();
+    chassis.moveToPoint(-20.5, 20.5, 2000, {.forwards=false, .maxSpeed=45});
 
     // Score in high goal
-    chassis.turnToHeading(304, 1000);
-    chassis.moveToPoint(-16, 16, 1500, {.forwards=false, .maxSpeed=50});
+    chassis.turnToHeading(315, 2000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-15, 15, 1500, {.forwards=false, .maxSpeed=50});
+    chassis.moveToPoint(-6, 8, 1000, {.forwards=false, .maxSpeed=40});
     chassis.waitUntilDone();
-    chassis.turnToHeading(325, 1000);
-    chassis.waitUntilDone();
-    StartOuttake();
-    pros::delay(100);
     StartScoring(GoalType::HIGH_GOAL);
-    pros::delay(150);
-    chassis.moveToPoint(-11, 9, 1000);
-    pros::delay(1850);
+    pros::delay(2000);
+
+    return;
 
     // Move to matchloader
-    chassis.moveToPoint(-39, 49, 1500);
+    chassis.moveToPoint(-47, 48, 1500, {.maxSpeed=60});
     StartIntake();
     chassis.waitUntilDone();
+    pros::delay(100);
     chassis.turnToHeading(270, 1000);
-    Outtake_Lift.toggle();
     Matchloader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-73, 49.4, 1700, {.maxSpeed=55});
+    chassis.moveToPoint(-73, 48, 1700, {.maxSpeed=45});
 
     // Score in long goal
     Wing.extend();
-    chassis.moveToPoint(-26, 50, 1000, {.forwards=false});
+    chassis.moveToPoint(-30, 48, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring(GoalType::LONG_GOAL);
-    pros::delay(1000);
-    chassis.moveToPoint(-43, 50, 1000);
+    pros::delay(1200);
+    chassis.moveToPoint(-43, 52, 1000);
     chassis.turnToHeading(225, 1000);
-    chassis.moveToPose(-24.7, 57.4, 270, 1000, {.forwards=false});
+    chassis.moveToPose(-24.7, 52, 270, 1000, {.forwards=false});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-14, 57.4, 1000, {.forwards=false, .minSpeed=127});
+    chassis.moveToPoint(-14, 52, 1000, {.forwards=false});
     pros::delay(80);
     Wing.retract();
 }

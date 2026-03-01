@@ -17,7 +17,7 @@ void skills_auton() {
     chassis.waitUntilDone();
     chassis.moveToPoint(-27, -50, 1000, {.forwards=false});
     chassis.waitUntilDone();
-    StartScoring(true);
+    StartScoring(GoalType::LONG_GOAL);
     pros::delay(3000);
 
     chassis.moveToPoint(-50, -48.8, 1000);
@@ -35,7 +35,7 @@ void skills_auton() {
     pros::delay(100);
     chassis.turnToHeading(270, 1000);
     chassis.moveToPoint(-27, -48.4, 1400, {.forwards=false, .maxSpeed=60});
-    StartScoring(true);
+    StartScoring(GoalType::LONG_GOAL);
     pros::delay(3000);
 
     // ==== OTHER CORNER ====
@@ -59,7 +59,7 @@ void skills_auton() {
     chassis.moveToPose(-29, 47.5, 270, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
-    StartScoring(true);
+    StartScoring(GoalType::LONG_GOAL);
     pros::delay(4000);
     Matchloader.retract();
     chassis.waitUntilDone();
@@ -76,7 +76,7 @@ void skills_auton() {
     chassis.turnToHeading(270, 1000);
     chassis.waitUntilDone();
     Matchloader.retract();
-    StartScoring(true);
+    StartScoring(GoalType::LONG_GOAL);
     pros::delay(4000);
     Matchloader.retract();
     chassis.moveToPoint(-58, 48.5, 1000);

@@ -37,10 +37,10 @@ lemlib::ControllerSettings lateral_controller(15, // proportional gain (kP)
                                               0.1, // integral gain (kI)
                                               3, // derivative gain (kD)
                                               1.5, // anti windup - lowered to prevent integral spike
-                                              0.1, // small error range, in inches
+                                              0.2, // small error range, in inches
                                               250, // small error range timeout, in milliseconds
-                                              0, // large error range, in inches
-                                              0, // large error range timeout, in milliseconds
+                                              2, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
                                               8 // maximum acceleration (slew) - smooths out sudden lurches
 );
 
@@ -50,10 +50,10 @@ lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               13, // derivative gain (kD)
                                               0, // anti windup
-                                              0, // small error range, in degrees
-                                              0, // small error range timeout, in milliseconds
-                                              0, // large error range, in degrees
-                                              0, // large error range timeout, in milliseconds
+                                              1, // small error range, in degrees
+                                              100, // small error range timeout, in milliseconds
+                                              5, // large error range, in degrees
+                                              500, // large error range timeout, in milliseconds
                                               100 // maximum acceleration (slew)
 );
 

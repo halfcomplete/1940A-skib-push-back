@@ -27,9 +27,10 @@
  */
 void initialize() {
 	chassis.calibrate();
+	pros::delay(100); // Give odom task time to start
+	pros::lcd::initialize();
 	Wing.retract();
-	// imu.reset(true);
-
+ 	chassis.setPose(-46.818, 13.547, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
@@ -37,6 +38,10 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // Debug: print raw sensor values
+            pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
+            pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
+            pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
@@ -128,10 +133,18 @@ void autonomous() {
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
 			selectedAuton = AutonType::PID_TURN_TEST_180;
 			autonSelected = true;
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+			selectedAuton = AutonType::NONE;
+			autonSelected = true;
 		}
 
 		// Delay to reduce resource usage
 		pros::delay(25);
+	}
+
+	if (selectedAuton == AutonType::NONE)
+	{
+		return; // No auton selected, skip autonomous phase
 	}
 
 	// Run the selected auton

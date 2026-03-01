@@ -47,17 +47,17 @@ void StartScoring(GoalType goalType)
     if (goalType == HIGH_GOAL)
     {
         StartIntake();
-        Outtake.move(127);
+        Outtake.move(600);
     }
     else if (goalType == LOW_GOAL)
     {
         StartOuttake(true);
-        Outtake.move(127);
+        Outtake.move(600);
     }
     else 
     {
         StartIntake();
-        Outtake.move(-127);
+        Outtake.move(-600);
         Outtake_Lift.extend();
     }
 }

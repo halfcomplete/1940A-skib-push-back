@@ -11,5 +11,6 @@ enum AutonType
     L_4B_1G,
     R_4B_1G,
     SOLO_AWP,
-    SKILLS
+    SKILLS,
+    NONE
 };

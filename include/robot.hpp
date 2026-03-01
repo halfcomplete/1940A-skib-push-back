@@ -11,8 +11,7 @@ extern lemlib::Drivetrain drivetrain;
 
 extern pros::Imu imu;
 
-//extern pros:: Rotation horizontalRotation;
-//extern pros:: Rotation verticallRotation;
+extern pros::Rotation verticalRotation;
 
 extern lemlib::TrackingWheel horizontalTrackingWheel;
 
