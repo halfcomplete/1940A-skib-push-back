@@ -2,6 +2,7 @@
 #include "pros/rtos.hpp"
 #include "robot.hpp"
 #include "goal_type.hpp"
+#include "auton.h"
 
 void colourSort() {
     // pros::Task sortTask([&]()->void {
@@ -47,17 +48,17 @@ void StartScoring(GoalType goalType)
     if (goalType == HIGH_GOAL)
     {
         StartIntake();
-        Outtake.move(600);
+        overrideOuttake(600);
     }
     else if (goalType == LOW_GOAL)
     {
         StartOuttake(true);
-        Outtake.move(600);
+        overrideOuttake(600);
     }
     else 
     {
         StartIntake();
-        Outtake.move(-600);
+        overrideOuttake(-600);
         Outtake_Lift.extend();
     }
 }
@@ -65,6 +66,7 @@ void StartScoring(GoalType goalType)
 void StopScoring()
 {
     Outtake_Lift.retract();
+    releaseOuttakeOverride();
 }
 
 /// @return The distance measurement from the front sensor in mm. Returns 9999 if no object is detected or if the confidence is low.

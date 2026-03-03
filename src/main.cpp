@@ -190,37 +190,37 @@ void opcontrol() {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(12000);
 				Second_Stage_Intake.move_voltage(12000);
-				Outtake.move_voltage(-3000);
+				overrideOuttake(-3000);
             } else {
                 Second_Stage_Intake.move(12000);
 				First_Stage_Intake.move_voltage(12000);
-				Outtake.move_voltage(-5000);
+				overrideOuttake(-5000);
             }
 		} else {
 			Second_Stage_Intake.move(0);
 			First_Stage_Intake.move(0);
-			Outtake.move_voltage(-5000);
+			overrideOuttake(-5000);
 		}
 
 		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             if (controllerHighGoal) {
-                Outtake.move_voltage(-12000);
+                overrideOuttake(-12000);
 				Outtake_Lift.extend();
             } else {
-                Outtake.move_voltage(-12000);
+                overrideOuttake(-12000);
 				Outtake_Lift.extend();
             }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (controllerHighGoal) {
-                Outtake.move_voltage(12000);
+                overrideOuttake(12000);
 				Outtake_Lift.retract();
             } else {
-                Outtake.move_voltage(12000);
+                overrideOuttake(12000);
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			Outtake.move_voltage(-5000);
+			overrideOuttake(-5000);
 			Outtake_Lift.retract();
 		}
 

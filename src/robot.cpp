@@ -4,6 +4,9 @@
 #include "pros/distance.hpp"
 #include "pros/optical.hpp"
 
+// Outtake control - when true, other code is controlling outtake
+bool outtakeOverride = false;
+
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 

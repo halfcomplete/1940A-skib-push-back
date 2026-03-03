@@ -10,6 +10,32 @@
 #include "auton_type.h"
 #include "pid_tests.h"
 
+void outtakeTask() {
+    while (true) {
+        if (!outtakeOverride) {
+            Outtake.move_voltage(600);
+        }
+        pros::delay(20);
+    }
+}
+
+void startOuttakeTask() {
+    pros::Task outtake_task(outtakeTask, "Outtake Task");
+}
+
+void setOuttakeOverride(bool override) {
+    outtakeOverride = override;
+}
+
+void overrideOuttake(int voltage) {
+    outtakeOverride = true;
+    Outtake.move_voltage(voltage);
+}
+
+void releaseOuttakeOverride() {
+    outtakeOverride = false;
+}
+
 ASSET(path1_txt);
 ASSET(path3_txt);
 ASSET(testpath_txt);
@@ -58,14 +84,17 @@ void Left_7B_2G()
     // Move to three blocks on the left
     StartIntake();
     chassis.moveToPoint(-30, 24, 4000, {.minSpeed=60, .earlyExitRange=15});
+    Matchloader.extend();
     chassis.moveToPoint(-16, 28, 3000, {.maxSpeed=30});
     chassis.waitUntilDone();
     chassis.moveToPoint(-20.5, 20.5, 2000, {.forwards=false, .maxSpeed=45});
 
+
     // Score in high goal
     chassis.turnToHeading(315, 2000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-6, 8, 1000, {.forwards=false, .maxSpeed=40});
+    Matchloader.retract();
+    chassis.moveToPoint(-6, 6.5, 1000, {.forwards=false, .maxSpeed=40});
     chassis.waitUntilDone();
     StartScoring(GoalType::HIGH_GOAL);
     pros::delay(2000);

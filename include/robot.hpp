@@ -38,3 +38,6 @@ extern pros::adi::Pneumatics Wing;
 extern pros::Distance Front_Sensor;
 extern pros::Distance Right_Sensor;
 extern pros::Distance Left_Sensor;
+
+// Outtake control
+extern bool outtakeOverride;
