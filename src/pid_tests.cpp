@@ -13,7 +13,7 @@ void TestPidTurn(int angle)
 {
     chassis.setPose(0, 0, 0);
     pros::delay(100);
-    chassis.turnToHeading(angle, 10000);
+    chassis.turnToHeading(angle, 10000, {.maxSpeed=100});
 }
 
 void TestPidMove(int distance)

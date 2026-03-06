@@ -28,10 +28,7 @@ void StartIntake()
 void StartOuttake(bool scoring)
 {
     Second_Stage_Intake.move(-600);
-    if (scoring)
-        First_Stage_Intake.move(-100);
-    else
-        First_Stage_Intake.move(-600);
+    First_Stage_Intake.move(-600);
 }
 
 void StopIntake()
@@ -45,6 +42,7 @@ void StopIntake()
 /// @param goalType The type of goal we are scoring in.
 void StartScoring(GoalType goalType)
 {
+    
     if (goalType == HIGH_GOAL)
     {
         StartIntake();

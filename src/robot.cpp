@@ -36,28 +36,27 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(15, // proportional gain (kP)
-                                              0.1, // integral gain (kI)
-                                              3, // derivative gain (kD)
-                                              1.5, // anti windup - lowered to prevent integral spike
-                                              0.2, // small error range, in inches
-                                              250, // small error range timeout, in milliseconds
-                                              2, // large error range, in inches
+lemlib::ControllerSettings lateral_controller(17, // proportional gain (kP) - raised to fix 48" undershoot
+                                              0.07, // integral gain (kI) - lowered to prevent lurch
+                                              3.7, // derivative gain (kD) - lowered to reduce overdamping
+                                              1.0, // anti windup - tightened to prevent integral spike
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              4, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
-                                              8 // maximum acceleration (slew) - smooths out sudden lurches
+                                              10 // maximum acceleration (slew) - smooths out sudden lurches
 );
 
-// angular PID controller, current values are good for 180 degree turns, but for 90 degree turns it undershoots.
-// solution: perhaps different PID constants for different turn angles?
-lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP)
+// angular PID controller
+lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP) - lowered to fix 180° overshoot
                                               0, // integral gain (kI)
-                                              13, // derivative gain (kD)
+                                              15, // derivative gain (kD) - raised for more damping
                                               0, // anti windup
-                                              1, // small error range, in degrees
-                                              100, // small error range timeout, in milliseconds
+                                              0.5, // small error range, in degrees
+                                              200, // small error range timeout, in milliseconds
                                               5, // large error range, in degrees
-                                              500, // large error range timeout, in milliseconds
-                                              100 // maximum acceleration (slew)
+                                              550, // large error range timeout, in milliseconds
+                                              20 // maximum acceleration (slew)
 );
 
 // create the chassis

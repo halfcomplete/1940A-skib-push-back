@@ -30,7 +30,6 @@ void initialize() {
 	pros::delay(100); // Give odom task time to start
 	pros::lcd::initialize();
 	Wing.retract();
- 	chassis.setPose(-46.818, 13.547, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
@@ -95,11 +94,11 @@ void autonomous() {
 	// Loop until a valid button is pressed to select an auton
 	while (!autonSelected) {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			selectedAuton = AutonType::L_7B_2G;
+			selectedAuton = AutonType::L_7B_2G_MF;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			selectedAuton = AutonType::R_7B_2G;
+			selectedAuton = AutonType::L_7B_2G_LF;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
@@ -199,7 +198,7 @@ void opcontrol() {
 		} else {
 			Second_Stage_Intake.move(0);
 			First_Stage_Intake.move(0);
-			overrideOuttake(-5000);
+			overrideOuttake(-200);
 		}
 
 		
@@ -220,7 +219,7 @@ void opcontrol() {
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			overrideOuttake(-5000);
+			overrideOuttake(-200);
 			Outtake_Lift.retract();
 		}
 
