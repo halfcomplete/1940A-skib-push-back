@@ -1,16 +1,20 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/colors.hpp"
+//#include "pros/colors.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include "pros/screen.h"
 #include "robot.hpp"
 #include "auton.h"
 #include "skills_auton.h"
 #include "helpers.hpp"
-#include <iomanip>
+#include "auton_type.h"
+//#include <iomanip>
 #include "auton.h"
-#include "lemlib/asset.hpp"
+#include <atomic>
+
+//#include "lemlib/asset.hpp"
 
 
 
@@ -23,24 +27,31 @@
  */
 void initialize() {
 	chassis.calibrate();
+	pros::delay(100); // Give odom task time to start
+	pros::lcd::initialize();
 	Wing.retract();
-	// imu.reset(true);
-	SkIbIdI_oPtIcAl.set_led_pwm(100);
-
-    // pros::lcd::initialize();
-    // pros::Task screenTask([&]()->void {
-    //     while (true) {
-    //         pros::lcd::print(0, "X, %f", chassis.getPose().x);
-    //         pros::lcd::print(1, "Y,%f", chassis.getPose().y);
-    //         pros::lcd::print(2, "Theta, %f", chassis.getPose().theta);
-
-	// 		printf("x: %f\n", chassis.getPose().x);
-	// 		printf("y: %f\n", chassis.getPose().y);
-	// 		printf("theta: %f\n", chassis.getPose().theta);
-
-    //         pros::delay(100);
-    //     }
-    // });
+    // thread to for brain screen and position logging
+    pros::Task screenTask([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // Debug: print raw sensor values
+            pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
+            pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
+            pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
+			
+			// Debug: print distance sensor measurements
+			pros::lcd::print(6, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
+			pros::lcd::print(7, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
+			pros::lcd::print(8, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // delay to save resources
+            pros::delay(50);
+        }
+    });
 
 	printf("init done");
 }
@@ -75,39 +86,73 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	// 0 = skills
-	// 1 = left match
-	// 2 = right match
-	// 3 = right match solo awp
-	// 4 = left finals match
-	// 5 = right finals match
-	// 6 = test pid turn
-	// 7 = test pid move
-    // 8 = test motor move
-	auton(0);
-    
-    // Auton selector
-	// int autonToRun;
-	// // Loop until a valid button is pressed to select an auton
-	// while (true) {
-	// 	// Check if the X button is pressed, if so then run auton skills
-	// 	if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
-	// 	{
-	// 		autonToRun = 0;
-	// 		break;
-	// 	}
+	// Auton selector - wait for controller button press
+	AutonType selectedAuton;
+	bool autonSelected = false;
 
-	// 	// Check if the A button is pressed, if so then run the cornerAuton
-	// 	if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A))
-	// 	{
-	// 		autonToRun = 1;
-	// 		break;
-	// 	}
+	// Display instructions on brain screen
+	pros::lcd::print(4, "Select Auton:");
+	pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
+	pros::lcd::print(6, "Y:SOLO_AWP  UP:L_4B_1G  DOWN:R_4B_1G");
+	pros::lcd::print(7, "L1:PID_MOVE24  L2:PID_MOVE48  R1:TURN90  R2:TURN180");
 
-	// 	// Delay to reduce resource usage
-	// 	pros::delay(25);
-	// }
-	// auton(autonToRun);
+	// Loop until a valid button is pressed to select an auton
+	while (!autonSelected) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			selectedAuton = AutonType::L_7B_2G_MF;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			selectedAuton = AutonType::L_7B_2G_LF;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			selectedAuton = AutonType::SKILLS;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+			selectedAuton = AutonType::SOLO_AWP;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			selectedAuton = AutonType::L_4B_1G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			selectedAuton = AutonType::R_4B_1G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+			selectedAuton = AutonType::PID_MOVE_TEST_24;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+			selectedAuton = AutonType::PID_MOVE_TEST_48;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+			selectedAuton = AutonType::PID_TURN_TEST_90;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+			selectedAuton = AutonType::PID_TURN_TEST_180;
+			autonSelected = true;
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+			selectedAuton = AutonType::NONE;
+			autonSelected = true;
+		}
+
+		// Delay to reduce resource usage
+		pros::delay(25);
+	}
+
+	if (selectedAuton == AutonType::NONE)
+	{
+		return; // No auton selected, skip autonomous phase
+	}
+
+	// Run the selected auton
+	auton(selectedAuton);
 }
 
 /**
@@ -124,8 +169,10 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	autonomous(); // run auton in opcontrol for testing purposes
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
+	bool slowDownTopRoller = false;
 	Wing.extend();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -136,60 +183,71 @@ void opcontrol() {
 		chassis.arcade(forwards, turn);
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			Conveyer.move_voltage(-12000);
+            if (slowDownTopRoller) {
+                First_Stage_Intake.move_voltage(-12000);
+				Second_Stage_Intake.move_voltage(-12000);
+            } else {
+                First_Stage_Intake.move_voltage(-12000);
+				Second_Stage_Intake.move_voltage(-12000);
+            }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			Conveyer.move_voltage(12000);
-		} else {
-			Conveyer.move(0);
-		}	
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            if (controllerHighGoal) {
-                Top_Roller.move_voltage(-7644);
+            if (slowDownTopRoller) {
+                First_Stage_Intake.move_voltage(12000);
+				Second_Stage_Intake.move_voltage(12000);
+				overrideOuttake(-3000);
             } else {
-                Top_Roller.move_voltage(-12000);
-            }
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            if (controllerHighGoal) {
-                Top_Roller.move_voltage(7644);
-            } else {
-                Top_Roller.move_voltage(12000);
+                Second_Stage_Intake.move(12000);
+				First_Stage_Intake.move_voltage(12000);
+				overrideOuttake(-5000);
             }
 		} else {
-			Top_Roller.move(0);
-		}	
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-			Wing.extend();
-		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			Wing.retract();
+			Second_Stage_Intake.move(0);
+			First_Stage_Intake.move(0);
+			overrideOuttake(-200);
 		}
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            controllerHighGoal = true;
-        } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-            controllerHighGoal = false;
-        }
 
-        if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-            Wing.extend();
-        }
-	
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+		
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            if (controllerHighGoal) {
+                overrideOuttake(-12000);
+				Outtake_Lift.extend();
+            } else {
+                overrideOuttake(-12000);
+				Outtake_Lift.extend();
+            }
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            if (controllerHighGoal) {
+                overrideOuttake(12000);
+				Outtake_Lift.retract();
+            } else {
+                overrideOuttake(12000);
+				Outtake_Lift.retract();
+            }
+		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+			overrideOuttake(-200);
+			Outtake_Lift.retract();
+		}
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			Wing.toggle();
+		}
+		
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 			Matchloader.extend();
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)){
 			Matchloader.retract();
 		}
 		 
 		// Matchloader and Switcheroo have activation buttons opposite to the actual buttons that activate them.
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
-			Trapdoor.extend();
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-			Trapdoor.retract();
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+			Intake_Lift.extend();
+			controllerHighGoal = true;
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+			Intake_Lift.retract();
+			controllerHighGoal = false;
 		}
 
-		if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-			Double_Park.extend();
-		} else if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
-			Double_Park.retract();
-		}
+
 
 		pros::delay(20);                               // Run for 20 ms then update
 	}
