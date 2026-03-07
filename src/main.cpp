@@ -41,6 +41,11 @@ void initialize() {
             pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
             pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
             pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
+			
+			// Debug: print distance sensor measurements
+			pros::lcd::print(6, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
+			pros::lcd::print(7, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
+			pros::lcd::print(8, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources

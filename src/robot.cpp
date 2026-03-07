@@ -42,8 +42,8 @@ lemlib::ControllerSettings lateral_controller(17, // proportional gain (kP) - ra
                                               1.0, // anti windup - tightened to prevent integral spike
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
-                                              4, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              300, // large error range timeout, in milliseconds
                                               10 // maximum acceleration (slew) - smooths out sudden lurches
 );
 

@@ -45,6 +45,8 @@ void StartScoring(GoalType goalType)
     
     if (goalType == HIGH_GOAL)
     {
+        StartOuttake(true);
+        pros::delay(120);
         StartIntake();
         overrideOuttake(600);
     }
