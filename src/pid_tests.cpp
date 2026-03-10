@@ -20,5 +20,5 @@ void TestPidMove(int distance)
 {
     chassis.setPose(0, 0, 0);
     pros::delay(100);
-    chassis.moveToPose(0, distance, 0, 10000);
+    chassis.moveToPoint(0, distance, 10000);
 }

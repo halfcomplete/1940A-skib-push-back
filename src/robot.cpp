@@ -37,7 +37,7 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(17, // proportional gain (kP) - raised to fix 48" undershoot
-                                              0.07, // integral gain (kI) - lowered to prevent lurch
+                                              0.065, // integral gain (kI) - lowered to prevent lurch
                                               3.7, // derivative gain (kD) - lowered to reduce overdamping
                                               1.0, // anti windup - tightened to prevent integral spike
                                               1, // small error range, in inches
@@ -52,8 +52,8 @@ lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP) - l
                                               0, // integral gain (kI)
                                               15, // derivative gain (kD) - raised for more damping
                                               0, // anti windup
-                                              0.5, // small error range, in degrees
-                                              200, // small error range timeout, in milliseconds
+                                              1, // small error range, in degrees
+                                              100, // small error range timeout, in milliseconds
                                               5, // large error range, in degrees
                                               550, // large error range timeout, in milliseconds
                                               20 // maximum acceleration (slew)

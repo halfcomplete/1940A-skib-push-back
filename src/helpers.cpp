@@ -42,12 +42,8 @@ void StopIntake()
 /// @param goalType The type of goal we are scoring in.
 void StartScoring(GoalType goalType)
 {
-    
     if (goalType == HIGH_GOAL)
     {
-        StartOuttake(true);
-        pros::delay(120);
-        StartIntake();
         overrideOuttake(600);
     }
     else if (goalType == LOW_GOAL)
@@ -69,12 +65,12 @@ void StopScoring()
     releaseOuttakeOverride();
 }
 
-/// @return The distance measurement from the front sensor in mm. Returns 9999 if no object is detected or if the confidence is low.
+/// @return The distance measurement from the front sensor in mm. Returns -1 if no object is detected or if the confidence is not above 50.
 int GetFrontDistanceMeasurement()
 {
     int distance = Front_Sensor.get();
-    if (!IsFrontDistanceConfident())
-        return 9999;
+    if (!IsFrontDistanceConfident() || distance == 9999)
+        return -1;
     return distance;
 }
 
@@ -83,12 +79,12 @@ bool IsFrontDistanceConfident()
     return Front_Sensor.get_confidence() > 50;
 }
 
-/// @return The distance measurement from the left sensor in mm. Returns 9999 if no object is detected or if the confidence is low.
+/// @return The distance measurement from the left sensor in mm. Returns -1 if no object is detected or if the confidence is not above 50.
 int GetLeftDistanceMeasurement()
 {
     int distance = Left_Sensor.get();
-    if (!IsLeftDistanceConfident())
-        return 9999;
+    if (!IsLeftDistanceConfident() || distance == 9999)
+        return -1;
     return distance;
 }
 
@@ -97,16 +93,16 @@ bool IsLeftDistanceConfident()
     return Left_Sensor.get_confidence() > 50;
 }
 
-/// @return The distance measurement from the right sensor in mm. Returns 9999 if no object is detected or if the confidence is low.
+/// @return The distance measurement from the right sensor in mm. Returns -1 if no object is detected or if the confidence is not above 50.
 int GetRightDistanceMeasurement()
 {
     int distance = Right_Sensor.get();
-    if (!IsRightDistanceConfident())
-        return 9999;
+    if (!IsRightDistanceConfident() || distance == 9999)
+        return -1;
     return distance;
 }
 
 bool IsRightDistanceConfident()
 {
-    return Right_Sensor.get_confidence() > 50;
+    return Right_Sensor.get_confidence() > 40;
 }
