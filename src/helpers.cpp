@@ -44,6 +44,7 @@ void StartScoring(GoalType goalType)
 {
     if (goalType == HIGH_GOAL)
     {
+        StartIntake();
         overrideOuttake(600);
     }
     else if (goalType == LOW_GOAL)

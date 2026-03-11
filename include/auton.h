@@ -5,7 +5,7 @@ void auton(AutonType autonToRun);
 void run();
 void init(int x, int y, int h);
 int get_heading(int base);
-void Left_7B_2G_MF();
+void Left_7B_1G_MF();
 void Left_7B_2G_LF();
 void Right_7B_2G();
 void TestPidTurn();

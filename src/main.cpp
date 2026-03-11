@@ -99,7 +99,7 @@ void autonomous() {
 	// Loop until a valid button is pressed to select an auton
 	while (!autonSelected) {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			selectedAuton = AutonType::L_7B_2G_MF;
+			selectedAuton = AutonType::L_7B_1G_MF;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
