@@ -23,18 +23,21 @@ void StartIntake()
 {
     First_Stage_Intake.move(600);
     Second_Stage_Intake.move(600);
+    releaseOuttakeOverride();
 }
 
 void StartOuttake(bool scoring)
 {
     Second_Stage_Intake.move(-600);
     First_Stage_Intake.move(-600);
+    releaseOuttakeOverride();
 }
 
 void StopIntake()
 {
     First_Stage_Intake.brake();
     Second_Stage_Intake.brake();
+    releaseOuttakeOverride();
 }
 
 /// @brief Start scoring by starting the intake and scoring mech.

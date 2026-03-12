@@ -13,7 +13,7 @@
 void outtakeTask() {
     while (true) {
         if (!outtakeOverride) {
-            Outtake.move(-40);
+            Outtake.move_velocity(-50);
         }
         pros::delay(20);
     }
@@ -29,7 +29,7 @@ void setOuttakeOverride(bool override) {
 
 void overrideOuttake(int voltage) {
     outtakeOverride = true;
-    Outtake.move(voltage);
+    Outtake.move_velocity(voltage);
 }
 
 void releaseOuttakeOverride() {
@@ -147,41 +147,43 @@ void Left_7B_1G_MF()
     // Move to two blocks under the long goal
     chassis.turnToHeading(55, 1000, {.minSpeed=60, .earlyExitRange=1});
     chassis.waitUntilDone();
-    chassis.moveToPose(-5.2, 42, 30, 1100, {.lead=0.7, .minSpeed=60});
-    // chassis.turnToHeading(110, 1000);
-    pros::delay(290);
-    Matchloader.extend();
+    chassis.moveToPoint(-6, 30, 1100);
+    chassis.turnToHeading(21, 1000);
     chassis.waitUntilDone();
-    pros::delay(300);
+    chassis.moveToPoint(-5.2, 40.5, 1100, {.maxSpeed=60});
+    pros::delay(320);
+    Matchloader.extend();
+    pros::delay(450);
     chassis.moveToPoint(-16.066, 28, 2000, {.forwards=false, .minSpeed=80});
 
     // Move to right long goal
     chassis.turnToHeading(330, 700);
     chassis.waitUntilDone();
     Matchloader.retract();
-    chassis.moveToPoint(-36, 48, 1000, {.maxSpeed=90});
+
+    chassis.moveToPoint(-36, 49.28, 1000, {.maxSpeed=90});
     chassis.turnToHeading(270, 1000);
-    chassis.moveToPoint(-22, 48, 630, {.forwards=false, .minSpeed=70});
+    chassis.moveToPoint(-19, 49.28, 630, {.forwards=false});
     chassis.waitUntilDone();
+    chassis.moveToPoint(-16, 49.28, 1000, {.forwards=false, .maxSpeed=60});
     StartScoring();
+    chassis.setPose(-21.33, 49.28, chassis.getPose().theta);
     pros::delay(1600);
 
     // Move to matchloader
     Matchloader.extend();
     StartIntake();
-    chassis.moveToPoint(-76, 49, 1700, {.maxSpeed=55});
+    chassis.moveToPoint(-46, 49, 1700, {.minSpeed=65, .earlyExitRange=9});
+    chassis.moveToPoint(-76, 49, 1100, {.maxSpeed=30});
 
     // Move to right long goal
-    chassis.moveToPose(-24, 50, 270, 3000, {.forwards=false, .minSpeed=60});
+    chassis.moveToPose(-19, 49.28, 270, 3000, {.forwards=false, .minSpeed=60});
     chassis.waitUntilDone();
     Matchloader.retract();
     StartScoring();
-    pros::delay(700);
-    chassis.moveToPoint(-37, 51, 2000, {.maxSpeed=110});
-    chassis.turnToHeading(225, 1000, {.maxSpeed=80});
-    chassis.moveToPoint(-28, 60, 1000, {.forwards=false });
-    chassis.turnToHeading(270, 600);
-    chassis.moveToPoint(-19, 60, 1000, {.forwards=false, .minSpeed=50});
+    pros::delay(1000);
+    chassis.moveToPoint(-30, 49.28, 2000, {.maxSpeed=110});
+    chassis.moveToPoint(-16, 49.28, 1000, {.forwards=false, .minSpeed=90 });
 }
 
 

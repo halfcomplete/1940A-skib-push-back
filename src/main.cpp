@@ -30,6 +30,7 @@ void initialize() {
 	pros::delay(100); // Give odom task time to start
 	pros::lcd::initialize();
 	Wing.retract();
+	chassis.setPose(-44.518, 13.547, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
