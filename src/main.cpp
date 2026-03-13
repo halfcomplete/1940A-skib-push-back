@@ -9,9 +9,11 @@
 #include "auton.h"
 #include "skills_auton.h"
 #include "helpers.hpp"
+#include "auton_type.h"
 //#include <iomanip>
 #include "auton.h"
 #include <atomic>
+
 //#include "lemlib/asset.hpp"
 
 
@@ -25,9 +27,10 @@
  */
 void initialize() {
 	chassis.calibrate();
+	pros::delay(100); // Give odom task time to start
+	pros::lcd::initialize();
 	Wing.retract();
-	// imu.reset(true);
-
+	chassis.setPose(-44.518, 13.547, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
@@ -35,6 +38,15 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // Debug: print raw sensor values
+            pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
+            pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
+            pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
+			
+			// Debug: print distance sensor measurements
+			pros::lcd::print(6, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
+			pros::lcd::print(7, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
+			pros::lcd::print(8, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
@@ -75,40 +87,73 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	// 0 = skills
-	// 1 = left match
-	// 2 = right match
-	// 3 = right match solo awp
-	// 4 = left finals match
-	// 5 = right finals match
-	// 6 = test pid turn
-	// 7 = test pid move
+	// Auton selector - wait for controller button press
+	AutonType selectedAuton;
+	bool autonSelected = false;
 
-    // 8 = test motor move
-	auton(5);
-    
-    // Auton selector
-	// int autonToRun;
-	// // Loop until a valid button is pressed to select an auton
-	// while (true) {
-	// 	// Check if the X button is pressed, if so then run auton skills
-	// 	if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
-	// 	{
-	// 		autonToRun = 0;
-	// 		break;
-	// 	}
+	// Display instructions on brain screen
+	pros::lcd::print(4, "Select Auton:");
+	pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
+	pros::lcd::print(6, "Y:SOLO_AWP  UP:L_4B_1G  DOWN:R_4B_1G");
+	pros::lcd::print(7, "L1:PID_MOVE24  L2:PID_MOVE48  R1:TURN90  R2:TURN180");
 
-	// 	// Check if the A button is pressed, if so then run the cornerAuton
-	// 	if (partner.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A))
-	// 	{
-	// 		autonToRun = 1;
-	// 		break;
-	// 	}
+	// Loop until a valid button is pressed to select an auton
+	while (!autonSelected) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			selectedAuton = AutonType::L_7B_1G_MF;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			selectedAuton = AutonType::L_7B_2G_LF;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+			selectedAuton = AutonType::SKILLS;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+			selectedAuton = AutonType::SOLO_AWP;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			selectedAuton = AutonType::L_4B_1G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+			selectedAuton = AutonType::R_7B_2G;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+			selectedAuton = AutonType::PID_MOVE_TEST_24;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+			selectedAuton = AutonType::PID_MOVE_TEST_48;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+			selectedAuton = AutonType::PID_TURN_TEST_90;
+			autonSelected = true;
+		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+			selectedAuton = AutonType::PID_TURN_TEST_180;
+			autonSelected = true;
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+			selectedAuton = AutonType::NONE;
+			autonSelected = true;
+		}
 
-	// 	// Delay to reduce resource usage
-	// 	pros::delay(25);
-	// }
-	// auton(autonToRun);
+		// Delay to reduce resource usage
+		pros::delay(25);
+	}
+
+	if (selectedAuton == AutonType::NONE)
+	{
+		return; // No auton selected, skip autonomous phase
+	}
+
+	// Run the selected auton
+	auton(selectedAuton);
 }
 
 /**
@@ -125,6 +170,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	autonomous(); // run auton in opcontrol for testing purposes
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;
@@ -137,7 +183,6 @@ void opcontrol() {
 
 		chassis.arcade(forwards, turn);
 
-		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(-12000);
@@ -150,37 +195,35 @@ void opcontrol() {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(12000);
 				Second_Stage_Intake.move_voltage(12000);
-				Outtake.move_voltage(-3000);
+				overrideOuttake(-3000);
             } else {
                 Second_Stage_Intake.move(12000);
 				First_Stage_Intake.move_voltage(12000);
-				Outtake.move_voltage(-2000);
+				overrideOuttake(-5000);
             }
 		} else {
 			Second_Stage_Intake.move(0);
 			First_Stage_Intake.move(0);
-			Outtake.move(0);
 		}
 
 		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             if (controllerHighGoal) {
-                Outtake.move_voltage(-12000);
+                overrideOuttake(-12000);
 				Outtake_Lift.extend();
             } else {
-                Outtake.move_voltage(-12000);
+                overrideOuttake(-12000);
 				Outtake_Lift.extend();
             }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (controllerHighGoal) {
-                Outtake.move_voltage(12000);
+                overrideOuttake(12000);
 				Outtake_Lift.retract();
             } else {
-                Outtake.move_voltage(12000);
+                overrideOuttake(12000);
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			Outtake.move(0);
 			Outtake_Lift.retract();
 		}
 

@@ -11,8 +11,7 @@ extern lemlib::Drivetrain drivetrain;
 
 extern pros::Imu imu;
 
-//extern pros:: Rotation horizontalRotation;
-//extern pros:: Rotation verticallRotation;
+extern pros::Rotation verticalRotation;
 
 extern lemlib::TrackingWheel horizontalTrackingWheel;
 
@@ -39,3 +38,6 @@ extern pros::adi::Pneumatics Wing;
 extern pros::Distance Front_Sensor;
 extern pros::Distance Right_Sensor;
 extern pros::Distance Left_Sensor;
+
+// Outtake control
+extern bool outtakeOverride;

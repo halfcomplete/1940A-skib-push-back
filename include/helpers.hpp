@@ -1,6 +1,17 @@
+#include "goal_type.hpp"
+
 void colourSort();
 void StartIntake();
-void StartOuttake(bool lowGoal = false);
+void StartOuttake(bool scoring = false);
 void StopIntake();
-void StartScoring(bool auton = false, bool highGoal = false);
+void StartScoring(GoalType goalType = GoalType::LONG_GOAL);
 void StopScoring();
+
+int GetFrontDistanceMeasurement();
+bool IsFrontDistanceConfident();
+int GetLeftDistanceMeasurement();
+bool IsLeftDistanceConfident();
+int GetRightDistanceMeasurement();
+bool IsRightDistanceConfident();
+
+void UpdatePose(bool useRight, bool useLeft, bool useFront);
