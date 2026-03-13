@@ -13,7 +13,7 @@
 void outtakeTask() {
     while (true) {
         if (!outtakeOverride) {
-            Outtake.move(-50);
+            Outtake.move_voltage(-2000);
         }
         pros::delay(20);
     }
