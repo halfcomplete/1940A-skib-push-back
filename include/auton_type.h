@@ -9,6 +9,7 @@ enum AutonType
     L_7B_1G_MF,
     L_7B_2G_LF,
     R_7B_2G,
+    R_7B_1G,
     L_4B_1G,
     R_4B_1G,
     SOLO_AWP,

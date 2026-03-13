@@ -123,6 +123,10 @@ void autonomous() {
 			selectedAuton = AutonType::R_7B_2G;
 			autonSelected = true;
 		}
+		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+			selectedAuton = AutonType::R_7B_1G;
+			autonSelected = true;
+		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			selectedAuton = AutonType::PID_MOVE_TEST_24;
 			autonSelected = true;
@@ -195,37 +199,44 @@ void opcontrol() {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(12000);
 				Second_Stage_Intake.move_voltage(12000);
-				releaseOuttakeOverride();
+				Outtake.move_voltage(-4000);
             } else {
                 Second_Stage_Intake.move(12000);
 				First_Stage_Intake.move_voltage(12000);
-				releaseOuttakeOverride();
+				Outtake.move_voltage(-4000);
             }
 		} else {
 			Second_Stage_Intake.move(0);
 			First_Stage_Intake.move(0);
+			Outtake.move_voltage(0);
 		}
 
 		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             if (controllerHighGoal) {
                 overrideOuttake(-12000);
+				Outtake.move_voltage(-12000);
 				Outtake_Lift.extend();
             } else {
                 overrideOuttake(-12000);
+				Outtake.move_voltage(-12000);
 				Outtake_Lift.extend();
             }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (controllerHighGoal) {
                 overrideOuttake(12000);
+				Outtake.move_voltage(12000);
 				Outtake_Lift.retract();
             } else {
                 overrideOuttake(12000);
+				Outtake.move_voltage(12000);
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			Outtake_Lift.retract();
+			// Outtake.move_voltage(-4000);
 		}
+		
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 			Wing.toggle();
