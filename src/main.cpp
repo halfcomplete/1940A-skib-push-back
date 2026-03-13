@@ -195,11 +195,11 @@ void opcontrol() {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(12000);
 				Second_Stage_Intake.move_voltage(12000);
-				overrideOuttake(-3000);
+				releaseOuttakeOverride();
             } else {
                 Second_Stage_Intake.move(12000);
 				First_Stage_Intake.move_voltage(12000);
-				overrideOuttake(-5000);
+				releaseOuttakeOverride();
             }
 		} else {
 			Second_Stage_Intake.move(0);
