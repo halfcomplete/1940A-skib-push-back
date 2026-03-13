@@ -120,7 +120,7 @@ void autonomous() {
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			selectedAuton = AutonType::R_4B_1G;
+			selectedAuton = AutonType::R_7B_2G;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {

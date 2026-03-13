@@ -70,7 +70,7 @@ void auton(AutonType autonToRun) {
             Right_Solo_AWP();
             break;
         case AutonType::SKILLS:
-            throw std::runtime_error("Skills Auton not implemented");
+            skills_auton();
             break;
     }
 };
@@ -246,49 +246,51 @@ void Left_7B_2G_LF()
 
 void Right_7B_2G()
 {
+    startOuttakeTask();
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(-46.818, -13.547, 90);
-
-    // Move to three blocks on the right
-    StartIntake();
-    chassis.moveToPoint(-26.066, -19.266, 3000, {.minSpeed=65, .earlyExitRange=15});
-    chassis.moveToPoint(-16.066, -25.266, 3000, {.maxSpeed=40});
-    chassis.waitUntilDone();
-
-    // Score in low goal
-    chassis.moveToPoint(-28, -28, 1000,{.forwards=false});
-    chassis.moveToPoint(-10.4, -15, 1500, {.maxSpeed=50});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(41.3, 1000);
-    chassis.waitUntilDone();
-    StartOuttake();
-    Second_Stage_Intake.brake();
-    pros::delay(1800);
+    chassis.setPose(-48.482, -17.8, 180);
 
     // Move to matchloader
-    chassis.moveToPoint(-39, -48, 1500, {.forwards=false, .maxSpeed=60});
+    chassis.moveToPoint(-48.482, -50.7, 1500, {.maxSpeed=90});
     StartIntake();
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1000);
+    chassis.turnToHeading(270, 1000, {.maxSpeed=80});
     Matchloader.extend();
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-77, -48, 1200, {.minSpeed = 70});
-    pros::delay(700);
-
-    // Score in long goal
-    chassis.moveToPoint(-30.614, -49, 1500, {.forwards=false, .maxSpeed=70});
+    chassis.moveToPoint(-65, -50.7, 1100, {.maxSpeed=60});
+    
+    // Move to long goal and score
+    chassis.moveToPoint(-30, -50.5, 1000, {.forwards=false, .minSpeed=90, .earlyExitRange=7});
+    chassis.moveToPoint(-26, -50.5, 1000, {.forwards=false, .maxSpeed=50});
     chassis.waitUntilDone();
     StartScoring(GoalType::LONG_GOAL);
-    pros::delay(1200);
     Matchloader.retract();
-    chassis.moveToPoint(-55, -49, 1500);
-    chassis.turnToHeading(205, 500, {.minSpeed=50, .earlyExitRange=5});
-    chassis.moveToPose(-31, -40.5, 270, 1000, {.forwards=false, .minSpeed=50, .earlyExitRange=7});
-    chassis.moveToPoint(-20, -39.3, 1000, {.forwards=false, .minSpeed=127});
+    pros::delay(1000);
+    StopScoring();
 
-    // chassis.moveToPoint(-34, -50.5, 1000);
-    // chassis.moveToPoint(-28.2, -50.5, 1500, {.forwards=false, .minSpeed=90});
+    // Move to three blocks
+    chassis.moveToPoint(-46, -48, 1000);
+    chassis.waitUntilDone();
+    StartIntake();
+    chassis.turnToHeading(45, 800, {.maxSpeed=90});
+    chassis.moveToPoint(-25.5, -28, 2000, {.minSpeed=90, .earlyExitRange=9.5});
+    chassis.waitUntilDone();
+    Matchloader.extend();
+    chassis.moveToPoint(-22, -24, 3000, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    Matchloader.retract();
+    
+    chassis.moveToPoint(-4, -7, 600, {.maxSpeed=60});
+    chassis.waitUntilDone();
+    StartOuttake();
+    pros::delay(1600);
+    Matchloader.retract();
+    StopIntake();
+
+    // Move to the long goal and wing
+    Wing.extend();
+    chassis.moveToPoint(-37, -39, 2000, {.forwards=false, .maxSpeed=110});
+    chassis.turnToHeading(270, 1000, {.maxSpeed=80});
+    chassis.moveToPoint(-19, -39, 1000, {.forwards=false, .minSpeed=50});
 }
 
 void TestPidTurn()

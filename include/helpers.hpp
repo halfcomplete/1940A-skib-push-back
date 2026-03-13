@@ -13,3 +13,5 @@ int GetLeftDistanceMeasurement();
 bool IsLeftDistanceConfident();
 int GetRightDistanceMeasurement();
 bool IsRightDistanceConfident();
+
+void UpdatePose(bool useRight, bool useLeft, bool useFront);
