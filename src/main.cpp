@@ -203,7 +203,7 @@ void opcontrol() {
 		} else {
 			Second_Stage_Intake.move(0);
 			First_Stage_Intake.move(0);
-			overrideOuttake(-200);
+			releaseOuttakeOverride();
 		}
 
 		
@@ -224,7 +224,7 @@ void opcontrol() {
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			overrideOuttake(-200);
+			releaseOuttakeOverride();
 			Outtake_Lift.retract();
 		}
 
