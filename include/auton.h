@@ -8,7 +8,7 @@ int get_heading(int base);
 void Left_7B_1G_MF();
 void Left_7B_2G_LF();
 void Right_7B_2G();
-void Right_7B_1G();
+void Right_9B_1G();
 void TestPidTurn();
 void TestPidMove();
 void raygoon_righ_tauton();

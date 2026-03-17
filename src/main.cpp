@@ -30,7 +30,6 @@ void initialize() {
 	pros::delay(100); // Give odom task time to start
 	pros::lcd::initialize();
 	Wing.retract();
-	chassis.setPose(-44.518, 13.547, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
@@ -89,8 +88,24 @@ void competition_initialize() {}
 void autonomous() {
 	// Auton selector - wait for controller button press
 	AutonType selectedAuton;
-	bool autonSelected = false;
 
+	// selectedAuton = selectAuton();
+	selectedAuton = AutonType::L_9B_1G;
+	
+
+	if (selectedAuton == AutonType::NONE)
+	{
+		return; // No auton selected, skip autonomous phase
+	}
+
+	// Run the selected auton
+	auton(selectedAuton);
+}
+
+AutonType selectAuton()
+{
+	AutonType selectedAuton;
+	bool autonSelected = false;
 	// Display instructions on brain screen
 	pros::lcd::print(4, "Select Auton:");
 	pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
@@ -100,7 +115,7 @@ void autonomous() {
 	// Loop until a valid button is pressed to select an auton
 	while (!autonSelected) {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			selectedAuton = AutonType::L_7B_1G_MF;
+			selectedAuton = AutonType::L_9B_1G;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
@@ -124,7 +139,7 @@ void autonomous() {
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-			selectedAuton = AutonType::R_7B_1G;
+			selectedAuton = AutonType::R_9B_1G;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -151,13 +166,7 @@ void autonomous() {
 		pros::delay(25);
 	}
 
-	if (selectedAuton == AutonType::NONE)
-	{
-		return; // No auton selected, skip autonomous phase
-	}
-
-	// Run the selected auton
-	auton(selectedAuton);
+	return selectedAuton;
 }
 
 /**
@@ -174,7 +183,6 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	autonomous(); // run auton in opcontrol for testing purposes
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;
@@ -232,7 +240,7 @@ void opcontrol() {
 				Outtake.move_voltage(12000);
 				Outtake_Lift.retract();
             }
-		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+		} else {
 			Outtake_Lift.retract();
 			// Outtake.move_voltage(-4000);
 		}
