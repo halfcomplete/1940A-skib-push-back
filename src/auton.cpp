@@ -92,7 +92,7 @@ void Left_7B_2G_MF()
     StartIntake();
     chassis.moveToPoint(-27, 21, 4000, {.minSpeed=60, .earlyExitRange=1});
     chassis.waitUntilDone();
-    Matchloader.extend();
+    Matchloader.retract();
     chassis.moveToPoint(-14, 25, 3000, {.maxSpeed=30});
     chassis.waitUntilDone();
     chassis.moveToPoint(-20.5, 20.5, 2000, {.forwards=false, .maxSpeed=45});
@@ -121,7 +121,7 @@ void Left_7B_2G_MF()
     chassis.moveToPoint(-73, 48, 1700, {.maxSpeed=45});
 
     // Score in long goal
-    Wing.extend();
+    Wing.retract();
     chassis.moveToPoint(-30, 48, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
@@ -133,7 +133,7 @@ void Left_7B_2G_MF()
     chassis.waitUntilDone();
     chassis.moveToPoint(-14, 52, 1000, {.forwards=false});
     pros::delay(80);
-    Wing.retract();
+    Wing.extend();
 }
 
 void Left_9B_1G()
@@ -142,7 +142,7 @@ void Left_9B_1G()
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-44.518, 13.547, 90);
-    Wing.extend();
+    Wing.retract();
 
     // Move to three blocks on the left
     StartIntake();
@@ -207,7 +207,7 @@ void Left_7B_2G()
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-48.482, 17.8, 0);
 
-    Wing.extend();
+    Wing.retract();
 
     // Move to matchloader
     chassis.moveToPoint(-48.482, 50.7, 1500, {.maxSpeed=90});
@@ -252,7 +252,7 @@ void Left_7B_2G()
     StopScoring();
 
     // Move to the long goal and wing
-    Wing.extend();
+    Wing.retract();
     chassis.moveToPoint(-37, 56, 2000, {.maxSpeed=110});
     chassis.turnToHeading(225, 1000, {.maxSpeed=80});
     chassis.moveToPoint(-28, 60, 1000, {.forwards=false });
@@ -266,7 +266,7 @@ void Left_7B_2G()
 //     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 //     chassis.setPose(-48.482, -17.8, 180);
 
-//     Wing.extend();
+//     Wing.retract();
 
 //     // Move to matchloader
 //     chassis.moveToPoint(-48.482, -48.7, 1500, {.maxSpeed=90});
@@ -308,7 +308,7 @@ void Left_7B_2G()
 //     StopScoring();
 
 //     // Move to the long goal and wing
-//     Wing.extend();
+//     Wing.retract();
 //     chassis.moveToPoint(-37, -36.7, 2000, {.forwards=false, .maxSpeed=110});
 //     chassis.turnToHeading(275, 1000, {.maxSpeed=80});
 //     chassis.moveToPoint(-10, -36.7, 1000, {.forwards=false, .minSpeed=50});
@@ -320,7 +320,7 @@ void Right_7B_2G()
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-48.482, -17.8, 180);
 
-    Wing.extend();
+    Wing.retract();
 
     // Move to matchloader
     chassis.moveToPoint(-48.482, -48.7, 1500, {.maxSpeed=90});
@@ -330,8 +330,8 @@ void Right_7B_2G()
     chassis.moveToPoint(-65, -48.7, 1000, {.maxSpeed=60});
     
     // Move to long goal and score
-    chassis.moveToPoint(-30, -50.5, 1000, {.forwards=false, .minSpeed=90, .earlyExitRange=7});
-    chassis.moveToPoint(-26, -50.5, 1000, {.forwards=false, .maxSpeed=50});
+    chassis.moveToPoint(-30, -49.7, 1000, {.forwards=false, .minSpeed=90, .earlyExitRange=7});
+    chassis.moveToPoint(-26, -49.7, 1000, {.forwards=false, .maxSpeed=50});
     chassis.waitUntilDone();
     StartScoring(GoalType::LONG_GOAL);
     Matchloader.retract();
@@ -339,11 +339,11 @@ void Right_7B_2G()
     StopScoring();
 
     // Move to three blocks
-    chassis.moveToPoint(-46, -48, 1000);
+    chassis.moveToPoint(-49, -48, 1000);
     chassis.waitUntilDone();
     StartIntake();
-    chassis.turnToHeading(45, 800, {.maxSpeed=90});
-    chassis.moveToPoint(-25.5, -28, 2000, {.minSpeed=90, .earlyExitRange=9.5});
+    chassis.turnToHeading(47, 800, {.maxSpeed=90});
+    chassis.moveToPoint(-25, -28, 2000, {.minSpeed=90, .earlyExitRange=9.5});
     chassis.waitUntilDone();
     Matchloader.extend();
     chassis.moveToPoint(-22, -24, 3000, {.maxSpeed=50});
@@ -351,7 +351,7 @@ void Right_7B_2G()
     Matchloader.retract();
     
     // slightly more right, from pov of robot
-    chassis.moveToPoint(-5, -6, 600, {.maxSpeed=60});
+    chassis.moveToPoint(-6.2, -6, 600, {.maxSpeed=60});
     chassis.waitUntilDone();
     StartScoring(GoalType::LOW_GOAL);
     overrideOuttake(200);
@@ -361,10 +361,10 @@ void Right_7B_2G()
     StopScoring();
 
     // Move to the long goal and wing
-    Wing.extend();
-    chassis.moveToPoint(-37, -35.7, 2000, {.forwards=false, .maxSpeed=110});
+    Wing.retract();
+    chassis.moveToPoint(-37, -36, 2000, {.forwards=false, .maxSpeed=80});
     chassis.turnToHeading(275, 1000, {.maxSpeed=80});
-    chassis.moveToPoint(-10, -35.7, 1000, {.forwards=false, .minSpeed=50});
+    chassis.moveToPoint(-10, -36, 1000, {.forwards=false, .minSpeed=50});
 }
 
 void Right_9B_1G()
@@ -373,7 +373,7 @@ void Right_9B_1G()
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-44.518, -13.547, 90);
-    Wing.extend();
+    Wing.retract();
 
     // Move to three blocks on the left
     StartIntake();
@@ -394,7 +394,7 @@ void Right_9B_1G()
     chassis.moveToPoint(-16.066, -22, 2000, {.forwards=false, .minSpeed=80});
 
     // Move to right long goal
-    Wing.retract();
+    Wing.extend();
     chassis.turnToHeading(150, 700);
     chassis.waitUntilDone();
     Matchloader.retract();
