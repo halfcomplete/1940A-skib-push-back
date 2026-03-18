@@ -90,7 +90,7 @@ void autonomous() {
 	AutonType selectedAuton;
 
 	// selectedAuton = selectAuton();
-	selectedAuton = AutonType::SOLO_AWP;
+	selectedAuton = AutonType::R_7B_2G;
 	
 
 	if (selectedAuton == AutonType::NONE)

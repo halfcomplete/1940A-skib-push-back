@@ -14,6 +14,7 @@ void TestPidMove();
 void raygoon_righ_tauton();
 void Right_Solo_AWP();
 void MotorMoveTest();
+void afk();
 
 // Outtake task control
 void startOuttakeTask();
