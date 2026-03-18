@@ -90,7 +90,7 @@ void autonomous() {
 	AutonType selectedAuton;
 
 	// selectedAuton = selectAuton();
-	selectedAuton = AutonType::L_9B_1G;
+	selectedAuton = AutonType::SOLO_AWP;
 	
 
 	if (selectedAuton == AutonType::NONE)
@@ -119,7 +119,7 @@ AutonType selectAuton()
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			selectedAuton = AutonType::L_7B_2G_LF;
+			selectedAuton = AutonType::L_7B_2G;
 			autonSelected = true;
 		}
 		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {

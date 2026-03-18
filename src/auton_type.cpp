@@ -5,7 +5,7 @@ enum AutonType
     PID_TURN_TEST_90,
     PID_TURN_TEST_180,
     L_9B_1G,
-    L_7B_2G_LF,
+    L_7B_2G,
     R_7B_2G,
     R_9B_1G,
     L_4B_1G,

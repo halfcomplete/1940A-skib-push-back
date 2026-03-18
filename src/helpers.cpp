@@ -29,8 +29,16 @@ void StartIntake()
 
 void StartOuttake(bool scoring)
 {
-    Second_Stage_Intake.move(-600);
-    First_Stage_Intake.move(-600);
+    if (scoring)
+    {
+        Second_Stage_Intake.move(-300);
+        First_Stage_Intake.move(-300);
+    }
+    else {
+        Second_Stage_Intake.move(-600);
+        First_Stage_Intake.move(-600);
+    }
+    
     releaseOuttakeOverride();
 }
 

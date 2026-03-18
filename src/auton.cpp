@@ -13,7 +13,7 @@
 void outtakeTask() {
     while (true) {
         if (!outtakeOverride) {
-            Outtake.move_velocity(-50);
+            Outtake.move_velocity(-30);
         }
         pros::delay(20);
     }
@@ -52,10 +52,10 @@ void auton(AutonType autonToRun) {
             TestPidTurn(180);
             break;
         case AutonType::L_9B_1G:
-            Left_7B_1G_MF();
+            Left_9B_1G();
             break;
-        case AutonType::L_7B_2G_LF:
-            Left_7B_2G_LF();
+        case AutonType::L_7B_2G:
+            Left_7B_2G();
             break;
         case AutonType::R_7B_2G:
             Right_7B_2G();
@@ -133,7 +133,7 @@ void Left_7B_2G_MF()
     Wing.retract();
 }
 
-void Left_7B_1G_MF()
+void Left_9B_1G()
 {
     startOuttakeTask();
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -162,7 +162,7 @@ void Left_7B_1G_MF()
     chassis.moveToPoint(-13, 33, 1000, {.forwards=false, .minSpeed=70});
     pros::delay(200);
     Matchloader.retract();
-    chassis.moveToPoint(-4, 40.4, 1100, {.maxSpeed=50});
+    chassis.moveToPoint(-5, 40.4, 1100, {.maxSpeed=50});
     chassis.moveToPoint(-16.066, 28, 2000, {.forwards=false, .minSpeed=80});
 
     // Move to right long goal
@@ -197,12 +197,14 @@ void Left_7B_1G_MF()
 }
 
 
-void Left_7B_2G_LF()
+void Left_7B_2G()
 {
     startOuttakeTask();
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-48.482, 17.8, 0);
+
+    Wing.extend();
 
     // Move to matchloader
     chassis.moveToPoint(-48.482, 50.7, 1500, {.maxSpeed=90});
@@ -225,24 +227,25 @@ void Left_7B_2G_LF()
     chassis.waitUntilDone();
     StartIntake();
     chassis.turnToHeading(135, 800, {.maxSpeed=90});
-    chassis.moveToPoint(-25.5, 28, 2000, {.minSpeed=90, .earlyExitRange=9.5});
+    chassis.moveToPoint(-25.5, 28, 2000, {.minSpeed=90, .earlyExitRange=10.5});
     chassis.waitUntilDone();
     Matchloader.extend();
-    chassis.moveToPoint(-22, 24, 3000, {.maxSpeed=50});
+    chassis.moveToPoint(-22, 24, 3000, {.maxSpeed=40});
     chassis.waitUntilDone();
 
     // Turn around and score in the middle high goal
     chassis.turnToHeading(315, 750);
     
-    chassis.moveToPoint(-2, 3, 600, {.forwards=false, .maxSpeed=60});
+    chassis.moveToPoint(-1, 3, 600, {.forwards=false, .maxSpeed=60});
     
-    pros::delay(300);
+    pros::delay(490);
     StartOuttake();
-    pros::delay(120);
+    overrideOuttake(90);
+    pros::delay(170);
     StopIntake();
     Matchloader.retract();
     StartScoring(GoalType::HIGH_GOAL);
-    pros::delay(1350);
+    pros::delay(1450);
     StopScoring();
 
     // Move to the long goal and wing
@@ -253,13 +256,68 @@ void Left_7B_2G_LF()
     chassis.turnToHeading(270, 600);
     chassis.moveToPoint(-10, 60, 1000, {.forwards=false, .minSpeed=80});
 }
+// void Right_7B_2G()
+// {
+//     startOuttakeTask();
+//     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+//     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+//     chassis.setPose(-48.482, -17.8, 180);
 
+//     Wing.extend();
+
+//     // Move to matchloader
+//     chassis.moveToPoint(-48.482, -48.7, 1500, {.maxSpeed=90});
+//     StartIntake();
+//     chassis.turnToHeading(270, 1000, {.maxSpeed=80});
+//     Matchloader.extend();
+//     chassis.moveToPoint(-65, -48.7, 2500, {.maxSpeed=60});
+    
+//     // Move to long goal and score
+//     chassis.moveToPoint(-30, -50.5, 1000, {.forwards=false, .minSpeed=90, .earlyExitRange=7});
+//     chassis.moveToPoint(-26, -50.5, 1000, {.forwards=false, .maxSpeed=50});
+//     chassis.waitUntilDone();
+//     StartScoring(GoalType::LONG_GOAL);
+//     Matchloader.retract();
+//     pros::delay(800);
+//     StopScoring();
+
+//     // Move to three blocks
+//     chassis.moveToPoint(-46, -48, 1000);
+//     pros::delay(300);
+//     StartScoring();
+//     chassis.waitUntilDone();
+//     chassis.turnToHeading(45, 800, {.maxSpeed=90});
+//     chassis.moveToPoint(-25.5, -28, 2000, {.minSpeed=90, .earlyExitRange=9.5});
+//     chassis.waitUntilDone();
+//     StopScoring();
+//     Matchloader.extend();
+//     chassis.moveToPoint(-22, -24, 3000, {.maxSpeed=50});
+//     chassis.waitUntilDone();
+//     Matchloader.retract();
+    
+//     chassis.moveToPoint(-5.6, -7.1, 600, {.maxSpeed=60});
+//     chassis.waitUntilDone();
+//     StartOuttake(true);
+//     overrideOuttake(200);
+//     pros::delay(1600);
+//     Matchloader.retract();
+//     StopIntake();
+//     StopScoring();
+
+//     // Move to the long goal and wing
+//     Wing.extend();
+//     chassis.moveToPoint(-37, -36.7, 2000, {.forwards=false, .maxSpeed=110});
+//     chassis.turnToHeading(275, 1000, {.maxSpeed=80});
+//     chassis.moveToPoint(-10, -36.7, 1000, {.forwards=false, .minSpeed=50});
+// }
 void Right_7B_2G()
 {
     startOuttakeTask();
     right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(-48.482, -17.8, 180);
+
+    Wing.extend();
 
     // Move to matchloader
     chassis.moveToPoint(-48.482, -48.7, 1500, {.maxSpeed=90});
@@ -289,18 +347,20 @@ void Right_7B_2G()
     chassis.waitUntilDone();
     Matchloader.retract();
     
-    chassis.moveToPoint(-4, -5, 600, {.maxSpeed=60});
+    chassis.moveToPoint(-5, -6, 600, {.maxSpeed=60});
     chassis.waitUntilDone();
-    StartOuttake();
+    StartScoring(GoalType::LOW_GOAL);
+    overrideOuttake(200);
     pros::delay(1600);
     Matchloader.retract();
     StopIntake();
+    StopScoring();
 
     // Move to the long goal and wing
     Wing.extend();
-    chassis.moveToPoint(-37, -35, 2000, {.forwards=false, .maxSpeed=110});
+    chassis.moveToPoint(-37, -35.7, 2000, {.forwards=false, .maxSpeed=110});
     chassis.turnToHeading(275, 1000, {.maxSpeed=80});
-    chassis.moveToPoint(-10, -35, 1000, {.forwards=false, .minSpeed=50});
+    chassis.moveToPoint(-10, -35.7, 1000, {.forwards=false, .minSpeed=50});
 }
 
 void Right_9B_1G()
@@ -416,56 +476,63 @@ void Right_Solo_AWP() {
     StartIntake();
     Matchloader.extend();
     float firstY = -48.8;
-    chassis.moveToPoint(-48.599, firstY, 1500);
+    chassis.moveToPoint(-48.599, firstY, 1500,  {.minSpeed=2, .earlyExitRange=1});
     
     // Move to matchloader
-    chassis.turnToHeading(270, 700, {.minSpeed=60});
+    chassis.turnToHeading(270, 700, {.minSpeed=2, .earlyExitRange=1});
     StartIntake();
-    chassis.moveToPoint(-75, firstY, 1600, {.minSpeed=150});
+    chassis.moveToPoint(-75, firstY - 1.7, 900, {.minSpeed=100});
     chassis.waitUntilDone();
 
     // Move to right long goal
-    chassis.moveToPose(-25, firstY - 1.2, 270, 1000, {.forwards=false, .minSpeed=85});
+    chassis.moveToPose(-25, firstY, 270, 1000, {.forwards=false, .minSpeed=85, .earlyExitRange=1});
     chassis.waitUntilDone();
     StartScoring(GoalType::LONG_GOAL);
     Matchloader.retract();
-    pros::delay(1700);
-    chassis.setPose(-30.9, -51.1, 270);
+    pros::delay(900);
+    StopScoring();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-40, -50.6, 1000, {.minSpeed=80, .earlyExitRange=1});
-    chassis.turnToPoint(-27, -27, 1000, {.minSpeed=90});
+    chassis.swingToPoint(-22, -26, lemlib::DriveSide::RIGHT, 2000, {.minSpeed=30, .earlyExitRange=1});
     chassis.waitUntilDone();
     StartIntake();
 
-
+    float bx = -16;
     // Move to 3 blocks on the right
-    chassis.moveToPoint(-24, -27, 1500, {.minSpeed=90, .earlyExitRange=21.7});
-    chassis.moveToPoint(-22, -26, 3000, {.maxSpeed=30});
+    chassis.moveToPoint(bx, -29, 3000, {.minSpeed=55, .earlyExitRange=1});
+    pros::delay(400);
+    Matchloader.extend();
     chassis.waitUntilDone();
+    pros::delay(100);
+    Matchloader.retract();
+    chassis.turnToHeading(0, 1000, {.minSpeed=2, .earlyExitRange=1});
+
     
     // Move to 3 blocks on the left
-    StartIntake();
-    chassis.turnToPoint(-24, 4, 1000, {.minSpeed=80, .earlyExitRange=2});
-    chassis.moveToPoint(-24, 4, 1000, {.minSpeed=80, .earlyExitRange=3.4}); 
-    chassis.moveToPoint(-24, 22, 1800, {.maxSpeed=30});
-    chassis.waitUntilDone();
-
-    // Score in high goal
-    chassis.moveToPoint(-12.2, 12.8, 1500, {.forwards=false, .maxSpeed=50});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(315, 1000, {.maxSpeed=60});
-    chassis.waitUntilDone();
-    StartScoring(GoalType::HIGH_GOAL);
+    StartIntake();    
+    chassis.moveToPoint(-bx, 18, 2300, {.minSpeed=55,  .earlyExitRange=1});
     pros::delay(700);
+    Matchloader.extend();
+    chassis.waitUntilDone();
+    pros::delay(100);
+    float y = 46.5;
+
+    // Move to left long goal and score
+    chassis.turnToHeading(290, 1000);
+    chassis.moveToPose(-35, y, 270, 1000, {.lead=0.3});
+    chassis.moveToPoint(-25, y, 1000, {.forwards=false, .minSpeed=90, .earlyExitRange=5});
+    chassis.moveToPoint(-20, y, 300, {.forwards=false, .maxSpeed=50});
+    chassis.waitUntilDone();
+    StartScoring(GoalType::LONG_GOAL);
+    pros::delay(1000);
     StopScoring();
 
     // Move to matchloader on the left
-    float y = 41;
+    chassis.moveToPoint(-58, y+1, 1000, {.minSpeed=100, .earlyExitRange=5});
+    chassis.moveToPoint(-75, y+1, 650, {.maxSpeed=60});
 
-    // Score in left long goal
-    chassis.turnToPoint(-38, y, 1000);
-    chassis.moveToPose(-38, y, 270, 1000, {.minSpeed=70});
-    chassis.moveToPose(-30.436, y, 270, 930, {.forwards=false, .minSpeed=80});
-    pros::delay(50);
-    StartScoring(GoalType::LONG_GOAL);
+    // Score in high goal
+    chassis.moveToPoint(-45, y, 1000, {.forwards=false, .minSpeed=4, .earlyExitRange=1});
+    chassis.turnToHeading(315, 1000, {.minSpeed=3, .earlyExitRange=1});
+    chassis.moveToPoint(-4, 2, 1000, {.forwards=false, .minSpeed=40, .earlyExitRange=1});
+    StartScoring(GoalType::HIGH_GOAL);
 }
