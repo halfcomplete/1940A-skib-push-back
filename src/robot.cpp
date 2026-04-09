@@ -68,7 +68,7 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 pros::Motor First_Stage_Intake(18, pros::v5::MotorGears::blue);
 pros::Motor Second_Stage_Intake(-17, pros::v5::MotorGears::green);
-pros::Motor Outtake(-10, pros::v5::MotorGears::green);
+pros::Motor Outtake(-19, pros::v5::MotorGears::green);
 
 pros::adi::Pneumatics Outtake_Lift({22, 'f'}, false);            // Starts retracted, extends when the ADI port is high
 pros::adi::Pneumatics Intake_Lift({22, 'g'}, false);
