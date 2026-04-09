@@ -90,7 +90,7 @@ void autonomous() {
 	AutonType selectedAuton;
 
 	// selectedAuton = selectAuton();
-	selectedAuton = AutonType::R_7B_2G;
+	selectedAuton = selectAuton();
 	
 
 	if (selectedAuton == AutonType::NONE)
@@ -183,6 +183,7 @@ AutonType selectAuton()
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	autonomous(); // For testing purposes, run the autonomous code during driver control
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;
