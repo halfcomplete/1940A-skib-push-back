@@ -36,10 +36,10 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP) - raised to fix 48" undershoot
-                                              0, // integral gain (kI) - lowered to prevent lurch
-                                              55, // derivative gain (kD) - lowered to reduce overdamping
-                                              1.0, // anti windup - tightened to prevent integral spike
+lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              55, // derivative gain (kD)
+                                              0.9, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
@@ -48,9 +48,9 @@ lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP) - ra
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP) - lowered to fix 180° overshoot
+lemlib::ControllerSettings angular_controller(2.3, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              15, // derivative gain (kD) - raised for more damping
+                                              15, // derivative gain (kD)
                                               0, // anti windup
                                               1, // small error range, in degrees
                                               100, // small error range timeout, in milliseconds
@@ -68,7 +68,7 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 pros::Motor First_Stage_Intake(18, pros::v5::MotorGears::blue);
 pros::Motor Second_Stage_Intake(-17, pros::v5::MotorGears::green);
-pros::Motor Outtake(-19, pros::v5::MotorGears::green);
+pros::Motor Outtake(-10, pros::v5::MotorGears::green);
 
 pros::adi::Pneumatics Outtake_Lift({22, 'f'}, false);            // Starts retracted, extends when the ADI port is high
 pros::adi::Pneumatics Intake_Lift({22, 'g'}, false);

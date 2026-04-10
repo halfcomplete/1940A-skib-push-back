@@ -13,7 +13,7 @@
 void outtakeTask() {
     while (true) {
         if (!outtakeOverride) {
-            Outtake.move_velocity(-30);
+            Outtake.move_velocity(-70);
         }
         pros::delay(20);
     }
@@ -39,11 +39,10 @@ void releaseOuttakeOverride() {
 void auton(AutonType autonToRun) {
     switch (autonToRun) {
         case AutonType::PID_MOVE_TEST_24:
-            // TestPidMove(48);
-            chassis.setPose(-48.482, 17.8, 0);
+            TestPidMove(24);
             break;
         case AutonType::PID_MOVE_TEST_48:
-            TestPidMove(24);
+            TestPidMove(48);
             break;
         case AutonType::PID_TURN_TEST_90:
             TestPidTurn(90);
@@ -487,14 +486,11 @@ void Right_Solo_AWP() {
     // Move to matchloader
     chassis.turnToHeading(270, 700, {.minSpeed=2, .earlyExitRange=1});
     StartIntake();
-    chassis.moveToPoint(-70, firstY - 0.7, 900, {.minSpeed=70});
+    chassis.moveToPoint(-70, firstY - 1, 900, {.minSpeed=50});
     chassis.waitUntilDone();
 
     // Move to right long goal
-    chassis.moveToPose(-25, firstY, 270, 1000, {.forwards=false, .minSpeed=85, .earlyExitRange=1});
-    chassis.waitUntilDone();
-    StopIntake();
-    pros::delay(20);
+    chassis.moveToPose(-24, firstY - 0.4, 270, 1300, {.forwards=false, .minSpeed=70});
     StartScoring(GoalType::LONG_GOAL);
     Matchloader.retract();
     pros::delay(900);
@@ -503,7 +499,7 @@ void Right_Solo_AWP() {
     chassis.waitUntilDone();
     StartIntake();
 
-    float bx = -15;
+    float bx = -14.4;
     // Move to 3 blocks on the right
     chassis.moveToPoint(bx-1, -29, 3000, {.minSpeed=65, .earlyExitRange=1});
     pros::delay(400);
@@ -521,10 +517,10 @@ void Right_Solo_AWP() {
     Matchloader.extend();
     chassis.waitUntilDone();
     pros::delay(100);
-    float y = 44;
+    float y = 41.5;
 
     // Move to left long goal and score
-    chassis.turnToHeading(295, 1000, {.minSpeed=3, .earlyExitRange=1});
+    chassis.turnToHeading(315, 1000, {.minSpeed=3, .earlyExitRange=1});
     chassis.moveToPose(-35, y, 270, 1000, {.lead=0});
     chassis.moveToPoint(-25, y, 1000, {.forwards=false, .minSpeed=90, .earlyExitRange=5});
     chassis.moveToPoint(-20, y, 300, {.forwards=false, .maxSpeed=50});
@@ -532,25 +528,29 @@ void Right_Solo_AWP() {
     StopIntake();
     pros::delay(20);
     StartScoring(GoalType::LONG_GOAL);
-    pros::delay(750);
+    pros::delay(700);
     StopScoring();
-    pros::delay(50);
+    pros::delay(20);
     StartIntake();
 
     // Move to matchloader on the left
-    chassis.moveToPoint(-56.5, y-0.5, 1000, {.minSpeed=100, .earlyExitRange=7});
-    chassis.moveToPoint(-75, y-0.5, 500, {.maxSpeed=40});
+    chassis.moveToPoint(-54, y-0.8, 1000, {.minSpeed=100, .earlyExitRange=7});
+    chassis.moveToPoint(-75, y-0.8, 600, {.maxSpeed=70});
 
     // Score in high goal
-    chassis.moveToPoint(-45, y-0.5, 1000, {.forwards=false, .minSpeed=4, .earlyExitRange=1});
-    chassis.turnToHeading(315, 1000, {.minSpeed=3, .earlyExitRange=3});
+    chassis.moveToPoint(-45, y-0.5, 1000, {.forwards=false, .minSpeed=5, .earlyExitRange=2});
+    chassis.turnToHeading(315, 500, {.minSpeed=3, .earlyExitRange=3});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-6.7, 4.8, 1000, {.forwards=false, .minSpeed=40, .earlyExitRange=5});
-    StopIntake();
-    pros::delay(700);
+    chassis.moveToPoint(-9, 9, 1100, {.forwards=false, .minSpeed=20, .earlyExitRange=1});
+    pros::delay(1000);
     StartOuttake();
-    pros::delay(80);
+    overrideOuttake(600);
+    pros::delay(180);
+    StopIntake();
+    StopScoring();
+    pros::delay(50);
     StartScoring(GoalType::HIGH_GOAL);
+    pros::delay(10000);
 }
 
 void afk() {

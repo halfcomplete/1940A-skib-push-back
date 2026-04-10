@@ -31,27 +31,27 @@ void initialize() {
 	pros::lcd::initialize();
 	Wing.retract();
     // thread to for brain screen and position logging
-    pros::Task screenTask([&]() {
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // Debug: print raw sensor values
-            pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
-            pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
-            pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
+    // pros::Task screenTask([&]() {
+    //     while (true) {
+    //         // print robot location to the brain screen
+    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+    //         // Debug: print raw sensor values
+    //         pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
+    //         pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
+    //         pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
 			
-			// Debug: print distance sensor measurements
-			pros::lcd::print(6, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
-			pros::lcd::print(7, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
-			pros::lcd::print(8, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
-            // log position telemetry
-            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
-            // delay to save resources
-            pros::delay(50);
-        }
-    });
+	// 		// Debug: print distance sensor measurements
+	// 		pros::lcd::print(6, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
+	// 		pros::lcd::print(7, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
+	// 		pros::lcd::print(8, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
+    //         // log position telemetry
+    //         lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+    //         // delay to save resources
+    //         pros::delay(50);
+    //     }
+    // });
 
 	printf("init done");
 }
@@ -87,26 +87,10 @@ void competition_initialize() {}
  */
 void autonomous() {
 	// Auton selector - wait for controller button press
-	AutonType selectedAuton;
-
-	// selectedAuton = selectAuton();
-	selectedAuton = selectAuton();
-	
-
-	if (selectedAuton == AutonType::NONE)
-	{
-		return; // No auton selected, skip autonomous phase
-	}
-
-	// Run the selected auton
-	auton(selectedAuton);
-}
-
-AutonType selectAuton()
-{
-	AutonType selectedAuton;
+	AutonType selectedAuton = AutonType::SOLO_AWP;
+	/*
 	bool autonSelected = false;
-	// Display instructions on brain screen
+	// Display instructions 
 	pros::lcd::print(4, "Select Auton:");
 	pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
 	pros::lcd::print(6, "Y:SOLO_AWP  UP:L_4B_1G  DOWN:R_4B_1G");
@@ -114,6 +98,7 @@ AutonType selectAuton()
 
 	// Loop until a valid button is pressed to select an auton
 	while (!autonSelected) {
+		pros::lcd::print(0, "still selecting auton...");
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			selectedAuton = AutonType::L_9B_1G;
 			autonSelected = true;
@@ -165,8 +150,16 @@ AutonType selectAuton()
 		// Delay to reduce resource usage
 		pros::delay(25);
 	}
+	
+	pros::lcd::print(0, "Auton Selected: %d", selectedAuton);
+	if (selectedAuton == AutonType::NONE)
+	{
+		return; // No auton selected, skip autonomous phase
+	}
+	*/
 
-	return selectedAuton;
+	// Run the selected auton
+	auton(selectedAuton);
 }
 
 /**
@@ -183,7 +176,7 @@ AutonType selectAuton()
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	autonomous(); // For testing purposes, run the autonomous code during driver control
+	// autonomous(); // For testing purposes, run the autonomous code during driver control
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;
