@@ -534,8 +534,8 @@ void Right_Solo_AWP() {
     StartIntake();
 
     // Move to matchloader on the left
-    chassis.moveToPoint(-54, y-0.8, 1000, {.minSpeed=100, .earlyExitRange=7});
-    chassis.moveToPoint(-75, y-0.8, 600, {.maxSpeed=70});
+    chassis.moveToPoint(-52, y-0.8, 1000, {.minSpeed=100, .earlyExitRange=7});
+    chassis.moveToPoint(-75, y-0.8, 600, {.maxSpeed=50});
 
     // Score in high goal
     chassis.moveToPoint(-45, y-0.5, 1000, {.forwards=false, .minSpeed=5, .earlyExitRange=2});
