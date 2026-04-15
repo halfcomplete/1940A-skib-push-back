@@ -19,6 +19,32 @@ void colourSort() {
     // });
 }
 
+void outtakeTask() {
+    while (true) {
+        if (!outtakeOverride) {
+            Outtake.move_velocity(-100);
+        }
+        pros::delay(20);
+    }
+}
+
+void startOuttakeTask() {
+    pros::Task outtake_task(outtakeTask, "Outtake Task");
+}
+
+void setOuttakeOverride(bool override) {
+    outtakeOverride = override;
+}
+
+void overrideOuttake(int voltage) {
+    outtakeOverride = true;
+    Outtake.move_velocity(voltage);
+}
+
+void releaseOuttakeOverride() {
+    outtakeOverride = false;
+}
+
 
 void StartIntake()
 {
@@ -42,6 +68,7 @@ void StartOuttake(bool scoring)
     releaseOuttakeOverride();
 }
 
+/// @brief Stop the intake and the scoring mech, leaving the outtake lift as it currently is.
 void StopIntake()
 {
     First_Stage_Intake.brake();
@@ -52,26 +79,27 @@ void StopIntake()
 /// @brief Start scoring by starting the intake and scoring mech.
 /// @param auton 
 /// @param goalType The type of goal we are scoring in.
-void StartScoring(GoalType goalType)
+void StartScoring(GoalType goalType, bool slow)
 {
     if (goalType == HIGH_GOAL)
     {
         StartIntake();
-        overrideOuttake(600);
+        overrideOuttake(slow ? 400 : 600);
     }
     else if (goalType == LOW_GOAL)
     {
         StartOuttake(true);
-        overrideOuttake(600);
+        overrideOuttake(slow ? 400 : 600);
     }
-    else 
+    else
     {
         StartIntake();
-        overrideOuttake(-600);
+        overrideOuttake(slow ? -400 : -600);
         Outtake_Lift.extend();
     }
 }
 
+/// @brief Stop scoring by stopping only the scoring mech, leaving the intake running as it currently is.
 void StopScoring()
 {
     Outtake_Lift.retract();
@@ -198,4 +226,57 @@ void UpdatePose(bool useRight, bool useLeft, bool useFront)
     }
 
     chassis.setPose(pose.x, pose.y, pose.theta);
+}
+
+void TestClearParkZone()
+{
+    // chassis.setPose(0, 0, 0);
+    // pros::delay(100);
+    // chassis.moveToPoint(0, -18, 10000, {.forwards=false});
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(0, 36, 10000, {.minSpeed=127});
+
+    chassis.setPose(0, 0, 270);
+    StartScoring();
+    pros::delay(100);
+    for (int i = 0; i < 2; i++) {
+        chassis.moveToPoint(-18, 0, 600, {.minSpeed=127});
+        chassis.waitUntilDone();
+        for (int i = 0; i < 2; i++) {
+            chassis.turnToHeading(295, 190);
+            chassis.waitUntilDone();
+            chassis.turnToHeading(245, 190);
+            chassis.waitUntilDone();
+        }
+        chassis.turnToHeading(270, 500);
+        chassis.waitUntilDone();
+    }
+    chassis.turnToHeading(270, 500);
+    chassis.moveToPoint(24, 0, 2000, {.forwards=false, .minSpeed=127});
+    chassis.waitUntilDone();
+}
+
+void ClearParkZone(lemlib::Pose pose, int initHeading)
+{
+    float x = pose.x;
+    float y = pose.y;
+    StartIntake();
+    for (int i = 0; i < 2; i++) {
+        chassis.moveToPoint(x - 18, y, 1000, {.minSpeed=127});
+        chassis.waitUntilDone();
+        for (int i = 0; i < 2; i++) {
+            chassis.turnToHeading(initHeading + 25, 190);
+            chassis.waitUntilDone();
+            chassis.turnToHeading(initHeading - 25, 190);
+            chassis.waitUntilDone();
+        }
+        chassis.turnToHeading(initHeading, 500);
+        chassis.waitUntilDone();
+    }
+    chassis.moveToPoint(x - 18, y, 500, {.minSpeed=127});
+    chassis.waitUntilDone();
+    chassis.turnToHeading(initHeading, 500);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(x + 24, y, 2000, {.forwards=false, .minSpeed=40});
+    chassis.waitUntilDone();
 }

@@ -15,9 +15,3 @@ void raygoon_righ_tauton();
 void Right_Solo_AWP();
 void MotorMoveTest();
 void afk();
-
-// Outtake task control
-void startOuttakeTask();
-void setOuttakeOverride(bool override);
-void overrideOuttake(int voltage);
-void releaseOuttakeOverride();
