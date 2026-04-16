@@ -30,7 +30,7 @@ void initialize() {
 	pros::delay(100); // Give odom task time to start
 	pros::lcd::initialize();
 	Wing.retract();
-	// chassis.setPose(-48.599, -18.1, 180);
+	chassis.setPose(-47, -16.88, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
@@ -87,7 +87,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 	// Auton selector - wait for controller button press
-	AutonType selectedAuton = AutonType::SKILLS;
+	AutonType selectedAuton = AutonType::R_4B_1G;
 	
 	// bool autonSelected = false;
 	// // Display instructions 

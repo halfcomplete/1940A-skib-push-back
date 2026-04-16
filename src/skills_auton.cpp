@@ -4,9 +4,9 @@
 //#include "lemlib/pose.hpp"
 #include "robot.hpp"
 #include "helpers.hpp"
-float firstMatchloaderY = -49.5;
-float secondMatchloaderY = -55.5;
-float thirdMatchloaderY = 41.1;
+float firstMatchloaderY = -50.5;//-49.5
+float secondMatchloaderY = -56.5; //-55.5
+float thirdMatchloaderY = 38; //41.1
 float fourthMatchloaderY = 50;
 float r_side_y = -70;
 // x=65.6, y=17.7 if clearing first park zone first
@@ -59,6 +59,7 @@ void first_corner()
     chassis.moveToPoint(-48.599, firstMatchloaderY, 1500);
     Matchloader.extend();
     chassis.waitUntilDone();
+    StartIntake();
 
     // Move to matchloader
     chassis.turnToHeading(270, 1000, {.maxSpeed=80});
@@ -140,7 +141,7 @@ void third_corner()
     chassis.waitUntilDone();
 
     // Move back slightly
-    chassis.moveToPoint(53, thirdMatchloaderY, 1000, {.forwards=false});
+    chassis.moveToPoint(52, thirdMatchloaderY, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
     StopIntake();

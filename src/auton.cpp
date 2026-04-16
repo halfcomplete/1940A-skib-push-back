@@ -38,10 +38,10 @@ void auton(AutonType autonToRun) {
             Right_9B_1G();
             break;
         case AutonType::L_4B_1G:
-            throw std::runtime_error("L_4B_1G Auton not implemented");
+            Left_4B_1G();
             break;
         case AutonType::R_4B_1G:
-            throw std::runtime_error("R_4B_1G Auton not implemented");
+            Right_4B_1G();
             break;
         case AutonType::SOLO_AWP:
             Right_Solo_AWP();
@@ -398,7 +398,66 @@ void Right_9B_1G()
     chassis.moveToPoint(-16, -51.5, 1000, {.forwards=false, .minSpeed=90 });
 }
 
+void Left_4B_1G() 
+{
 
+}
+
+void Right_4B_1G() 
+{
+    startOuttakeTask();
+    right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    // chassis.setPose(-48.482, -17.8, 180); // -50.7, -11.267, 116
+    chassis.setPose(-47, -16.88, 90);
+    // -47.36, -16.88, 90
+    StartIntake();
+    Wing.retract();
+
+    // Move to three blocks on the right, -23.63, -23.15
+    chassis.moveToPoint(-27, -28, 3000, {.minSpeed=80, .earlyExitRange=15});
+    pros::delay(450);
+    Matchloader.extend();
+    chassis.moveToPoint(-26, -29, 3000, {.minSpeed=40});
+    chassis.waitUntilDone();
+    // heading, 11
+    // -27.9, -40.9
+
+    // Move to long goal and score
+    // chassis.turnToHeading(35, 1000, {.minSpeed=70, .earlyExitRange=2});
+    // Matchloader.retract();
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(-44, -47, 1100, {.forwards=false});
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(-27, -48, 2000, {.forwards=false, .minSpeed=80});
+    // pros::delay(790);
+    // StartScoring(GoalType::LONG_GOAL);
+    // Matchloader.retract();
+    // pros::delay(880);
+    // StopScoring();
+    chassis.turnToHeading(11, 1000, {.minSpeed=70, .earlyExitRange=2});
+    Matchloader.retract();
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-29.5, -36.5, 1100, {.forwards=false, .minSpeed=30, .earlyExitRange=1});
+    chassis.swingToHeading(270, lemlib::DriveSide::RIGHT, 2000, {.minSpeed=70, .earlyExitRange=2});
+    chassis.waitUntilDone();
+    StartScoring(GoalType::LONG_GOAL);
+    Matchloader.retract();
+    pros::delay(880);
+    StopScoring();
+
+    // Move to the side and wing
+    chassis.moveToPoint(-41.3, -48, 1000);
+    chassis.moveToPose(-33, -41, 270, 2000, {.forwards=false, .minSpeed=50});
+    Wing.retract();
+    chassis.moveToPoint(-11.5, -43.2, 1000, {.forwards=false, .minSpeed=50});
+    StopIntake();
+
+    // chassis.moveToPose(-40, -41.5, 270, 2000, {.lead=0.06, .minSpeed=70});
+    // Wing.retract();
+    // chassis.moveToPoint(-13, -43.2, 1000, {.forwards=false, .minSpeed=50});
+    // StopIntake();
+}
 
 
 void TestPidTurn()

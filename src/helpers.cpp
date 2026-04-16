@@ -22,7 +22,7 @@ void colourSort() {
 void outtakeTask() {
     while (true) {
         if (!outtakeOverride) {
-            Outtake.move_velocity(-100);
+            Outtake.move_velocity(-70);
         }
         pros::delay(20);
     }
@@ -84,17 +84,17 @@ void StartScoring(GoalType goalType, bool slow)
     if (goalType == HIGH_GOAL)
     {
         StartIntake();
-        overrideOuttake(slow ? 400 : 600);
+        overrideOuttake(slow ? 150 : 600);
     }
     else if (goalType == LOW_GOAL)
     {
         StartOuttake(true);
-        overrideOuttake(slow ? 400 : 600);
+        overrideOuttake(slow ? 150 : 600);
     }
     else
     {
         StartIntake();
-        overrideOuttake(slow ? -400 : -600);
+        overrideOuttake(slow ? -150 : -600);
         Outtake_Lift.extend();
     }
 }

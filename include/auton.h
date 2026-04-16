@@ -9,6 +9,8 @@ void Left_9B_1G();
 void Left_7B_2G();
 void Right_7B_2G();
 void Right_9B_1G();
+void Left_4B_1G();
+void Right_4B_1G();
 void TestPidTurn();
 void TestPidMove();
 void raygoon_righ_tauton();
