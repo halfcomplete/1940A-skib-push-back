@@ -30,6 +30,7 @@ void initialize() {
 	pros::delay(100); // Give odom task time to start
 	pros::lcd::initialize();
 	Wing.retract();
+	chassis.setPose(-47, -16.88, 90);
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
@@ -39,13 +40,12 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             // Debug: print raw sensor values
             pros::lcd::print(3, "IMU heading: %f", imu.get_heading());
-            pros::lcd::print(4, "IMU status: %d", imu.is_calibrating());
-            pros::lcd::print(5, "Vert rot: %d", verticalRotation.get_position());
+            pros::lcd::print(4, "Vert rot: %d", verticalRotation.get_position());
 			
 			// Debug: print distance sensor measurements
-			pros::lcd::print(6, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
-			pros::lcd::print(7, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
-			pros::lcd::print(8, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
+			pros::lcd::print(5, "Front Distance: %d, Confidence: %d", Front_Sensor.get(), Front_Sensor.get_confidence());
+			pros::lcd::print(6, "Left Distance: %d, Confidence: %d", Left_Sensor.get(), Left_Sensor.get_confidence());
+			pros::lcd::print(7, "Right Distance: %d, Confidence: %d", Right_Sensor.get(), Right_Sensor.get_confidence());
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
@@ -87,69 +87,76 @@ void competition_initialize() {}
  */
 void autonomous() {
 	// Auton selector - wait for controller button press
-	AutonType selectedAuton;
-	bool autonSelected = false;
+	AutonType selectedAuton = AutonType::R_4B_1G;
+	
+	// bool autonSelected = false;
+	// // Display instructions 
+	// pros::lcd::print(4, "Select Auton:");
+	// pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
+	// pros::lcd::print(6, "Y:SOLO_AWP  UP:L_4B_1G  DOWN:R_4B_1G");
+	// pros::lcd::print(7, "L1:PID_MOVE24  L2:PID_MOVE48  R1:TURN90  R2:TURN180");
 
-	// Display instructions on brain screen
-	pros::lcd::print(4, "Select Auton:");
-	pros::lcd::print(5, "A:L_7B_2G  B:R_7B_2G  X:SKILLS");
-	pros::lcd::print(6, "Y:SOLO_AWP  UP:L_4B_1G  DOWN:R_4B_1G");
-	pros::lcd::print(7, "L1:PID_MOVE24  L2:PID_MOVE48  R1:TURN90  R2:TURN180");
+	// // Loop until a valid button is pressed to select an auton
+	// while (!autonSelected) {
+	// 	pros::lcd::print(0, "still selecting auton...");
+	// 	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+	// 		selectedAuton = AutonType::L_9B_1G;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+	// 		selectedAuton = AutonType::L_7B_2G;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+	// 		selectedAuton = AutonType::SKILLS;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+	// 		selectedAuton = AutonType::SOLO_AWP;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+	// 		selectedAuton = AutonType::L_4B_1G;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+	// 		selectedAuton = AutonType::R_7B_2G;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+	// 		selectedAuton = AutonType::R_9B_1G;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+	// 		selectedAuton = AutonType::PID_MOVE_TEST_24;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+	// 		selectedAuton = AutonType::PID_MOVE_TEST_48;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+	// 		selectedAuton = AutonType::PID_TURN_TEST_90;
+	// 		autonSelected = true;
+	// 	}
+	// 	else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+	// 		selectedAuton = AutonType::PID_TURN_TEST_180;
+	// 		autonSelected = true;
+	// 	} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+	// 		selectedAuton = AutonType::NONE;
+	// 		autonSelected = true;
+	// 	}
 
-	// Loop until a valid button is pressed to select an auton
-	while (!autonSelected) {
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			selectedAuton = AutonType::L_7B_2G_MF;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			selectedAuton = AutonType::L_7B_2G_LF;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-			selectedAuton = AutonType::SKILLS;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-			selectedAuton = AutonType::SOLO_AWP;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-			selectedAuton = AutonType::L_4B_1G;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			selectedAuton = AutonType::R_4B_1G;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-			selectedAuton = AutonType::PID_MOVE_TEST_24;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-			selectedAuton = AutonType::PID_MOVE_TEST_48;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-			selectedAuton = AutonType::PID_TURN_TEST_90;
-			autonSelected = true;
-		}
-		else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-			selectedAuton = AutonType::PID_TURN_TEST_180;
-			autonSelected = true;
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-			selectedAuton = AutonType::NONE;
-			autonSelected = true;
-		}
-
-		// Delay to reduce resource usage
-		pros::delay(25);
-	}
-
-	if (selectedAuton == AutonType::NONE)
-	{
-		return; // No auton selected, skip autonomous phase
-	}
+	// 	// Delay to reduce resource usage
+	// 	pros::delay(25);
+	// }
+	
+	// pros::lcd::print(0, "Auton Selected: %d", selectedAuton);
+	// if (selectedAuton == AutonType::NONE)
+	// {
+	// 	return; // No auton selected, skip autonomous phase
+	// }
+	
 
 	// Run the selected auton
 	auton(selectedAuton);
@@ -169,11 +176,11 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	autonomous(); // run auton in opcontrol for testing purposes
+	// autonomous(); // For testing purposes, run the autonomous code during driver control
 	int isHighGoal = 127;
     bool controllerHighGoal = false;
 	bool slowDownTopRoller = false;
-	Wing.extend();
+	Wing.retract();
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
@@ -210,23 +217,29 @@ void opcontrol() {
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             if (controllerHighGoal) {
                 overrideOuttake(-12000);
+				Outtake.move_voltage(-12000);
 				Outtake_Lift.extend();
             } else {
                 overrideOuttake(-12000);
+				Outtake.move_voltage(-12000);
 				Outtake_Lift.extend();
             }
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (controllerHighGoal) {
                 overrideOuttake(12000);
+				Outtake.move_voltage(12000);
 				Outtake_Lift.retract();
             } else {
                 overrideOuttake(12000);
+				Outtake.move_voltage(12000);
 				Outtake_Lift.retract();
             }
 		} else if (!master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			overrideOuttake(0);
 			Outtake_Lift.retract();
+			// Outtake.move_voltage(-4000);
 		}
+		
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 			Wing.toggle();

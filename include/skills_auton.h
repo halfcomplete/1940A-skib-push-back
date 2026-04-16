@@ -1,1 +1,9 @@
 void skills_auton();
+void first_clear();
+void high_goal();
+void first_corner();
+void second_corner();
+void second_clear();
+void third_corner();
+void fourth_corner();
+void final_park();

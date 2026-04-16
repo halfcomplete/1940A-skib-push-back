@@ -14,6 +14,7 @@
 
 #ifndef _PROS_MAIN_H_
 #define _PROS_MAIN_H_
+#include "auton_type.h"
 
 /**
  * If defined, some commonly used enums will have preprocessor macros which give
@@ -62,6 +63,7 @@
 extern "C" {
 #endif
 void autonomous(void);
+AutonType selectAuton();
 void initialize(void);
 void disabled(void);
 void competition_initialize(void);
