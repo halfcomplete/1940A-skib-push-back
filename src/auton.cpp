@@ -424,33 +424,33 @@ void Right_4B_1G()
     // -27.9, -40.9
 
     // Move to long goal and score
-    // chassis.turnToHeading(35, 1000, {.minSpeed=70, .earlyExitRange=2});
-    // Matchloader.retract();
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-44, -47, 1100, {.forwards=false});
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-27, -48, 2000, {.forwards=false, .minSpeed=80});
-    // pros::delay(790);
-    // StartScoring(GoalType::LONG_GOAL);
-    // Matchloader.retract();
-    // pros::delay(880);
-    // StopScoring();
-    chassis.turnToHeading(11, 1000, {.minSpeed=70, .earlyExitRange=2});
+    chassis.turnToHeading(60, 1000, {.minSpeed=70, .earlyExitRange=2});
     Matchloader.retract();
     chassis.waitUntilDone();
-    chassis.moveToPoint(-29.5, -36.5, 1100, {.forwards=false, .minSpeed=30, .earlyExitRange=1});
-    chassis.swingToHeading(270, lemlib::DriveSide::RIGHT, 2000, {.minSpeed=70, .earlyExitRange=2});
+    chassis.moveToPoint(-44, -47.5, 1100, {.forwards=false});
     chassis.waitUntilDone();
+    chassis.moveToPoint(-27, -48.5, 2000, {.forwards=false, .minSpeed=80});
+    pros::delay(790);
     StartScoring(GoalType::LONG_GOAL);
     Matchloader.retract();
     pros::delay(880);
     StopScoring();
+    // chassis.turnToHeading(11, 1000, {.minSpeed=70, .earlyExitRange=2});
+    // Matchloader.retract();
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(-29.5, -36.5, 1100, {.forwards=false});
+    // chassis.swingToHeading(270, lemlib::DriveSide::RIGHT, 2000, {.minSpeed=70, .earlyExitRange=2});
+    // chassis.waitUntilDone();
+    // StartScoring(GoalType::LONG_GOAL);
+    // Matchloader.retract();
+    // pros::delay(880);
+    // StopScoring();
 
     // Move to the side and wing
     chassis.moveToPoint(-41.3, -48, 1000);
-    chassis.moveToPose(-33, -41, 270, 2000, {.forwards=false, .minSpeed=50});
+    chassis.moveToPose(-33, -45, 270, 2000, {.forwards=false, .minSpeed=40});
     Wing.retract();
-    chassis.moveToPoint(-11.5, -43.2, 1000, {.forwards=false, .minSpeed=50});
+    chassis.moveToPoint(-11.5, -44, 2000, {.forwards=false, .minSpeed=50});
     StopIntake();
 
     // chassis.moveToPose(-40, -41.5, 270, 2000, {.lead=0.06, .minSpeed=70});
