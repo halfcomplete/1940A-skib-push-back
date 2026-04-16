@@ -10,6 +10,31 @@
 #include "auton_type.h"
 #include "pid_tests.h"
 
+void outtakeTask() {
+    while (true) {
+        if (!outtakeOverride) {
+            Outtake.move_voltage(-2000);
+        }
+        pros::delay(20);
+    }
+}
+
+void startOuttakeTask() {
+    pros::Task outtake_task(outtakeTask, "Outtake Task");
+}
+
+void setOuttakeOverride(bool override) {
+    outtakeOverride = override;
+}
+
+void overrideOuttake(int voltage) {
+    outtakeOverride = true;
+    Outtake.move(voltage);
+}
+
+void releaseOuttakeOverride() {
+    outtakeOverride = false;
+}
 
 void auton(AutonType autonToRun) {
     switch (autonToRun) {
