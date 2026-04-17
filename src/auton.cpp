@@ -564,7 +564,7 @@ void Right_Solo_AWP() {
     StartIntake();
     Wing.extend();
     Matchloader.extend();
-    float firstY = -42.1; // -46.5
+    float firstY = -42.7; // -46.5
     chassis.moveToPose(-48.599, firstY +1, 270, 1500, {.lead=0});
     // chassis.moveToPoint(-48.599, firstY, 1500);
     // chassis.turnToHeading(270, 1000);
@@ -600,12 +600,11 @@ void Right_Solo_AWP() {
     // chassis.moveToPose(bx, 17, 315, 2300, {.lead=0, .minSpeed=1,  .earlyExitRange=1});
     pros::delay(950);
     Matchloader.extend();
-    float y = 41;
+    float y = 41.8;
 
     // Move to left long goal and score
     // chassis.turnToHeading(315, 1000, {.minSpeed=3, .earlyExitRange=1});
     chassis.moveToPose(-47, y+3, 270, 1500, {.lead=0});
-    // UpdatePose(true, false, false);
     chassis.moveToPoint(-25, y+1, 600, {.forwards=false, .minSpeed=90, .earlyExitRange=5});
     // chassis.waitUntilDone();
     // pros::delay(10000);
@@ -620,14 +619,14 @@ void Right_Solo_AWP() {
     StartIntake();
 
     // Move to matchloader on the left
-    chassis.moveToPoint(-61, y+2, 1000, {.minSpeed=110, .earlyExitRange=7});
-    chassis.moveToPoint(-85, y+2, 730, {.maxSpeed=50});
+    chassis.moveToPoint(-61, y+2.5, 1000, {.minSpeed=110, .earlyExitRange=7});
+    chassis.moveToPoint(-85, y+2.5, 730, {.maxSpeed=50});
 
     // Score in high goal
     chassis.moveToPose(-51, y-0.5, 315, 1000, {.forwards=false, .lead=0, .minSpeed=5, .earlyExitRange=2});
     // chassis.turnToHeading(315, 500, {.minSpeed=3, .earlyExitRange=3});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-15, 3, 1100, {.forwards=false, .minSpeed=20, .earlyExitRange=1});
+    chassis.moveToPoint(-17, 5, 1100, {.forwards=false, .minSpeed=20, .earlyExitRange=1});
     pros::delay(1000);
     StartOuttake();
     overrideOuttake(600);
