@@ -87,7 +87,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 	// Auton selector - wait for controller button press
-	AutonType selectedAuton = AutonType::R_4B_1G;
+	AutonType selectedAuton = AutonType::SOLO_AWP;
 	
 	// bool autonSelected = false;
 	// // Display instructions 
@@ -201,11 +201,13 @@ void opcontrol() {
             if (slowDownTopRoller) {
                 First_Stage_Intake.move_voltage(12000);
 				Second_Stage_Intake.move_voltage(12000);
-				releaseOuttakeOverride();
+				overrideOuttake(-70);
+				Outtake_Lift.retract();
             } else {
                 Second_Stage_Intake.move(12000);
 				First_Stage_Intake.move_voltage(12000);
-				releaseOuttakeOverride();
+				overrideOuttake(-70);
+				Outtake_Lift.retract();
             }
 		} else {
 			Second_Stage_Intake.move(0);
@@ -252,8 +254,9 @@ void opcontrol() {
 		}
 		 
 		// Matchloader and Switcheroo have activation buttons opposite to the actual buttons that activate them.
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
 			Intake_Lift.extend();
+			First_Stage_Intake.move_voltage(-5000);
 			controllerHighGoal = true;
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
 			Intake_Lift.retract();
