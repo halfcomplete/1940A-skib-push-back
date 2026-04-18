@@ -84,7 +84,7 @@ void StartScoring(GoalType goalType, bool slow)
     if (goalType == HIGH_GOAL)
     {
         StartIntake();
-        overrideOuttake(slow ? 150 : 600);
+        overrideOuttake(slow ? 80 : 600);
     }
     else if (goalType == LOW_GOAL)
     {
@@ -262,12 +262,12 @@ void ClearParkZone(lemlib::Pose pose, int initHeading)
     float y = pose.y;
     StartIntake();
     for (int i = 0; i < 2; i++) {
-        chassis.moveToPoint(x - 18, y, 1000, {.minSpeed=127});
+        chassis.moveToPoint(x - 18, y, 500, {.minSpeed=127});
         chassis.waitUntilDone();
         for (int i = 0; i < 2; i++) {
-            chassis.turnToHeading(initHeading + 25, 190);
+            chassis.turnToHeading(initHeading + 25 + i * 15, 190);
             chassis.waitUntilDone();
-            chassis.turnToHeading(initHeading - 25, 190);
+            chassis.turnToHeading(initHeading - 25 - i * 15, 190);
             chassis.waitUntilDone();
         }
         chassis.turnToHeading(initHeading, 500);
@@ -277,6 +277,6 @@ void ClearParkZone(lemlib::Pose pose, int initHeading)
     chassis.waitUntilDone();
     chassis.turnToHeading(initHeading, 500);
     chassis.waitUntilDone();
-    chassis.moveToPoint(x + 24, y, 2000, {.forwards=false, .minSpeed=40});
+    chassis.moveToPoint(x + 9, y, 2000, {.forwards=false});
     chassis.waitUntilDone();
 }

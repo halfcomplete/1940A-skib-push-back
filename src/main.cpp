@@ -87,7 +87,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 	// Auton selector - wait for controller button press
-	AutonType selectedAuton = AutonType::SOLO_AWP;
+	AutonType selectedAuton = AutonType::SKILLS;
 	
 	// bool autonSelected = false;
 	// // Display instructions 

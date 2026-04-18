@@ -500,7 +500,7 @@ void Right_4B_1G()
     chassis.moveToPoint(-41.3, -48, 1000);
     chassis.moveToPose(-33, -45, 270, 2000, {.forwards=false, .minSpeed=40});
     Wing.retract();
-    chassis.moveToPoint(-11.5, -46, 2000, {.forwards=false, .minSpeed=50});
+    chassis.moveToPoint(-15, -46, 2000, {.forwards=false, .minSpeed=50});
     StopIntake();
 
     // chassis.moveToPose(-40, -41.5, 270, 2000, {.lead=0.06, .minSpeed=70});
@@ -559,17 +559,21 @@ void MotorMoveTest() {
 
 
 void Right_Solo_AWP() {
-    chassis.setPose(-48.599, -15.328, 180);
+    chassis.setPose(-46.599, -4, 0);
     startOuttakeTask();
     StartIntake();
     Wing.extend();
-    Matchloader.extend();
+
+    chassis.moveToPoint(-46.599, 4.5, 1800, {.minSpeed=50});
     float firstY = -42.7; // -46.5
-    chassis.moveToPose(-48.599, firstY +1, 270, 1500, {.lead=0});
+    chassis.moveToPose(-43.599, firstY +3.67, 270, 1500, {.forwards=false, .lead=0, .maxSpeed=83}, true);
+    pros::delay(200);
+    Matchloader.extend();
+    
     // chassis.moveToPoint(-48.599, firstY, 1500);
     // chassis.turnToHeading(270, 1000);
     StartIntake();
-    chassis.moveToPoint(-75, firstY+1.6, 1050, {.maxSpeed=60});
+    chassis.moveToPoint(-75, firstY+3.67, 1050, {.maxSpeed=60});
     chassis.waitUntilDone();
 
     // Move to right long goal
@@ -577,7 +581,7 @@ void Right_Solo_AWP() {
     chassis.waitUntilDone();
     StartScoring(GoalType::LONG_GOAL);
     Matchloader.retract();
-    pros::delay(830);
+    pros::delay(900);
     StopScoring();
     // chassis.moveToPose(-32.3, firstY-0.8, 40, 1000, {.lead=0, .minSpeed=5, .earlyExitRange=1});
     chassis.turnToHeading(50, 1000, {.minSpeed=3, .earlyExitRange=1});
@@ -598,7 +602,7 @@ void Right_Solo_AWP() {
     
     // Move to 3 blocks on the left
     // chassis.moveToPose(bx, 17, 315, 2300, {.lead=0, .minSpeed=1,  .earlyExitRange=1});
-    pros::delay(950);
+    pros::delay(900);
     Matchloader.extend();
     float y = 41.8;
 
@@ -626,7 +630,7 @@ void Right_Solo_AWP() {
     chassis.moveToPose(-51, y-0.5, 315, 1000, {.forwards=false, .lead=0, .minSpeed=5, .earlyExitRange=2});
     // chassis.turnToHeading(315, 500, {.minSpeed=3, .earlyExitRange=3});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-17, 5, 1100, {.forwards=false, .minSpeed=20, .earlyExitRange=1});
+    chassis.moveToPoint(-17, 6.7, 1100, {.forwards=false, .minSpeed=20, .earlyExitRange=1});
     pros::delay(1000);
     StartOuttake();
     overrideOuttake(600);
