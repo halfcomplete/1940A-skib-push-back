@@ -52,8 +52,8 @@ void high_goal()
     overrideOuttake(12000);
     pros::delay(200);
     
-    StartScoring(GoalType::HIGH_GOAL, true);
-    pros::delay(1900);
+    StartScoring(GoalType::HIGH_GOAL, false);
+    pros::delay(2300);
     StopScoring();
     StopIntake();
     chassis.moveToPoint(-20.1, 17.4, 1000);
@@ -65,9 +65,11 @@ void first_corner()
     // Matchloader.extend();
     chassis.turnToPoint(-44, firstMatchloaderY, 1000, {.maxSpeed=80});
     chassis.waitUntilDone();
+    StartScoring(LONG_GOAL);
     chassis.moveToPoint(-44, firstMatchloaderY, 1500);
     Matchloader.extend();
     chassis.waitUntilDone();
+    StopScoring();
     StartIntake();
 
     // Move to matchloader
@@ -77,7 +79,7 @@ void first_corner()
     chassis.waitUntilDone();
 
     // Move back slightly
-    chassis.moveToPoint(-47, firstMatchloaderY-1.6, 1000, {.forwards=false});
+    chassis.moveToPoint(-53, firstMatchloaderY-1.6, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Matchloader.retract();
 
@@ -205,16 +207,17 @@ void fourth_corner()
 void final_park()
 {
     // Move to park zone and clear it
-    chassis.moveToPoint(-42, fourthMatchloaderY,1500);
+    chassis.moveToPoint(-51, fourthMatchloaderY,1500);
     chassis.waitUntilDone();
     StartScoring(GoalType::LONG_GOAL);
-    chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-24, 1.4, 4000);
-    chassis.turnToHeading(272, 800);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-90, 1.4, 3000,{.minSpeed=127, .earlyExitRange=1});
-    chassis.turnToHeading(270, 400);
-    chassis.turnToHeading(260, 400);
-    chassis.turnToHeading(280, 400);
-    chassis.turnToHeading(260, 400);
+    // chassis.turnToHeading(180, 1000);
+    // chassis.moveToPoint(-24, 1.4, 4000);
+    // chassis.turnToHeading(272, 800);
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(-90, 1.4, 3000,{.minSpeed=127, .earlyExitRange=1});
+    // chassis.turnToHeading(270, 400);
+    // chassis.turnToHeading(260, 400);
+    // chassis.turnToHeading(280, 400);
+    // chassis.turnToHeading(260, 400);
+    // idea: go into the park zone from the side
 }
